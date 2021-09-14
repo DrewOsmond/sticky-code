@@ -1,18 +1,11 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  Unique,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, Unique } from "typeorm";
 
 @Entity("languages")
-@Unique(["username", "email"])
-export class User {
+@Unique(["name"])
+export class Language {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  
+  @Column({ nullable: false, unique: true })
+  name: string;
 }
