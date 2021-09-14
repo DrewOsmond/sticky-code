@@ -14,7 +14,7 @@ export class Note {
   id: number;
 
   @ManyToOne(() => Category, (catagory) => catagory.id)
-  language_id: number;
+  category_id: number;
 
   @ManyToOne(() => User, (user) => user.id)
   user_id: number;
@@ -22,7 +22,7 @@ export class Note {
   @Column({ nullable: false })
   title: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: "text" })
   description: string;
 
   @CreateDateColumn()

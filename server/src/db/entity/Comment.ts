@@ -19,7 +19,7 @@ export class Comment {
   @ManyToOne(() => Note, (note) => note.id)
   note_id: number;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: "text" })
   description: string;
 
   @CreateDateColumn()
