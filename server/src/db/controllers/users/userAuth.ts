@@ -1,4 +1,4 @@
-import { User } from "../entity/User";
+import { User } from "../../entity/User";
 import { getRepository } from "typeorm";
 import { validate, ValidationError } from "class-validator";
 import { getValidationErrors } from "./errors";
