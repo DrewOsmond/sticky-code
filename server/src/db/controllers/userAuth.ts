@@ -2,11 +2,12 @@ import { User } from "../entity/User";
 import { getRepository } from "typeorm";
 import { validate, ValidationError } from "class-validator";
 import { getValidationErrors } from "./errors";
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 dotenv.config();
 const inProduction = process.env.NODE_ENV === "production";
+
 export class UserAuth {
   static signup = async (req: Request, res: Response): Promise<void> => {
     const { username, email, password } = req.body;
@@ -94,11 +95,7 @@ export class UserAuth {
     return token;
   }
 
-  static restoreUser = async (
-    req: Request,
-    res: Response,
-    _next: NextFunction
-  ) => {
+  static restoreUser = async (req: Request, res: Response) => {
     const userTable = getRepository(User);
     const secret: jwt.Secret = process.env.JWT_SECRET as jwt.Secret;
     const { token } = req.cookies;

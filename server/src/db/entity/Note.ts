@@ -4,20 +4,24 @@ import {
   Column,
   ManyToOne,
   CreateDateColumn,
+  OneToMany,
 } from "typeorm";
 import { User } from "./User";
 import { Category } from "./Category";
-
+import { Comment } from "./Comment";
 @Entity("notes")
 export class Note {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Category, (catagory) => catagory.id)
-  category_id: number;
+  @ManyToOne(() => Category, (catagory) => catagory.notes)
+  category: Category;
 
-  @ManyToOne(() => User, (user) => user.id)
-  user_id: number;
+  @ManyToOne(() => User, (user) => user.notes)
+  user: User;
+
+  @OneToMany(() => Comment, (comment) => comment.note, { onDelete: "CASCADE"})
+  comments: Comment[];
 
   @Column({ nullable: false })
   title: string;

@@ -5,9 +5,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Unique,
+  OneToMany,
 } from "typeorm";
 import { Length, IsEmail } from "class-validator";
 import * as bcrypt from "bcrypt";
+import { Note } from "./Note";
+import { Comment } from "./Comment";
 @Entity("users")
 @Unique(["username", "email"])
 export class User {
@@ -25,6 +28,12 @@ export class User {
   @Column({ type: "varchar", nullable: false })
   @Length(8, 100)
   password: string;
+
+  @OneToMany(() => Note, (note) => note.user, { onDelete: "CASCADE" })
+  notes: Note[];
+
+  @OneToMany(() => Comment, (comment) => comment.user, { onDelete: "CASCADE" })
+  comments: Comment[];
 
   @CreateDateColumn()
   created_at: Date;

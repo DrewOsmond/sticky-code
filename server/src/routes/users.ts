@@ -20,8 +20,8 @@ router.post(
 
 router.get(
   "/restore",
-  asyncHandler(async (req, res, next) => {
-    await UserAuth.restoreUser(req, res, next);
+  asyncHandler(async (req, res) => {
+    await UserAuth.restoreUser(req, res);
   })
 );
 

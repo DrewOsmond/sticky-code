@@ -13,11 +13,11 @@ export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.id)
-  user_id: number;
+  @ManyToOne(() => User, (user) => user.comments)
+  user: User;
 
-  @ManyToOne(() => Note, (note) => note.id)
-  note_id: number;
+  @ManyToOne(() => Note, (note) => note.comments)
+  note: Note;
 
   @Column({ nullable: false, type: "text" })
   description: string;
