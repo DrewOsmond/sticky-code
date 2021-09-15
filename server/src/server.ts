@@ -38,9 +38,9 @@ const startConnection = async () => {
   app.use("/api", routes);
 };
 
-import { addLanguages } from "./seeders/languages";
+import addNotes from "./seeders/categories";
 
 startConnection()
   .then(() => console.log("connection to DB started"))
-  .then(() => addLanguages())
+  .then(() => addNotes())
   .catch(console.error);

@@ -2,7 +2,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  Unique,
   ManyToOne,
   OneToMany,
 } from "typeorm";
@@ -10,7 +9,6 @@ import { Language } from "./Language";
 import { Note } from "./Note";
 
 @Entity("categories")
-@Unique(["name"])
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
