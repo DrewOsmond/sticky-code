@@ -19,8 +19,6 @@ interface userLogin {
   password: string;
 }
 
-const initialState = { user: { id: null, username: null, email: null } };
-
 const LOGIN_USER = "sessions/setUser";
 const LOGOUT_USER = "session/logoutUser";
 
@@ -85,6 +83,8 @@ export const restore = () => async (dispatch: Dispatch<Action>) => {
     dispatch(loginUser(userData) as any);
   }
 };
+
+const initialState = { user: { id: null, username: null, email: null } };
 
 const sessionReducer = (state = initialState, action: Action) => {
   switch (action.type) {

@@ -1,5 +1,5 @@
 import {
-  configureStore,
+  // configureStore,
   ThunkAction,
   Action,
   combineReducers,
@@ -8,10 +8,12 @@ import {
 import thunk from "redux-thunk";
 import { applyMiddleware } from "redux";
 import sessionReducer from "./reducers/sessions";
+import languageReducer from "./reducers/languages";
 
 export const store = createStore(
   combineReducers({
     session: sessionReducer,
+    language: languageReducer,
   }),
   undefined,
   applyMiddleware(thunk)

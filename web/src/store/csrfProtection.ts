@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 
 export const csrfProtectedFetch = async (
   url: RequestInfo,
-  options: RequestInit | undefined
+  options: RequestInit | void
 ) => {
   if (options) {
     const requestHeaders: HeadersInit = new Headers();
