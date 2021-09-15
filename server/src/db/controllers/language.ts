@@ -1,4 +1,4 @@
-import { Language } from "../../entity/Language";
+import { Language } from "../entity/Language";
 import { getRepository } from "typeorm";
 import { Request, Response } from "express";
 

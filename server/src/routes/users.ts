@@ -1,6 +1,6 @@
 import { Router } from "express";
 import asyncHandler from "express-async-handler";
-import { UserAuth } from "../db/controllers/users/userAuth";
+import { UserAuth } from "../db/controllers/userAuth";
 
 const router = Router();
 
