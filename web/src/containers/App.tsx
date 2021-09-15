@@ -1,19 +1,20 @@
-import Navbar from "./Navbar";
-import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useEffect } from "react";
+import { useAppDispatch } from "../store/hooks";
 import { restore } from "../store/reducers/sessions";
+import Navbar from "./Navbar";
+import ContentPage from "./contentPage";
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(restore() as any).then(() => setIsLoaded(true));
-  }, []);
+    dispatch(restore() as any);
+  }, [dispatch]);
 
   return (
     <div>
       <Navbar />
+      <ContentPage />
     </div>
   );
 };

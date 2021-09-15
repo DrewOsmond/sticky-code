@@ -1,4 +1,4 @@
-import { Language } from "src/db/entity/Language";
+import { Language } from "../../entity/Language";
 import { getRepository } from "typeorm";
 import { Request, Response } from "express";
 
@@ -18,13 +18,14 @@ export class Languages {
 
   static getAll = async (_req: Request, res: Response) => {
     const languageTable = getRepository(Language);
-    const languages: Response | void = await languageTable
+    const langs: unknown = await languageTable
       .find({
         order: {
           name: "ASC",
         },
       })
-      .then(() => res.status(200).send(languages))
       .catch(console.log);
+
+    res.status(200).send(langs);
   };
 }

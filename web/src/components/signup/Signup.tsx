@@ -5,7 +5,6 @@ import {
   ReactElement,
   useState,
 } from "react";
-import { Dispatch } from "redux";
 import { useDispatch } from "react-redux";
 import { signup } from "../../store/reducers/sessions";
 
@@ -29,6 +28,7 @@ const Signup: FC<SignupProps> = ({
   const [errors, setErrors] = useState<string[]>([]);
   const { username, email, password, confirmPassword } = credentials;
   const dispatch = useDispatch();
+
   const handleSignup: FormEventHandler = (e: React.FormEvent) => {
     e.preventDefault();
 

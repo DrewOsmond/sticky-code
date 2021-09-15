@@ -5,10 +5,10 @@ import {
   ChangeEventHandler,
   MouseEventHandler,
 } from "react";
-import { logout } from "../store/reducers/sessions";
-import Login from "../components/login/Login";
-import Signup from "../components/signup/Signup";
-import { useAppDispatch } from "../store/hooks";
+import { logout } from "../../store/reducers/sessions";
+import Login from "../login/Login";
+import Signup from "../signup/Signup";
+import { useAppDispatch } from "../../store/hooks";
 
 interface LoggedInProps {
   loggedIn: boolean;

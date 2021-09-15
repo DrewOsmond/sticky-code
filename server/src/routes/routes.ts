@@ -5,6 +5,6 @@ import languageRouter from "./languages";
 const routes = Router();
 
 routes.use("/users", userRouter);
-routes.use("language", languageRouter);
+routes.use("/language", languageRouter);
 
 export default routes;

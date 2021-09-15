@@ -3,9 +3,7 @@ import { csrfProtectedFetch } from "../csrfProtection";
 
 interface Action {
   type: string;
-  payload: {
-    user: string;
-  };
+  payload: Object[];
 }
 
 const SELECT_LANGUAGE = "languages/selectLanguages";
@@ -19,10 +17,11 @@ const allLanguages = (languages: Object[]) => {
 };
 
 export const getAllLanguages = () => async (dispatch: Dispatch) => {
-  const response = await csrfProtectedFetch("/api/languages/all");
+  const response = await csrfProtectedFetch("/api/language/all");
 
   if (response?.ok) {
     const languages = await response.json();
+    console.log("LANGGYS", languages);
     dispatch(allLanguages(languages));
   }
 };
@@ -41,15 +40,22 @@ export const selectSpecificLanguage =
 
 const initialState: string = "loading...";
 
-const languageReducer = (state = initialState, action: Action) => {
+const specificLanguage = (state = initialState, action: Action) => {
   switch (action.type) {
     case SELECT_LANGUAGE:
-      return action.payload;
-    case ALL_LANGUAGES:
       return action.payload;
     default:
       return state;
   }
 };
 
-export default languageReducer;
+export const languages = (state = initialState, action: Action) => {
+  switch (action.type) {
+    case ALL_LANGUAGES:
+      return [...action.payload];
+    default:
+      return state;
+  }
+};
+
+export default specificLanguage;
