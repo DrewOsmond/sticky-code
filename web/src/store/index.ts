@@ -8,10 +8,12 @@ import {
 import thunk from "redux-thunk";
 import { applyMiddleware } from "redux";
 import sessionReducer from "./reducers/sessions";
+import searchReducer from "./reducers/searchResults";
 
 export const store = createStore(
   combineReducers({
     session: sessionReducer,
+    search: searchReducer,
   }),
   undefined,
   applyMiddleware(thunk)

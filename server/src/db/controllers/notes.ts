@@ -1,5 +1,5 @@
 import { Note } from "../entity/Note";
-import { createQueryBuilder, getRepository, Like } from "typeorm";
+import { getRepository } from "typeorm";
 import { validate, ValidationError } from "class-validator";
 import { Request, Response } from "express";
 import { getValidationErrors } from "./errors";
@@ -54,17 +54,5 @@ export class Notes {
 
     await notesRepo.save(noteToUpdate);
     return res.status(200).json(noteToUpdate);
-  };
-
-  static searchNotes = async (req: Request, res: Response) => {
-    const { searchTerm, language } = req.body;
-    const query = await createQueryBuilder(Note, "n")
-      .innerJoin("n.category", "categories")
-      .where("notes.name = :name", { name: Like(`%${searchTerm}%`), language })
-      .getMany();
-
-    if (query.length) {
-      res.json(query);
-    }
   };
 }
