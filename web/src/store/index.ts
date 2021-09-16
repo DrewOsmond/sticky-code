@@ -9,11 +9,13 @@ import thunk from "redux-thunk";
 import { applyMiddleware } from "redux";
 import sessionReducer from "./reducers/sessions";
 import searchReducer from "./reducers/searchResults";
+import allCategoriesReducer from "./reducers/categories";
 
 export const store = createStore(
   combineReducers({
     session: sessionReducer,
     search: searchReducer,
+    allCategories: allCategoriesReducer,
   }),
   undefined,
   applyMiddleware(thunk)

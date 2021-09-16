@@ -20,14 +20,19 @@ export const searchFor =
     const [term, language] = searchTerms;
     const response = await csrfProtectedFetch(
       `/api/search/${language}/${term}`
-    );
-    if (response?.ok) {
+    ).catch(console.error);
+    if (response) {
       const data: Object[] = await response.json();
       dispatch(search(data));
     }
   };
 
-const initalState: Object[] = [];
+interface Search {
+  title: string;
+  description: string;
+}
+
+const initalState: Search[] = [];
 
 const searchReducer = (state = initalState, action: Action) => {
   switch (action.type) {
