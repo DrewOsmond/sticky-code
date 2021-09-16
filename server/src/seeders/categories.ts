@@ -1,7 +1,7 @@
 import { Category } from "../db/entity/Category";
 // import { User } from "../db/entity/User";
 import { getRepository } from "typeorm";
-// import { Note } from "../db/entity/Note";
+import { Note } from "../db/entity/Note";
 
 // const addNotes = async () => {
 //   const cateRepo = getRepository(Category);
@@ -31,15 +31,30 @@ import { getRepository } from "typeorm";
 
 // export default addNotes;
 
-const addCategories = async () => {
+const addNotes = async () => {
   const cateRepo = getRepository(Category);
-  const vals = ["functions", "objects", "arrays", "strings"];
+  const notesRepo = getRepository(Note);
+  const category = "functions";
+  const funcs = await cateRepo.findOne({ where: { name: category } });
 
-  for (let val of vals) {
-    const newCat = new Category();
-    newCat.name = val;
-    await cateRepo.save(newCat);
+  const thingsToAdd = [
+    ["test", "thisIsaTest"],
+    [
+      "inline functions are cool!",
+      "to implicity return a value from a single lined function you can just use a => function!",
+    ],
+  ];
+
+  if (funcs) {
+    for (let val of thingsToAdd) {
+      const newNote = new Note();
+      newNote.category = funcs;
+      newNote.language = category;
+      newNote.title = val[0];
+      newNote.description = val[1];
+      await notesRepo.save(newNote);
+    }
   }
 };
 
-export default addCategories;
+export default addNotes;

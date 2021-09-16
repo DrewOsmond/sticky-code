@@ -13,8 +13,6 @@ import "reflect-metadata";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-import addCategories from "./seeders/categories";
-
 const startConnection = async () => {
   await createConnection({
     type: "postgres",
@@ -39,9 +37,6 @@ const startConnection = async () => {
   app.use("/api", routes);
 };
 
-// import addNotes from "./seeders/categories";
-
 startConnection()
   .then(() => console.log("connection to DB started"))
-  .then(() => addCategories())
   .catch(console.error);

@@ -5,7 +5,7 @@ import { Searches } from "../db/controllers/search";
 const router = Router();
 
 router.get(
-  ":language/:searchterm",
+  "/:language/:searchterm",
   asyncHandler(async (req, res) => {
     const language = req.params.language;
     const searchterm = req.params.searchterm;
