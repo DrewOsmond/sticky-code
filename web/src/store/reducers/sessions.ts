@@ -77,7 +77,7 @@ export const login =
   };
 
 export const restore = () => async (dispatch: Dispatch<Action>) => {
-  const response = await csrfProtectedFetch("/api/users/restore", undefined);
+  const response = await csrfProtectedFetch("/api/users/restore");
   if (response?.ok) {
     const userData = await response?.json();
     dispatch(loginUser(userData) as any);

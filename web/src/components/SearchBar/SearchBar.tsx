@@ -1,20 +1,14 @@
 import { FC, FormEventHandler, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { selectSpecificLanguage } from "../../store/reducers/languages";
+// import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-interface Props {
-  languages: [{ id: number; name: string }];
-}
-
-const SearchBar: FC<Props> = ({ languages }) => {
-  const dispatch = useAppDispatch();
-  const selectedLanguage = useAppSelector((state) => state.selectedLanguage);
+const SearchBar: FC = () => {
+  const [language, setLanguage] = useState<string>();
   const [search, setSearch] = useState<string>("");
 
   const handleChange: FormEventHandler = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    dispatch(selectSpecificLanguage(e.target.value) as any);
+    setLanguage(e.target.value);
   };
 
   const handleSubmit: FormEventHandler = (
@@ -25,13 +19,10 @@ const SearchBar: FC<Props> = ({ languages }) => {
 
   return (
     <form>
-      <select onChange={handleChange}>
-        {typeof languages === "object" &&
-          languages.map((lang) => (
-            <option key={lang.id} value={lang.name}>
-              {lang.name}
-            </option>
-          ))}
+      <select onChange={handleChange} placeholder="pick language">
+        <option value="javascript">javascript</option>
+        <option value="go">go</option>
+        <option value="python">python</option>
       </select>
       <input
         type="text"
