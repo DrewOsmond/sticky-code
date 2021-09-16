@@ -14,17 +14,20 @@ export class Note {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Category, (catagory) => catagory.notes)
+  @ManyToOne(() => Category, (category) => category.notes)
   category: Category;
 
   @ManyToOne(() => User, (user) => user.notes)
   user: User;
 
-  @OneToMany(() => Comment, (comment) => comment.note, { onDelete: "CASCADE"})
+  @OneToMany(() => Comment, (comment) => comment.note, { onDelete: "CASCADE" })
   comments: Comment[];
 
   @Column({ nullable: false })
   title: string;
+
+  @Column({ nullable: false })
+  language: string;
 
   @Column({ nullable: false, type: "text" })
   description: string;

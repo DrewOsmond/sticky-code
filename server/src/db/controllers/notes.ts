@@ -1,10 +1,9 @@
 import { Note } from "../entity/Note";
-import { getRepository, Like } from "typeorm";
+import { createQueryBuilder, getRepository, Like } from "typeorm";
 import { validate, ValidationError } from "class-validator";
 import { Request, Response } from "express";
 import { getValidationErrors } from "./errors";
 import { User } from "../entity/User";
-
 export class Notes {
   static addNote = async (req: Request, res: Response) => {
     const { title, description, categoriesId, id } = req.body;
@@ -58,16 +57,14 @@ export class Notes {
   };
 
   static searchNotes = async (req: Request, res: Response) => {
-    const { searchTerm } = req.body;
-    const NotesRepo = getRepository(Note);
+    const { searchTerm, language } = req.body;
+    const query = await createQueryBuilder(Note, "n")
+      .innerJoin("n.category", "categories")
+      .where("notes.name = :name", { name: Like(`%${searchTerm}%`), language })
+      .getMany();
 
-    const searchedNotes = await NotesRepo.find({
-      where: {
-        title: Like(`%${searchTerm}%`),
-      },
-    });
-
-    if (searchedNotes.length) return res.status(200).json(searchedNotes);
-    else return res.json(["No posts found"]);
+    if (query.length) {
+      res.json(query);
+    }
   };
 }

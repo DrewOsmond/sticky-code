@@ -6,13 +6,14 @@ import morgan from "morgan";
 import routes from "./routes/routes";
 import { createConnection } from "typeorm";
 import { User } from "./db/entity/User";
-import { Language } from "./db/entity/Language";
 import { Category } from "./db/entity/Category";
 import { Note } from "./db/entity/Note";
 import { Comment } from "./db/entity/Comment";
 import "reflect-metadata";
 import * as dotenv from "dotenv";
 dotenv.config();
+
+import addCategories from "./seeders/categories";
 
 const startConnection = async () => {
   await createConnection({
@@ -22,7 +23,7 @@ const startConnection = async () => {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    entities: [User, Language, Category, Note, Comment],
+    entities: [User, Category, Note, Comment],
     synchronize: false,
   });
 
@@ -38,9 +39,9 @@ const startConnection = async () => {
   app.use("/api", routes);
 };
 
-import addNotes from "./seeders/categories";
+// import addNotes from "./seeders/categories";
 
 startConnection()
   .then(() => console.log("connection to DB started"))
-  .then(() => addNotes())
+  .then(() => addCategories())
   .catch(console.error);
