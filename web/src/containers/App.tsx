@@ -1,10 +1,13 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "../store/hooks";
 import { restore } from "../store/reducers/sessions";
-import Navbar from "./Navbar";
-import ContentPage from "./contentPage";
 import { getCategories } from "../store/reducers/categories";
 import { Switch, Route } from "react-router-dom";
+import Navbar from "./Navbar";
+import Note from "./Note";
+import RecentResults from "./RecentResults";
+import SearchResults from "./SearchResults";
+
 const App = () => {
   const dispatch = useAppDispatch();
 
@@ -18,7 +21,13 @@ const App = () => {
       <Navbar />
       <Switch>
         <Route path="/" exact>
-          <ContentPage />
+          <RecentResults />
+        </Route>
+        <Route path="/search">
+          <SearchResults />
+        </Route>
+        <Route path="/note/:id">
+          <Note />
         </Route>
       </Switch>
     </>

@@ -11,6 +11,7 @@ import sessionReducer from "./reducers/sessions";
 import searchReducer from "./reducers/searchResults";
 import allCategoriesReducer from "./reducers/categories";
 import notesReducer from "./reducers/notes";
+import { selectedNoteReducer } from "./reducers/notes";
 
 export const store = createStore(
   combineReducers({
@@ -18,6 +19,7 @@ export const store = createStore(
     search: searchReducer,
     allCategories: allCategoriesReducer,
     notes: notesReducer,
+    selectedNote: selectedNoteReducer,
   }),
   undefined,
   applyMiddleware(thunk)

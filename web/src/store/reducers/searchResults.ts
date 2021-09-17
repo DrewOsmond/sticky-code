@@ -7,12 +7,21 @@ interface Action {
 }
 
 const LOOKUP_SEARCH = "search/lookupSearch";
+const RECENT_SEARCH = "search/recentSearch";
 
 const search = (results: object[]) => {
   return {
     type: LOOKUP_SEARCH,
     payload: results,
   };
+};
+
+export const recentSearch = () => async (dispatch: Dispatch) => {
+  const response = await csrfProtectedFetch("/api/search/recent");
+  if (response?.ok) {
+    const data = await response.json();
+    dispatch(search(data));
+  }
 };
 
 export const searchFor =

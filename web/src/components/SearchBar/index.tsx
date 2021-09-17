@@ -1,12 +1,14 @@
 import { FC, FormEventHandler, useState } from "react";
 import { useAppDispatch } from "../../store/hooks";
 import { searchFor } from "../../store/reducers/searchResults";
+import { useHistory } from "react-router-dom";
 
 const SearchBar: FC = () => {
   const [language, setLanguage] = useState<string>("");
   const [search, setSearch] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const handleChange: FormEventHandler = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -25,6 +27,7 @@ const SearchBar: FC = () => {
     } else if (!search) {
       setErrors(["Your search may not be blank"]);
     } else {
+      history.push("/search");
       setErrors([]);
       dispatch(searchFor([search.trim(), language]) as any);
     }
@@ -32,7 +35,7 @@ const SearchBar: FC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {errors.length > 0 && errors.map((error) => <li>{error}</li>)}
+      {errors.length > 0 && errors.map((error, i) => <li key={i}>{error}</li>)}
       <select onChange={handleChange}>
         <option value="pick a language">pick a language</option>
         <option value="javascript">javascript</option>

@@ -13,4 +13,11 @@ router.get(
   })
 );
 
+router.get(
+  "/recent",
+  asyncHandler(async (_req, res) => {
+    await Searches.getRecent(res);
+  })
+);
+
 export default router;

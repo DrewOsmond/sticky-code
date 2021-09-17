@@ -30,4 +30,10 @@ export class Searches {
       res.status(200).send(["no searches found"]);
     }
   };
+
+  static getRecent = async (res: Response) => {
+    const notesRepo = getRepository(Note);
+    const recentNotes = await notesRepo.find({ order: { created_at: "DESC" } });
+    res.json(recentNotes);
+  };
 }
