@@ -3,23 +3,19 @@ import { getRepository } from "typeorm";
 import { validate, ValidationError } from "class-validator";
 import { Request, Response } from "express";
 import { getValidationErrors } from "./errors";
-import { User } from "../entity/User";
 export class Notes {
   static addNote = async (req: Request, res: Response) => {
-    const { title, description, categoriesId, id } = req.body;
-    const usersRepo = getRepository(User);
+    const { title, description, categoryId, id, language } = req.body;
     const NotesRepo = getRepository(Note);
 
-    const user: User | undefined = await usersRepo.findOne({
-      where: { id },
-    });
-    if (!user) return res.status(400).send("user not found");
+    console.log(id);
 
     const note = new Note();
-    note.category = categoriesId;
-    note.user = user;
+    note.category = categoryId;
+    note.user = id;
     note.title = title;
     note.description = description;
+    note.language = language;
 
     const potentialErrors: ValidationError[] = await validate(note);
     if (potentialErrors.length > 0) {
@@ -37,22 +33,20 @@ export class Notes {
 
     if (noteToDelete) {
       notesRepo.delete(noteToDelete);
-      return res.status(202).send();
+      return res.status(202).send(id);
     } else {
       return res.status(400);
     }
   };
 
   static updateNote = async (req: Request, res: Response) => {
-    const { id, title, descriptions } = req.body;
+    const { note, title, descriptions } = req.body;
     const notesRepo = getRepository(Note);
-    const noteToUpdate = await notesRepo.findOne({ where: { id } });
-    if (!noteToUpdate) return res.status(400);
 
-    noteToUpdate.title = title;
-    noteToUpdate.description = descriptions;
+    note.title = title;
+    note.description = descriptions;
 
-    await notesRepo.save(noteToUpdate);
-    return res.status(200).json(noteToUpdate);
+    await notesRepo.save(note);
+    return res.status(200).json(note);
   };
 }

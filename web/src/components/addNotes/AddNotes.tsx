@@ -1,34 +1,59 @@
 import React, { FC, useState, FormEventHandler } from "react";
-import { useAppSelector } from "../../store/hooks";
-
-interface Props {}
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { addNote } from "../../store/reducers/notes";
 
 const AddNotes: FC = () => {
   const categories: [] = useAppSelector((state) => state.allCategories);
-  const [selectedCategory, setCategory] = useState<string>("");
+  const user: { id: number } = useAppSelector((state) => state.session);
+  const dispatch = useAppDispatch();
+  const [category, setCategory] = useState<string>("");
+  const [language, setLanguage] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
-  const handleSelectChange: FormEventHandler = (
+
+  const handleCategoryChange: FormEventHandler = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     if (e.target.value === "select a category") setCategory("");
     else setCategory(e.target.value);
   };
 
+  const handleLanguageChange: FormEventHandler = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (e.target.value === "select a language") setLanguage("");
+    else setLanguage(e.target.value);
+  };
+
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
-    if (!selectedCategory) setErrors(["Please select a category"]);
-    else if (!title) setErrors(["Tile cannot be empty"]);
-    else if (!description) setErrors(["Description cannot be empty"]);
+    const errors: string[] = [];
+    if (!category) errors.push("Please select a category");
+    if (!language) errors.push("Please select a language");
+    if (!title) errors.push("Tile cannot be empty");
+    if (!description) errors.push("Description cannot be empty");
+    if (errors.length) setErrors(errors);
     else {
       setErrors([]);
+      const categoryId: { id: number }[] = categories.filter(
+        (cate: { name: string }) => cate.name === category
+      );
+      dispatch(
+        addNote({
+          title,
+          description,
+          language,
+          id: user.id,
+          categoryId: categoryId[0].id,
+        }) as any
+      );
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      {errors.length > 0 && errors.map((error) => <li>{error}</li>)}
+      {errors.length > 0 && errors.map((error, i) => <li key={i}>{error}</li>)}
       <label htmlFor="title">Title</label>
       <input
         id="title"
@@ -37,13 +62,19 @@ const AddNotes: FC = () => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
       ></input>
-      <select onChange={handleSelectChange}>
+      <select onChange={handleCategoryChange}>
         <option value="select a category">select a category</option>
         {categories.map((category: { name: string; id: number }) => (
           <option key={category.id} value={category.name}>
             {category.name}
           </option>
         ))}
+      </select>
+      <select onChange={handleLanguageChange}>
+        <option value="pick a language">pick a language</option>
+        <option value="javascript">javascript</option>
+        <option value="go">go</option>
+        <option value="python">python</option>
       </select>
       <br />
       <textarea

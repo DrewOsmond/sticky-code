@@ -16,7 +16,6 @@ interface SignupProps {
     password: string;
     confirmPassword: string;
   };
-  // dispatch: Dispatch;
   clearResults: Function;
 }
 
@@ -54,7 +53,7 @@ const Signup: FC<SignupProps> = ({
 
   return (
     <form onSubmit={handleSignup}>
-      {errors.length > 0 && errors.map((error, i) => <li>{error}</li>)}
+      {errors.length > 0 && errors.map((error, i) => <li key={i}>{error}</li>)}
       <label htmlFor="username"> username:</label>
       <input
         id="username"

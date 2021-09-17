@@ -4,17 +4,14 @@ import UserSessions from "../components/UserSession/UserSessions";
 import SearchBar from "../components/SearchBar/SearchBar";
 import AddNotes from "../components/addNotes/AddNotes";
 interface SessionUser {
-  user: {
-    id: number | string;
-    username: string;
-    email: string;
-  };
+  id: number | string;
+  username: string;
+  email: string;
 }
 
 const Navbar: FC = () => {
   const [showStatus, setShowStatus] = useState<boolean>(false);
-  const session: SessionUser = useAppSelector((state) => state.session);
-  const user = session.user;
+  const user: SessionUser = useAppSelector((state) => state.session);
   const loggedIn = user.id ? true : false;
 
   const handleChange: FormEventHandler = (

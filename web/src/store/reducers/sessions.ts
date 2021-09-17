@@ -84,12 +84,12 @@ export const restore = () => async (dispatch: Dispatch<Action>) => {
   }
 };
 
-const initialState = { user: { id: null, username: null, email: null } };
+const initialState = { id: null, username: null, email: null };
 
 const sessionReducer = (state = initialState, action: Action) => {
   switch (action.type) {
     case LOGIN_USER:
-      return { ...state, user: action.payload };
+      return action.payload;
     case LOGOUT_USER:
       return initialState;
     default:
