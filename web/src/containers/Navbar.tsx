@@ -1,8 +1,8 @@
 import { FC, FormEventHandler, useState } from "react";
 import { useAppSelector } from "../store/hooks";
-import UserSessions from "../components/UserSession/UserSessions";
-import SearchBar from "../components/SearchBar/SearchBar";
-import AddNotes from "../components/addNotes/AddNotes";
+import UserSessions from "../components/UserSession";
+import SearchBar from "../components/SearchBar";
+import AddNotes from "../components/addNotes";
 interface SessionUser {
   id: number | string;
   username: string;

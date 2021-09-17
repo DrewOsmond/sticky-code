@@ -6,8 +6,8 @@ import {
   MouseEventHandler,
 } from "react";
 import { logout } from "../../store/reducers/sessions";
-import Login from "../login/Login";
-import Signup from "../signup/Signup";
+import Login from "../login";
+import Signup from "../signup";
 import { useAppDispatch } from "../../store/hooks";
 
 interface LoggedInProps {

@@ -1,10 +1,4 @@
-import {
-  ChangeEventHandler,
-  FC,
-  FormEventHandler,
-  ReactElement,
-  useState,
-} from "react";
+import { ChangeEventHandler, FC, FormEventHandler, useState } from "react";
 import { useDispatch } from "react-redux";
 import { signup } from "../../store/reducers/sessions";
 
@@ -19,11 +13,7 @@ interface SignupProps {
   clearResults: Function;
 }
 
-const Signup: FC<SignupProps> = ({
-  handleChange,
-  credentials,
-  // dispatch,
-}): ReactElement => {
+const Signup: FC<SignupProps> = ({ handleChange, credentials }) => {
   const [errors, setErrors] = useState<string[]>([]);
   const { username, email, password, confirmPassword } = credentials;
   const dispatch = useDispatch();
