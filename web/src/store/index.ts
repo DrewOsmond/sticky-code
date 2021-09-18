@@ -11,7 +11,7 @@ import sessionReducer from "./reducers/sessions";
 import searchReducer from "./reducers/searchResults";
 import allCategoriesReducer from "./reducers/categories";
 import notesReducer from "./reducers/notes";
-import { selectedNoteReducer } from "./reducers/notes";
+import selectedNoteReducer from "./reducers/selectedNote";
 
 export const store = createStore(
   combineReducers({

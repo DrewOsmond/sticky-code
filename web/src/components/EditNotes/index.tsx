@@ -1,6 +1,7 @@
 import { FC, useState, FormEventHandler } from "react";
 import { useAppDispatch } from "../../store/hooks";
-import { fetchUpdateNote, deleteNote } from "../../store/reducers/notes";
+import { fetchUpdateNote } from "../../store/reducers/selectedNote";
+import { deleteNote } from "../../store/reducers/notes";
 import { useHistory } from "react-router-dom";
 
 interface Props {
@@ -66,7 +67,10 @@ const Edit: FC<Props> = ({ note, setEdit }) => {
           placeholder="Add your note"
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
-        <button type="submit">Edit Note</button>
+        <button onClick={() => setEdit((prev: boolean) => !prev)}>
+          Cancel
+        </button>
+        <button type="submit">Save</button>
       </form>
       <button onClick={handleDelete}>Delete</button>
     </>

@@ -3,8 +3,10 @@ import { csrfProtectedFetch } from "../csrfProtection";
 
 const ADD_NOTE = "notes/addNote";
 const DELETE_NOTE = "notes/deleteNote";
-const SELECT_NOTE = "note/selectNote";
-const UPDATE_NOTE = "note/updateNote";
+// const SELECT_NOTE = "note/selectNote";
+// const UPDATE_NOTE = "note/updateNote";
+// const ADD_COMMENT = "notes/addComments";
+
 interface Note {
   id: number;
   title: string;
@@ -65,60 +67,7 @@ const notesReducer = (state = initialState, action: Action) => {
   }
 };
 
-const selectNote = (note: Note) => {
-  return {
-    type: SELECT_NOTE,
-    payload: note,
-  };
-};
 
-export const fetchNote = (id: number) => async (dispatch: Dispatch) => {
-  const response = await csrfProtectedFetch(`/api/notes/get/${id}`);
-  if (response?.ok) {
-    const data = await response.json();
-    dispatch(selectNote(data));
-  }
-};
 
-const updateNote = (note: Note) => {
-  return {
-    type: UPDATE_NOTE,
-    payload: note,
-  };
-};
-
-export const fetchUpdateNote =
-  (note: Note, title: string, description: string) =>
-  async (dispatch: Dispatch) => {
-    const response = await csrfProtectedFetch("/api/notes/update", {
-      method: "PUT",
-      body: JSON.stringify({ note, title, description }),
-    });
-    if (response?.ok) {
-      const data = await response.json();
-      dispatch(updateNote(data));
-    }
-  };
-
-const initalNoteState: Note = {
-  id: 0,
-  title: "no note found",
-  description: "please select a note",
-  language: "undefined",
-};
-
-export const selectedNoteReducer = (
-  state: Note = initalNoteState,
-  action: Action
-) => {
-  switch (action.type) {
-    case SELECT_NOTE:
-      return action.payload;
-    case UPDATE_NOTE:
-      return action.payload;
-    default:
-      return state;
-  }
-};
 
 export default notesReducer;

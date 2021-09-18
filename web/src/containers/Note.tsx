@@ -1,9 +1,8 @@
 import { useParams } from "react-router-dom";
-import { fetchNote } from "../store/reducers/notes";
+import { fetchNote } from "../store/reducers/selectedNote";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import SelectedNote from "../components/SelectedNote";
-import Edit from "../components/EditNotes";
 
 interface Notes {
   id: number;
@@ -16,20 +15,13 @@ interface Notes {
     username: string;
     email: string;
   };
-}
-
-interface SessionUser {
-  id: number | string;
-  username: string;
-  email: string;
+  comments: [];
 }
 
 const Note = () => {
   const dispatch = useAppDispatch();
   const note: Notes = useAppSelector((state) => state.selectedNote);
-  const user: SessionUser = useAppSelector((state) => state.session);
   const [loaded, setLoaded] = useState<boolean>(false);
-  const [edit, setEdit] = useState<boolean>(false);
   const { id } = useParams<{ id?: string }>();
 
   useEffect(() => {
@@ -43,13 +35,9 @@ const Note = () => {
   const render = () => {
     if (loaded && note.id !== 0) {
       return (
-        <>
-          {!edit && <SelectedNote note={note} />}
-          {edit && <Edit note={note} setEdit={setEdit} />}
-          {user.username === note.user.username && !edit && (
-            <button onClick={() => setEdit(true)}>Edit</button>
-          )}
-        </>
+        <section>
+          <SelectedNote note={note} />
+        </section>
       );
     } else if (loaded) {
       return <div>No notes found</div>;
