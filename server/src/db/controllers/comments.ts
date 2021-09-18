@@ -4,12 +4,12 @@ import { Request, Response } from "express";
 
 export class Comments {
   static addComments = async (req: Request, res: Response) => {
-    const { comment, noteId, userId } = req.body;
+    const { comment, noteId, user } = req.body;
     const CommentsRepo = getRepository(Comment);
     const newComment = new Comment();
     newComment.description = comment;
     newComment.note = noteId;
-    newComment.user = userId;
+    newComment.user = user;
 
     const savedComment = await CommentsRepo.save(newComment);
     if (savedComment) {
@@ -22,7 +22,7 @@ export class Comments {
   static deleteComment = async (req: Request, res: Response) => {
     const { comment } = req.body;
     const CommentsRepo = getRepository(Comment);
-    await CommentsRepo.delete(comment);
+    await CommentsRepo.remove(comment);
     res.sendStatus(201);
   };
 

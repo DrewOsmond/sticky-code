@@ -60,9 +60,9 @@ export class Notes {
       const comments = await commentsRepo
         .createQueryBuilder("comments")
         .where("comments.note = :id", { id: note.id })
+        .leftJoinAndSelect("comments.user", "user")
         .getMany();
       note.comments = comments;
-      console.log(note);
       res.status(200).json(note);
     } else {
       res.status(404).send("No note found");
