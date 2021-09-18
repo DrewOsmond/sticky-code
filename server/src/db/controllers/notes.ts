@@ -51,17 +51,18 @@ export class Notes {
     const notesRepo = getRepository(Note);
     const note = await notesRepo
       .createQueryBuilder("note")
-      // .innerJoinAndSelect("comments.note", "note", "comments")
       .innerJoinAndSelect("note.user", "user")
-      // .innerJoinAndSelect("comments.note", "comments")
-      .loadAllRelationIds()
       .where("note.id = :id", { id })
       .getOne();
 
     if (note) {
       const commentsRepo = getRepository(Comment);
-      const comments = await commentsRepo.find({ where: { note: note?.id } });
+      const comments = await commentsRepo
+        .createQueryBuilder("comments")
+        .where("comments.note = :id", { id: note.id })
+        .getMany();
       note.comments = comments;
+      console.log(note);
       res.status(200).json(note);
     } else {
       res.status(404).send("No note found");
