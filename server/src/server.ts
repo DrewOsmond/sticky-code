@@ -37,6 +37,9 @@ const startConnection = async () => {
   app.use("/api", routes);
 };
 
+// import { addComments } from "./seeder";
+
 startConnection()
   .then(() => console.log("connection to DB started"))
+  // .then(() => addComments())
   .catch(console.error);

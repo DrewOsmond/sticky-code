@@ -9,6 +9,6 @@ export class Category {
   @OneToMany(() => Note, (note) => note.category, { onDelete: "CASCADE" })
   notes: Note[];
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   name: string;
 }
