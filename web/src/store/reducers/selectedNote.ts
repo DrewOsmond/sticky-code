@@ -9,6 +9,11 @@ interface Note {
   [key: string]: any;
 }
 
+interface User {
+  id: number;
+  username: string;
+  email: string;
+}
 interface Action {
   type: string;
   payload: Object[] | number;
@@ -35,15 +40,16 @@ const addComment = (comment: Comment) => {
 };
 
 export const fetchAddComment =
-  (comment: string, noteId: number, userId: number) =>
+  (comment: string, noteId: number, user: User) =>
   async (dispatch: Dispatch) => {
     const response = await csrfProtectedFetch("/api/comments/add", {
       method: "POST",
-      body: JSON.stringify({ comment, noteId, userId }),
+      body: JSON.stringify({ comment, noteId, user }),
     });
 
     if (response?.ok) {
       const data = await response.json();
+      data.user = user;
       dispatch(addComment(data));
     }
   };
@@ -57,7 +63,7 @@ const updateComment = (comment: Comment) => {
 
 export const fetchUpdateComment =
   (comment: Comment, update: string) => async (dispatch: Dispatch) => {
-    const response = await csrfProtectedFetch("/comments/update", {
+    const response = await csrfProtectedFetch("/api/comments/update", {
       method: "PUT",
       body: JSON.stringify({ comment, update }),
     });
@@ -77,11 +83,13 @@ const deleteComment = (id: number) => {
 
 export const fetchDeleteComment =
   (comment: Comment) => async (dispatch: Dispatch) => {
-    const response = csrfProtectedFetch("/api/comments/delete", {
+    const response = await csrfProtectedFetch("/api/comments/delete", {
       method: "DELETE",
-      body: JSON.stringify(comment),
+      body: JSON.stringify({ comment }),
     });
-    dispatch(deleteComment(comment.id));
+    if (response?.ok) {
+      dispatch(deleteComment(comment.id));
+    }
   };
 
 const selectNote = (note: Note) => {
@@ -136,13 +144,13 @@ export const selectedNoteReducer = (
     case UPDATE_NOTE:
       return action.payload;
     case ADD_COMMENT:
-      state.comments.unshift(action.payload);
+      state.comments.push(action.payload);
       return { ...state };
     case UPDATE_COMMENT:
       const commentToSwap: any = action.payload;
-      for (let i = 0; i < state.comments; i++) {
-        if (state.comments[i] === commentToSwap.id) {
-          state.comments[i] = action.payload;
+      for (let comment of state.comments) {
+        if (comment.id === commentToSwap.id) {
+          comment.description = commentToSwap.description;
         }
       }
       return { ...state };

@@ -2,6 +2,12 @@ import React, { FC, FormEventHandler, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { fetchAddComment } from "../../store/reducers/selectedNote";
 import Edit from "../EditNotes/index";
+import Comment from "../Comments/index";
+interface User {
+  id: number;
+  username: string;
+  email: string;
+}
 interface Props {
   note: {
     id: number;
@@ -13,31 +19,28 @@ interface Props {
       username: string;
       email: string;
     };
-    comments: { id: string; description: string }[];
+    comments: { id: string; description: string; user: User }[];
   };
-}
-interface SessionUser {
-  id: number | string;
-  username: string;
-  email: string;
 }
 
 const Note: FC<Props> = ({ note }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
-  const user: SessionUser = useAppSelector((state) => state.session);
+  const user: User = useAppSelector((state) => state.session);
   const dispatch = useAppDispatch();
 
   const handleSubmit: FormEventHandler = (e: React.FormEvent) => {
     e.preventDefault();
     if (!comment) return setErrors(["comment cannot be empty"]);
     else {
-      dispatch(fetchAddComment(comment, note.id, Number(user.id)) as any);
+      dispatch(fetchAddComment(comment, note.id, user) as any);
       setErrors([]);
       setComment("");
     }
   };
+
+  
 
   const render = () => {
     if (!edit) {
@@ -63,8 +66,13 @@ const Note: FC<Props> = ({ note }) => {
             ></input>
             <button type="submit">comment</button>
           </form>
-          {note.comments.map((comments) => (
-            <div key={comments.id}>{comments.description}</div>
+
+          {note.comments.map((comment) => (
+            <Comment
+              comment={comment as any}
+              sessionUser={user}
+              key={comment.id}
+            />
           ))}
         </section>
       );
