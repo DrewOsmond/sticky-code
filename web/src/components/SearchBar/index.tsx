@@ -39,6 +39,7 @@ const SearchBar: FC = () => {
       <select onChange={handleChange}>
         <option value="pick a language">pick a language</option>
         <option value="javascript">javascript</option>
+        <option value="typescrip">typescript</option>
         <option value="go">go</option>
         <option value="python">python</option>
       </select>

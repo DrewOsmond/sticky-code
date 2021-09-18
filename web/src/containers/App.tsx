@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import Note from "./Note";
 import RecentResults from "./RecentResults";
 import SearchResults from "./SearchResults";
+import AddNotes from "../components/AddNotes";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -28,6 +29,9 @@ const App = () => {
         </Route>
         <Route path="/note/:id">
           <Note />
+        </Route>
+        <Route path="/add-note">
+          <AddNotes />
         </Route>
       </Switch>
     </>

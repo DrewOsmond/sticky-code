@@ -6,14 +6,20 @@ interface Props {
     title: string;
     description: string;
     language: string;
+    user: {
+      id: number | string;
+      username: string;
+      email: string;
+    };
   };
 }
 
 const Note: FC<Props> = ({ note }) => {
   return (
     <section>
-      <h3>{note.title}</h3>
       <div>{note.language}</div>
+      <h3>{note.title}</h3>
+      <div>By: {note.user.username}</div>
       <div>{note.description}</div>
     </section>
   );

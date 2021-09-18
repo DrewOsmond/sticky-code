@@ -4,12 +4,13 @@ import { csrfProtectedFetch } from "../csrfProtection";
 const ADD_NOTE = "notes/addNote";
 const DELETE_NOTE = "notes/deleteNote";
 const SELECT_NOTE = "note/selectNote";
+const UPDATE_NOTE = "note/updateNote";
 interface Note {
   id: number;
   title: string;
   description: string;
   language: string;
-  categoryId: number;
+  [key: string]: any;
 }
 
 interface Action {
@@ -35,7 +36,7 @@ export const addNote = (note: Note) => async (dispatch: Dispatch) => {
   }
 };
 
-const dltNote = (id: Number) => {
+const dltNote = (id: number) => {
   return {
     type: DELETE_NOTE,
     payload: id,
@@ -43,14 +44,12 @@ const dltNote = (id: Number) => {
 };
 
 export const deleteNote = (note: Note) => async (dispatch: Dispatch) => {
-  const response = await csrfProtectedFetch("/api/notes/delete", {
+  const { id } = note;
+  dispatch(dltNote(id));
+  await csrfProtectedFetch("/api/notes/delete", {
     method: "DELETE",
-    body: JSON.stringify(note),
+    body: JSON.stringify({ note }),
   });
-  if (response?.ok) {
-    const data = await response.json();
-    dispatch(dltNote(data));
-  }
 };
 
 const initialState: Note[] = [];
@@ -60,7 +59,7 @@ const notesReducer = (state = initialState, action: Action) => {
     case ADD_NOTE:
       return [action.payload, ...state];
     case DELETE_NOTE:
-      return state.filter((notes) => notes.id !== action.payload);
+      return [...state.filter((notes) => notes.id !== action.payload)];
     default:
       return state;
   }
@@ -81,12 +80,31 @@ export const fetchNote = (id: number) => async (dispatch: Dispatch) => {
   }
 };
 
+const updateNote = (note: Note) => {
+  return {
+    type: UPDATE_NOTE,
+    payload: note,
+  };
+};
+
+export const fetchUpdateNote =
+  (note: Note, title: string, description: string) =>
+  async (dispatch: Dispatch) => {
+    const response = await csrfProtectedFetch("/api/notes/update", {
+      method: "PUT",
+      body: JSON.stringify({ note, title, description }),
+    });
+    if (response?.ok) {
+      const data = await response.json();
+      dispatch(updateNote(data));
+    }
+  };
+
 const initalNoteState: Note = {
   id: 0,
   title: "no note found",
   description: "please select a note",
   language: "undefined",
-  categoryId: 0,
 };
 
 export const selectedNoteReducer = (
@@ -95,6 +113,8 @@ export const selectedNoteReducer = (
 ) => {
   switch (action.type) {
     case SELECT_NOTE:
+      return action.payload;
+    case UPDATE_NOTE:
       return action.payload;
     default:
       return state;

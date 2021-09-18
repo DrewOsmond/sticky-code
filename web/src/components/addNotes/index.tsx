@@ -1,11 +1,13 @@
 import React, { FC, useState, FormEventHandler } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { addNote } from "../../store/reducers/notes";
+import { useHistory } from "react-router";
 
 const AddNotes: FC = () => {
   const categories: [] = useAppSelector((state) => state.allCategories);
   const user: { id: number } = useAppSelector((state) => state.session);
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const [category, setCategory] = useState<string>("");
   const [language, setLanguage] = useState<string>("");
   const [title, setTitle] = useState<string>("");
@@ -48,6 +50,10 @@ const AddNotes: FC = () => {
           categoryId: categoryId[0].id,
         }) as any
       );
+      //setTimeout to delay it slightly so we have time to add items to the DB
+      setTimeout(() => {
+        history.push("/");
+      }, 100);
     }
   };
 
@@ -73,6 +79,7 @@ const AddNotes: FC = () => {
       <select onChange={handleLanguageChange}>
         <option value="pick a language">pick a language</option>
         <option value="javascript">javascript</option>
+        <option value="typescrip">typescript</option>
         <option value="go">go</option>
         <option value="python">python</option>
       </select>
