@@ -32,7 +32,7 @@ interface User {
   id: number;
   username: string;
   email: string;
-  favorites: unknown[];
+  favorites: any[];
 }
 
 const LOGIN_USER = "session/setUser";

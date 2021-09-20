@@ -8,6 +8,7 @@ import Note from "./Note";
 import RecentResults from "./RecentResults";
 import SearchResults from "./SearchResults";
 import AddNotes from "../components/AddNotes";
+import Profile from "./Profie";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -32,6 +33,9 @@ const App = () => {
         </Route>
         <Route path="/add-note">
           <AddNotes />
+        </Route>
+        <Route path="/profile">
+          <Profile />
         </Route>
       </Switch>
     </>
