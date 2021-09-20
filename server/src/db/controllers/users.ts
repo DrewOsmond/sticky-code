@@ -1,5 +1,6 @@
 import { User } from "../entity/User";
-import { getRepository } from "typeorm";
+import { Note } from "../entity/Note";
+import { createQueryBuilder, getRepository } from "typeorm";
 import { validate, ValidationError } from "class-validator";
 import { getValidationErrors } from "./errors";
 import { Request, Response } from "express";
@@ -8,7 +9,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 const inProduction = process.env.NODE_ENV === "production";
 
-export class UserAuth {
+export class Users {
   static signup = async (req: Request, res: Response): Promise<void> => {
     const { username, email, password } = req.body;
     const strongPassword: RegExp =
@@ -27,7 +28,7 @@ export class UserAuth {
     user.username = username;
     user.email = email;
     user.password = password;
-
+    user.favorites = [];
     const potentialErrors: ValidationError[] = await validate(user);
 
     if (potentialErrors.length > 0) {
@@ -46,7 +47,7 @@ export class UserAuth {
 
     const { id } = user;
     const userData = { username, email, id };
-    UserAuth.createToken(res, user);
+    Users.createToken(res, user);
     res.status(201).json({ user: userData });
   };
 
@@ -64,10 +65,10 @@ export class UserAuth {
     if (!user) {
       res.status(400).send("username or password does not match");
     } else if (user.checkValidPassword(password)) {
-      UserAuth.createToken(res, user);
-      const { username, email, id } = user;
-      const userData = { username, email, id };
-      res.status(200).json({ user: userData });
+      Users.createToken(res, user);
+      // const { username, email, id } = user;
+      // const userData = { username, email, id };
+      res.status(200).json(user);
     } else {
       res.status(400).send("password does not match");
     }
@@ -95,8 +96,27 @@ export class UserAuth {
     return token;
   }
 
-  static restoreUser = async (req: Request, res: Response) => {
+  static addFavorites = async (req: Request, res: Response) => {
+    const { user, note } = req.body;
     const userTable = getRepository(User);
+    user.favorites = [...user.favorites, note];
+    await userTable.save(user);
+    res.sendStatus(200);
+  };
+
+  static removeFavorites = async (req: Request, res: Response) => {
+    const { user, note } = req.body;
+    console.log("USER", user, "NOTE", note);
+    const userTable = getRepository(User);
+    user.favorites = user.favorites.filter(
+      (noteToRemove: Note) => noteToRemove.id !== note.id
+    );
+    await userTable.save(user);
+    res.sendStatus(201);
+  };
+
+  static restoreUser = async (req: Request, res: Response) => {
+    // const userTable = getRepository(User);
     const secret: jwt.Secret = process.env.JWT_SECRET as jwt.Secret;
     const { token } = req.cookies;
 
@@ -105,11 +125,16 @@ export class UserAuth {
 
       if (jwtPayload) {
         const { id } = jwtPayload;
-        const user = await userTable.findOne({
-          where: { id },
-          select: ["id", "username", "email"],
-        });
-        if (user) res.status(200).json(user);
+        const query = await createQueryBuilder(User, "user")
+          .leftJoinAndSelect("user.favorites", "favorite")
+          .where("user.id =:id", { id })
+          .getOne()
+          .catch(console.error);
+        // const user = await userTable.findOne({
+        //   where: { id },
+        //   select: ["id", "username", "email"],
+        // });
+        if (query) res.status(200).json(query);
         else res.status(200).send({ user: null });
       }
     });

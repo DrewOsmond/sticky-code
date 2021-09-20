@@ -5,10 +5,12 @@ import {
   ManyToOne,
   CreateDateColumn,
   OneToMany,
+  UpdateDateColumn,
 } from "typeorm";
 import { User } from "./User";
 import { Category } from "./Category";
 import { Comment } from "./Comment";
+
 @Entity("notes")
 export class Note {
   @PrimaryGeneratedColumn()
@@ -34,4 +36,7 @@ export class Note {
 
   @CreateDateColumn()
   created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }

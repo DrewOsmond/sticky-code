@@ -37,11 +37,11 @@ export class Notes {
   };
 
   static updateNote = async (req: Request, res: Response) => {
-    const { note, title, descriptions } = req.body;
+    const { note, title, description } = req.body;
     const notesRepo = getRepository(Note);
 
     note.title = title;
-    note.description = descriptions;
+    note.description = description;
 
     await notesRepo.save(note);
     return res.status(200).json(note);

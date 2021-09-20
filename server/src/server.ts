@@ -9,6 +9,7 @@ import { User } from "./db/entity/User";
 import { Category } from "./db/entity/Category";
 import { Note } from "./db/entity/Note";
 import { Comment } from "./db/entity/Comment";
+// import { Favorite } from "./db/entity/Favorite";
 import "reflect-metadata";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -37,9 +38,9 @@ const startConnection = async () => {
   app.use("/api", routes);
 };
 
-// import { addComments } from "./seeder";
+// import { seed } from "./seeder";
 
 startConnection()
   .then(() => console.log("connection to DB started"))
-  // .then(() => addComments())
+  // .then(() => seed())
   .catch(console.error);

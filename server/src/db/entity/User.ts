@@ -6,11 +6,15 @@ import {
   UpdateDateColumn,
   Unique,
   OneToMany,
+  JoinTable,
+  ManyToMany,
 } from "typeorm";
 import { Length, IsEmail } from "class-validator";
 import * as bcrypt from "bcrypt";
 import { Note } from "./Note";
 import { Comment } from "./Comment";
+// import { Favorite } from "./Favorite";
+
 @Entity("users")
 @Unique(["username", "email"])
 export class User {
@@ -34,6 +38,12 @@ export class User {
 
   @OneToMany(() => Comment, (comment) => comment.user, { onDelete: "CASCADE" })
   comments: Comment[];
+
+  @ManyToMany(() => Note, {
+    cascade: true,
+  })
+  @JoinTable()
+  favorites: Note[];
 
   @CreateDateColumn()
   created_at: Date;
