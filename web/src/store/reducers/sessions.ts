@@ -88,7 +88,7 @@ export const login = (user: userLogin) => async (dispatch: Dispatch) => {
   });
   if (response?.ok) {
     const userData = await response.json();
-    dispatch(loginUser(userData.user));
+    dispatch(loginUser(userData));
     return response;
   }
 };

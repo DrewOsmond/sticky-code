@@ -54,19 +54,21 @@ const Note: FC<Props> = ({ note }) => {
   };
 
   const handleAddFavorite: MouseEventHandler = () =>
-    dispatch(removeFavorites(user, note) as any);
-
-  const handleRemoveFavorite: MouseEventHandler = () =>
     dispatch(addFavorites(user, note) as any);
 
+  const handleRemoveFavorite: MouseEventHandler = () =>
+    dispatch(removeFavorites(user, note) as any);
+
   const isFavorite = () => {
-    if (!user.username && user.favorites.length <= 0) return false;
+    if (!user.username && user.favorites.length <= 0) return <div></div>;
+    console.log(note);
     for (let favorite of user.favorites) {
+      console.log("FAVORITE", favorite);
       if (favorite.id === note.id) {
-        return <button onClick={handleAddFavorite}>favorite</button>;
+        return <button onClick={handleRemoveFavorite}>unfavorite</button>;
       }
     }
-    return <button onClick={handleRemoveFavorite}>unfavorite</button>;
+    return <button onClick={handleAddFavorite}>favorite</button>;
   };
 
   const render = () => {
