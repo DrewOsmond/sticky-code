@@ -45,14 +45,12 @@ export class Users {
     // res.status(409).send('username or email already in use');
     // return;
 
-    const { id } = user;
-    const userData = { username, email, id };
     Users.createToken(res, user);
-    res.status(201).json({ user: userData });
+    res.status(201).json({ user });
   };
 
   static login = async (req: Request, res: Response): Promise<void> => {
-    const userTable = getRepository(User);
+    // const userTable = getRepository(User);
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -60,14 +58,16 @@ export class Users {
       return;
     }
 
-    const user = await userTable.findOne({ where: { username } });
+    const user = await createQueryBuilder(User, "user")
+      .leftJoinAndSelect("user.favorites", "favorite")
+      .where("user.username =:username", { username })
+      .getOne()
+      .catch(console.error);
 
     if (!user) {
       res.status(400).send("username or password does not match");
     } else if (user.checkValidPassword(password)) {
       Users.createToken(res, user);
-      // const { username, email, id } = user;
-      // const userData = { username, email, id };
       res.status(200).json(user);
     } else {
       res.status(400).send("password does not match");
@@ -106,7 +106,6 @@ export class Users {
 
   static removeFavorites = async (req: Request, res: Response) => {
     const { user, note } = req.body;
-    console.log("USER", user, "NOTE", note);
     const userTable = getRepository(User);
     user.favorites = user.favorites.filter(
       (noteToRemove: Note) => noteToRemove.id !== note.id
@@ -116,7 +115,6 @@ export class Users {
   };
 
   static restoreUser = async (req: Request, res: Response) => {
-    // const userTable = getRepository(User);
     const secret: jwt.Secret = process.env.JWT_SECRET as jwt.Secret;
     const { token } = req.cookies;
 
@@ -130,12 +128,11 @@ export class Users {
           .where("user.id =:id", { id })
           .getOne()
           .catch(console.error);
-        // const user = await userTable.findOne({
-        //   where: { id },
-        //   select: ["id", "username", "email"],
-        // });
         if (query) res.status(200).json(query);
-        else res.status(200).send({ user: null });
+        else
+          res
+            .status(200)
+            .send({ id: null, username: null, email: null, favorites: [] });
       }
     });
   };

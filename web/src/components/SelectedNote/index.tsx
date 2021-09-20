@@ -41,8 +41,6 @@ const Note: FC<Props> = ({ note }) => {
   const [errors, setErrors] = useState<string[]>([]);
   const dispatch = useAppDispatch();
 
-  console.log("NOTESSS", notez);
-
   const handleSubmit: FormEventHandler = (e: React.FormEvent) => {
     e.preventDefault();
     if (!comment) return setErrors(["comment cannot be empty"]);
@@ -61,9 +59,7 @@ const Note: FC<Props> = ({ note }) => {
 
   const isFavorite = () => {
     if (!user.username && user.favorites.length <= 0) return <div></div>;
-    console.log(note);
     for (let favorite of user.favorites) {
-      console.log("FAVORITE", favorite);
       if (favorite.id === note.id) {
         return <button onClick={handleRemoveFavorite}>unfavorite</button>;
       }

@@ -9,6 +9,7 @@ import { logout } from "../../store/reducers/sessions";
 import Login from "../login";
 import Signup from "../signup";
 import { useAppDispatch } from "../../store/hooks";
+import { useHistory } from "react-router";
 
 interface LoggedInProps {
   loggedIn: boolean;
@@ -27,6 +28,7 @@ const UserSessions: FC<LoggedInProps> = ({ loggedIn, user }): ReactElement => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const credentials = { username, email, password, confirmPassword };
+  const history = useHistory();
 
   const signout: MouseEventHandler = () => {
     dispatch(logout() as any);
@@ -85,6 +87,10 @@ const UserSessions: FC<LoggedInProps> = ({ loggedIn, user }): ReactElement => {
       {loggedIn && <button onClick={signout}>logout</button>}
 
       {loggedIn && <div>{`welcome, ${user.username}`}</div>}
+
+      {loggedIn && (
+        <button onClick={() => history.push("/profile")}>profile</button>
+      )}
 
       {!loggedIn && showStatus === "login" && (
         <Login

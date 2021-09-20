@@ -15,8 +15,6 @@ const Navbar: FC = () => {
   const loggedIn = user.id ? true : false;
   const history = useHistory();
 
-  console.log("USER!!! ", user);
-
   return (
     <nav className="nav__bar">
       <button onClick={() => history.push("/")}>home</button>
