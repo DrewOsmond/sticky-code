@@ -1,5 +1,7 @@
 import { FC, MouseEventHandler, ReactElement } from "react";
 import { useHistory } from "react-router-dom";
+import "./index.css";
+
 interface Results {
   id: number;
   title: string;

@@ -4,6 +4,7 @@ import {
   fetchDeleteComment,
   fetchUpdateComment,
 } from "../../store/reducers/selectedNote";
+import "./index.css";
 
 interface User {
   id: number;
@@ -34,6 +35,7 @@ const Comment: FC<Props> = ({ comment, sessionUser }) => {
     e.preventDefault();
     dispatch(fetchDeleteComment(comment) as any);
     setEdit(false);
+    setErrors([]);
   };
 
   const handleSave: FormEventHandler = (e: FormEvent) => {
@@ -42,14 +44,15 @@ const Comment: FC<Props> = ({ comment, sessionUser }) => {
     else {
       dispatch(fetchUpdateComment(comment, editComment) as any);
       setEdit(false);
+      setErrors([]);
     }
   };
 
   return (
     <div>
       {!edit && (
-        <div>
-          {`${comment.user.username}:  ${comment.description}`}
+        <div className="note_comments">
+          <div>{comment.user.username}:</div> <div>{comment.description}</div>
           {comment.user.username === sessionUser.username && (
             <button onClick={() => setEdit((prev) => !prev)}>edit</button>
           )}
@@ -57,10 +60,11 @@ const Comment: FC<Props> = ({ comment, sessionUser }) => {
       )}
       {edit && (
         <form onSubmit={handleSave}>
-          <input
+          {errors.length > 0 && errors.map((err, i) => <li key={i}>{err}</li>)}
+          <textarea
             value={editComment}
             onChange={(e) => setEditComment(e.currentTarget.value)}
-          ></input>
+          ></textarea>
           <button type="submit">save</button>
           <button onClick={handleDelete}>delete</button>
         </form>

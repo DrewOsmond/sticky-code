@@ -1,0 +1,8 @@
+.search__notes {
+  border: darkgray solid 1.5px;
+  margin: 8px 0px;
+}
+
+.search__notes:hover {
+  cursor: pointer;
+}
