@@ -25,5 +25,11 @@ router.put(
   })
 );
 
+router.get(
+  "/:user/:id",
+  asyncHandler(async (req, res) => {
+    await Collections.getOne(req, res);
+  })
+);
 
 export default router;

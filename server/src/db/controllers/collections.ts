@@ -1,10 +1,24 @@
 import { Collection } from "../entity/Collection";
-import { getRepository } from "typeorm";
+import { getRepository, createQueryBuilder } from "typeorm";
 import { Request, Response } from "express";
 // import { validate, ValidationError } from "class-validator";
 // import { getValidationErrors } from "./errors";
 
 export class Collections {
+  static getOne = async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const username = req.params.user;
+    const query = await createQueryBuilder(Collection, "collections")
+      .leftJoinAndSelect("collections.notes", "notes")
+      .leftJoinAndSelect("collections.user", "user")
+      .where("collections.id = :id", { id })
+      .andWhere("user.username = :username", { username })
+      .getOne();
+    if (query) {
+      res.json(query);
+    } else res.json(404);
+  };
+
   static addCollection = async (req: Request, res: Response) => {
     const { name, user, personal } = req.body;
     const collectionsRepo = getRepository(Collection);
@@ -12,11 +26,9 @@ export class Collections {
     newCollection.name = name;
     newCollection.user = user;
     newCollection.personal = personal;
-    // newCollection.public = public;
 
     const saving = await collectionsRepo.save(newCollection);
     if (saving) {
-      console.log("THIS IS WHAT SAVING RETURNS  ", saving);
       res.json(newCollection);
     } else res.sendStatus(400);
   };
