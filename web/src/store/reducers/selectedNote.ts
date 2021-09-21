@@ -134,10 +134,7 @@ const initalNoteState: Note = {
   language: "undefined",
 };
 
-export const selectedNoteReducer = (
-  state: Note = initalNoteState,
-  action: Action
-) => {
+const selectedNoteReducer = (state: Note = initalNoteState, action: Action) => {
   switch (action.type) {
     case SELECT_NOTE:
       return action.payload;

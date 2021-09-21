@@ -9,17 +9,17 @@ import thunk from "redux-thunk";
 import { applyMiddleware } from "redux";
 import sessionReducer from "./reducers/sessions";
 import searchReducer from "./reducers/searchResults";
-import allCategoriesReducer from "./reducers/categories";
 import notesReducer from "./reducers/notes";
 import selectedNoteReducer from "./reducers/selectedNote";
+import selectCollectionReducer from "./reducers/selectedCollection";
 
 export const store = createStore(
   combineReducers({
     session: sessionReducer,
     search: searchReducer,
-    allCategories: allCategoriesReducer,
     notes: notesReducer,
     selectedNote: selectedNoteReducer,
+    selectedCollection: selectCollectionReducer,
   }),
   undefined,
   applyMiddleware(thunk)

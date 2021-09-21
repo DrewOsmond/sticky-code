@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch } from "../store/hooks";
 import { restore } from "../store/reducers/sessions";
-import { getCategories } from "../store/reducers/categories";
 import { Switch, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import Note from "./Note";
@@ -9,13 +8,12 @@ import RecentResults from "./RecentResults";
 import SearchResults from "./SearchResults";
 import AddNotes from "../components/AddNotes";
 import Profile from "./Profie";
-
+import SelectedCollection from "../components/SelectedCollection";
 const App = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(restore() as any);
-    dispatch(getCategories() as any);
   }, [dispatch]);
 
   return (
@@ -36,6 +34,9 @@ const App = () => {
         </Route>
         <Route path="/profile">
           <Profile />
+        </Route>
+        <Route path="/collection/:username/:id">
+          <SelectedCollection />
         </Route>
       </Switch>
     </>

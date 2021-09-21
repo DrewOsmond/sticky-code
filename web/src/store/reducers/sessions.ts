@@ -16,29 +16,25 @@ interface Note {
   description: string;
   language: string;
 }
-
-interface UserSignup {
-  username: string;
-  email: string;
-  password: string;
-}
-
-interface userLogin {
-  username: string;
-  password: string;
-}
-
 interface User {
-  id: number;
+  id?: number;
   username: string;
-  email: string;
-  favorites: any[];
+  password?: string;
+  email?: string;
+  favorites?: any[];
+}
+
+interface Collection {
+  id: number;
+  name: string;
 }
 
 const LOGIN_USER = "session/setUser";
 const LOGOUT_USER = "session/logoutUser";
-const ADD_FAVORITE = "session/addFavorite";
-const REMOVE_FAVORITE = "session/removeFavorite";
+const ADD_FAVORITE = "session/addFavoriteNote";
+const REMOVE_FAVORITE = "session/removeFavoriteNote";
+const ADD_COLLECTION = "session/addCollection";
+const REMOVE_COLLECTION = "session/removeCollection";
 
 const loginUser = (user: {}) => {
   return {
@@ -60,7 +56,7 @@ export const logout = () => async (dispatch: Dispatch) => {
   }
 };
 
-export const signup = (user: UserSignup) => async (dispatch: Dispatch) => {
+export const signup = (user: User) => async (dispatch: Dispatch) => {
   const { username, email, password } = user;
   const response = await csrfProtectedFetch("/api/users/register", {
     method: "POST",
@@ -77,7 +73,7 @@ export const signup = (user: UserSignup) => async (dispatch: Dispatch) => {
   }
 };
 
-export const login = (user: userLogin) => async (dispatch: Dispatch) => {
+export const login = (user: User) => async (dispatch: Dispatch) => {
   const { username, password } = user;
   const response = await csrfProtectedFetch("/api/users/login", {
     method: "POST",
@@ -101,41 +97,89 @@ export const restore = () => async (dispatch: Dispatch) => {
   }
 };
 
-const addToFavorites = (note: Note) => {
+const addFavoriteNotes = (note: Note) => {
   return {
     type: ADD_FAVORITE,
     payload: note,
   };
 };
 
-export const addFavorites =
+export const addFavoriteNote =
   (user: User, note: Note) => async (dispatch: Dispatch) => {
-    const response = await csrfProtectedFetch("/api/users/add-favorite", {
+    const response = await csrfProtectedFetch("/api/users/add-favorite-note", {
       method: "POST",
       body: JSON.stringify({ user, note }),
     });
     if (response?.ok) {
-      dispatch(addToFavorites(note));
+      dispatch(addFavoriteNotes(note));
     }
   };
 
-const removeFromFavorites = (note: Note) => {
+const removeFromFavoriteNotes = (note: Note) => {
   return {
     type: REMOVE_FAVORITE,
     payload: note,
   };
 };
 
-export const removeFavorites =
+export const removeFavoriteNote =
   (user: User, note: Note) => async (dispatch: Dispatch) => {
-    await csrfProtectedFetch("/api/users/remove-favorite", {
+    await csrfProtectedFetch("/api/users/remove-favorite-note", {
       method: "DELETE",
       body: JSON.stringify({ user, note }),
     });
-    dispatch(removeFromFavorites(note));
+    dispatch(removeFromFavoriteNotes(note));
   };
 
-const initialState = { id: null, username: null, email: null, favorites: [] };
+const addCollection = (collection: Collection) => {
+  return {
+    type: ADD_COLLECTION,
+    payload: collection,
+  };
+};
+
+export const createCollection =
+  (user: User, name: string, personal: boolean) =>
+  async (dispatch: Dispatch) => {
+    const response = await csrfProtectedFetch("/api/collections/add", {
+      method: "POST",
+      body: JSON.stringify({ name, user, personal }),
+    });
+
+    if (response?.ok) {
+      const data = await response.json();
+      dispatch(addCollection(data));
+    }
+  };
+
+const removeCollection = (collection: Collection) => {
+  return {
+    type: REMOVE_COLLECTION,
+    payload: collection.id,
+  };
+};
+
+export const deleteCollection =
+  (collection: Collection) => async (dispatch: Dispatch) => {
+    const response = await csrfProtectedFetch("/api/collections/remove", {
+      method: "DELETE",
+      body: JSON.stringify({ collection }),
+    });
+
+    if (response?.ok) {
+      // await response.json();
+      dispatch(removeCollection(collection));
+    }
+  };
+
+const initialState = {
+  id: null,
+  username: null,
+  email: null,
+  favorite_notes: [],
+  favorite_collections: [],
+  collections: [],
+};
 
 interface ArrayOfFavs {
   id: number;
@@ -149,12 +193,22 @@ const sessionReducer = (state = initialState, action: Action) => {
       return initialState;
     case ADD_FAVORITE:
       //@ts-ignore FIX LATER
-      state.favorites.push(action.payload);
+      state.favorite_notes.push(action.payload);
       return { ...state };
     case REMOVE_FAVORITE:
       //@ts-ignore FIX LATER
-      state.favorites = state.favorites.filter(
+      state.favorites = state.favorite_notes.filter(
         (favs: ArrayOfFavs) => favs.id !== action.payload.id
+      );
+      return { ...state };
+    case ADD_COLLECTION:
+      //@ts-ignore FIX LATER
+      state.collections = [action.payload, ...state.collections];
+      return { ...state };
+    case REMOVE_COLLECTION:
+      state.collections = state.collections.filter(
+        //@ts-ignore FIX LATER
+        (col) => col.id !== action.payload
       );
       return { ...state };
     default:

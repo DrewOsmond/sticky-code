@@ -2,12 +2,14 @@ import React, {
   FC,
   FormEventHandler,
   MouseEventHandler,
-  useEffect,
   useState,
 } from "react";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { fetchAddComment } from "../../store/reducers/selectedNote";
-import { addFavorites, removeFavorites } from "../../store/reducers/sessions";
+import {
+  addFavoriteNote,
+  removeFavoriteNote,
+} from "../../store/reducers/sessions";
 import Edit from "../EditNotes/index";
 import Comment from "../Comments/index";
 import "./index.css";
@@ -52,10 +54,10 @@ const Note: FC<Props> = ({ note }) => {
   };
 
   const handleAddFavorite: MouseEventHandler = () =>
-    dispatch(addFavorites(user, note) as any);
+    dispatch(addFavoriteNote(user, note) as any);
 
   const handleRemoveFavorite: MouseEventHandler = () =>
-    dispatch(removeFavorites(user, note) as any);
+    dispatch(removeFavoriteNote(user, note) as any);
 
   const isFavorite = () => {
     if (!user.username && user.favorites.length <= 0) return <div></div>;
