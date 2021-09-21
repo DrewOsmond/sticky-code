@@ -8,16 +8,16 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { User } from "./User";
-import { Category } from "./Category";
 import { Comment } from "./Comment";
+import { Collection } from "./Collection";
 
 @Entity("notes")
 export class Note {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Category, (category) => category.notes)
-  category: Category;
+  @ManyToOne(() => Collection, (collection) => collection.notes)
+  collection: Collection;
 
   @ManyToOne(() => User, (user) => user.notes)
   user: User;

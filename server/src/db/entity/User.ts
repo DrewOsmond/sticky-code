@@ -13,6 +13,7 @@ import { Length, IsEmail } from "class-validator";
 import * as bcrypt from "bcrypt";
 import { Note } from "./Note";
 import { Comment } from "./Comment";
+import { Collection } from "./Collection";
 // import { Favorite } from "./Favorite";
 
 @Entity("users")
@@ -39,11 +40,18 @@ export class User {
   @OneToMany(() => Comment, (comment) => comment.user, { onDelete: "CASCADE" })
   comments: Comment[];
 
+  @OneToMany(() => Collection, (collections) => collections.user)
+  collections: Collection[];
+
   @ManyToMany(() => Note, {
     cascade: true,
   })
   @JoinTable()
-  favorites: Note[];
+  favorite_notes: Note[];
+
+  @ManyToMany(() => Collection, { cascade: true })
+  @JoinTable()
+  favorite_collections: Collection[];
 
   @CreateDateColumn()
   created_at: Date;

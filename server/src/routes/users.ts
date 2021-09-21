@@ -1,6 +1,8 @@
 import { Router } from "express";
 import asyncHandler from "express-async-handler";
 import { Users } from "../db/controllers/users";
+import { Notes } from "../db/controllers/Notes";
+import { Collections } from "../db/controllers/Collections";
 
 const router = Router();
 
@@ -31,16 +33,30 @@ router.delete("/logout", (_req, res) => {
 });
 
 router.post(
-  "/add-favorite",
+  "/add-favorite-note",
   asyncHandler(async (req, res) => {
-    await Users.addFavorites(req, res);
+    await Notes.addFavoriteNotes(req, res);
   })
 );
 
 router.delete(
-  "/remove-favorite",
+  "/remove-favorite-note",
   asyncHandler(async (req, res) => {
-    await Users.removeFavorites(req, res);
+    await Notes.removeFavoriteNotes(req, res);
+  })
+);
+
+router.post(
+  "/add-favorite-collection",
+  asyncHandler(async (req, res) => {
+    await Collections.addFavorite(req, res);
+  })
+);
+
+router.delete(
+  "/remove-favorite-collection",
+  asyncHandler(async (req, res) => {
+    await Collections.removeFavorite(req, res);
   })
 );
 

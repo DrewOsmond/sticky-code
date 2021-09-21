@@ -6,10 +6,9 @@ import morgan from "morgan";
 import routes from "./routes/routes";
 import { createConnection } from "typeorm";
 import { User } from "./db/entity/User";
-import { Category } from "./db/entity/Category";
 import { Note } from "./db/entity/Note";
 import { Comment } from "./db/entity/Comment";
-// import { Favorite } from "./db/entity/Favorite";
+import { Collection } from "./db/entity/Collection";
 import "reflect-metadata";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -22,7 +21,7 @@ const startConnection = async () => {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    entities: [User, Category, Note, Comment],
+    entities: [User, Note, Comment, Collection],
     synchronize: false,
   });
 

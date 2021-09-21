@@ -1,5 +1,4 @@
 import { User } from "../entity/User";
-import { Note } from "../entity/Note";
 import { createQueryBuilder, getRepository } from "typeorm";
 import { validate, ValidationError } from "class-validator";
 import { getValidationErrors } from "./errors";
@@ -28,7 +27,9 @@ export class Users {
     user.username = username;
     user.email = email;
     user.password = password;
-    user.favorites = [];
+    user.favorite_notes = [];
+    user.favorite_collections = [];
+    user.collections = [];
     const potentialErrors: ValidationError[] = await validate(user);
 
     if (potentialErrors.length > 0) {
@@ -59,7 +60,9 @@ export class Users {
     }
 
     const user = await createQueryBuilder(User, "user")
-      .leftJoinAndSelect("user.favorites", "favorite")
+      .leftJoinAndSelect("user.favorite_notes", "favorite_notes")
+      .leftJoinAndSelect("user.favorite_collections", "favorite_collections")
+      .leftJoinAndSelect("user.collections", "collections")
       .where("user.username =:username", { username })
       .getOne()
       .catch(console.error);
@@ -96,24 +99,6 @@ export class Users {
     return token;
   }
 
-  static addFavorites = async (req: Request, res: Response) => {
-    const { user, note } = req.body;
-    const userTable = getRepository(User);
-    user.favorites = [...user.favorites, note];
-    await userTable.save(user);
-    res.sendStatus(200);
-  };
-
-  static removeFavorites = async (req: Request, res: Response) => {
-    const { user, note } = req.body;
-    const userTable = getRepository(User);
-    user.favorites = user.favorites.filter(
-      (noteToRemove: Note) => noteToRemove.id !== note.id
-    );
-    await userTable.save(user);
-    res.sendStatus(201);
-  };
-
   static restoreUser = async (req: Request, res: Response) => {
     const secret: jwt.Secret = process.env.JWT_SECRET as jwt.Secret;
     const { token } = req.cookies;
@@ -124,7 +109,12 @@ export class Users {
       if (jwtPayload) {
         const { id } = jwtPayload;
         const query = await createQueryBuilder(User, "user")
-          .leftJoinAndSelect("user.favorites", "favorite")
+          .leftJoinAndSelect("user.favorite_notes", "favorite_notes")
+          .leftJoinAndSelect(
+            "user.favorite_collections",
+            "favorite_collections"
+          )
+          .leftJoinAndSelect("user.collections", "collections")
           .where("user.id =:id", { id })
           .getOne()
           .catch(console.error);
