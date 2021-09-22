@@ -31,7 +31,7 @@ export class Collection {
 
   @ManyToMany(() => Note)
   @JoinTable()
-  collection_notes: Note[];
+  added_notes: Note[];
   @CreateDateColumn()
   created_at: Date;
 

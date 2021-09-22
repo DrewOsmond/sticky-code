@@ -28,7 +28,6 @@ export class Users {
     user.email = email;
     user.password = password;
     user.favorite_notes = [];
-    user.favorite_collections = [];
     user.collections = [];
     const potentialErrors: ValidationError[] = await validate(user);
 
@@ -120,15 +119,13 @@ export class Users {
           .catch(console.error);
         if (query) res.status(200).json(query);
         else
-          res
-            .status(200)
-            .send({
-              id: null,
-              username: null,
-              email: null,
-              favorite_notes: [],
-              favorite_collections: [],
-            });
+          res.status(200).send({
+            id: null,
+            username: null,
+            email: null,
+            favorite_notes: [],
+            favorite_collections: [],
+          });
       }
     });
   };

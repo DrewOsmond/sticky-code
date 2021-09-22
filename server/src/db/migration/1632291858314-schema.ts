@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class start1632277631617 implements MigrationInterface {
-    name = 'start1632277631617'
+export class schema1632291858314 implements MigrationInterface {
+    name = 'schema1632291858314'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "comments" ("id" SERIAL NOT NULL, "description" text NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "userId" integer, "noteId" integer, CONSTRAINT "PK_8bf68bc960f2b69e818bdb90dcb" PRIMARY KEY ("id"))`);
@@ -11,23 +11,23 @@ export class start1632277631617 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "users_favorite_notes_notes" ("usersId" integer NOT NULL, "notesId" integer NOT NULL, CONSTRAINT "PK_45180bb2b776193e88aa6e54be9" PRIMARY KEY ("usersId", "notesId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_95c752541ac33dc0d2eadcc9a2" ON "users_favorite_notes_notes" ("usersId") `);
         await queryRunner.query(`CREATE INDEX "IDX_508be997409caf9381b956d287" ON "users_favorite_notes_notes" ("notesId") `);
-        await queryRunner.query(`CREATE TABLE "users_favorite_collections_collections" ("usersId" integer NOT NULL, "collectionsId" integer NOT NULL, CONSTRAINT "PK_f45ab6d2d120c3b3907c08a5591" PRIMARY KEY ("usersId", "collectionsId"))`);
-        await queryRunner.query(`CREATE INDEX "IDX_03620d8013cd93d139103c61be" ON "users_favorite_collections_collections" ("usersId") `);
-        await queryRunner.query(`CREATE INDEX "IDX_41f653e502b8cebcfcc4cfd498" ON "users_favorite_collections_collections" ("collectionsId") `);
-        await queryRunner.query(`ALTER TABLE "comments" ADD CONSTRAINT "FK_7e8d7c49f218ebb14314fdb3749" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "comments" ADD CONSTRAINT "FK_80933a403a9452ac4dd9b507ad6" FOREIGN KEY ("noteId") REFERENCES "notes"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "notes" ADD CONSTRAINT "FK_fd1b56d90e0f8e5143d2da4d738" FOREIGN KEY ("collectionId") REFERENCES "collections"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "notes" ADD CONSTRAINT "FK_829532ff766505ad7c71592c6a5" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "collections" ADD CONSTRAINT "FK_da613d6625365707f8df0f65d81" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`CREATE TABLE "collections_collection_notes_notes" ("collectionsId" integer NOT NULL, "notesId" integer NOT NULL, CONSTRAINT "PK_4e04a45c6f96d8a8b0cc26cc5bc" PRIMARY KEY ("collectionsId", "notesId"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_8fbd91dad9650597ea84da1ab2" ON "collections_collection_notes_notes" ("collectionsId") `);
+        await queryRunner.query(`CREATE INDEX "IDX_2b03c87af1acc48f193045c0de" ON "collections_collection_notes_notes" ("notesId") `);
+        await queryRunner.query(`ALTER TABLE "comments" ADD CONSTRAINT "FK_7e8d7c49f218ebb14314fdb3749" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "comments" ADD CONSTRAINT "FK_80933a403a9452ac4dd9b507ad6" FOREIGN KEY ("noteId") REFERENCES "notes"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "notes" ADD CONSTRAINT "FK_fd1b56d90e0f8e5143d2da4d738" FOREIGN KEY ("collectionId") REFERENCES "collections"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "notes" ADD CONSTRAINT "FK_829532ff766505ad7c71592c6a5" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "collections" ADD CONSTRAINT "FK_da613d6625365707f8df0f65d81" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "users_favorite_notes_notes" ADD CONSTRAINT "FK_95c752541ac33dc0d2eadcc9a21" FOREIGN KEY ("usersId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
         await queryRunner.query(`ALTER TABLE "users_favorite_notes_notes" ADD CONSTRAINT "FK_508be997409caf9381b956d2871" FOREIGN KEY ("notesId") REFERENCES "notes"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
-        await queryRunner.query(`ALTER TABLE "users_favorite_collections_collections" ADD CONSTRAINT "FK_03620d8013cd93d139103c61bee" FOREIGN KEY ("usersId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
-        await queryRunner.query(`ALTER TABLE "users_favorite_collections_collections" ADD CONSTRAINT "FK_41f653e502b8cebcfcc4cfd498b" FOREIGN KEY ("collectionsId") REFERENCES "collections"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
+        await queryRunner.query(`ALTER TABLE "collections_collection_notes_notes" ADD CONSTRAINT "FK_8fbd91dad9650597ea84da1ab21" FOREIGN KEY ("collectionsId") REFERENCES "collections"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
+        await queryRunner.query(`ALTER TABLE "collections_collection_notes_notes" ADD CONSTRAINT "FK_2b03c87af1acc48f193045c0dee" FOREIGN KEY ("notesId") REFERENCES "notes"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`ALTER TABLE "users_favorite_collections_collections" DROP CONSTRAINT "FK_41f653e502b8cebcfcc4cfd498b"`);
-        await queryRunner.query(`ALTER TABLE "users_favorite_collections_collections" DROP CONSTRAINT "FK_03620d8013cd93d139103c61bee"`);
+        await queryRunner.query(`ALTER TABLE "collections_collection_notes_notes" DROP CONSTRAINT "FK_2b03c87af1acc48f193045c0dee"`);
+        await queryRunner.query(`ALTER TABLE "collections_collection_notes_notes" DROP CONSTRAINT "FK_8fbd91dad9650597ea84da1ab21"`);
         await queryRunner.query(`ALTER TABLE "users_favorite_notes_notes" DROP CONSTRAINT "FK_508be997409caf9381b956d2871"`);
         await queryRunner.query(`ALTER TABLE "users_favorite_notes_notes" DROP CONSTRAINT "FK_95c752541ac33dc0d2eadcc9a21"`);
         await queryRunner.query(`ALTER TABLE "collections" DROP CONSTRAINT "FK_da613d6625365707f8df0f65d81"`);
@@ -35,9 +35,9 @@ export class start1632277631617 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "notes" DROP CONSTRAINT "FK_fd1b56d90e0f8e5143d2da4d738"`);
         await queryRunner.query(`ALTER TABLE "comments" DROP CONSTRAINT "FK_80933a403a9452ac4dd9b507ad6"`);
         await queryRunner.query(`ALTER TABLE "comments" DROP CONSTRAINT "FK_7e8d7c49f218ebb14314fdb3749"`);
-        await queryRunner.query(`DROP INDEX "IDX_41f653e502b8cebcfcc4cfd498"`);
-        await queryRunner.query(`DROP INDEX "IDX_03620d8013cd93d139103c61be"`);
-        await queryRunner.query(`DROP TABLE "users_favorite_collections_collections"`);
+        await queryRunner.query(`DROP INDEX "IDX_2b03c87af1acc48f193045c0de"`);
+        await queryRunner.query(`DROP INDEX "IDX_8fbd91dad9650597ea84da1ab2"`);
+        await queryRunner.query(`DROP TABLE "collections_collection_notes_notes"`);
         await queryRunner.query(`DROP INDEX "IDX_508be997409caf9381b956d287"`);
         await queryRunner.query(`DROP INDEX "IDX_95c752541ac33dc0d2eadcc9a2"`);
         await queryRunner.query(`DROP TABLE "users_favorite_notes_notes"`);
