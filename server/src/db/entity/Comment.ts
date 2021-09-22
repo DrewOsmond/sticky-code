@@ -13,10 +13,16 @@ export class Comment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.comments)
+  @ManyToOne(() => User, (user) => user.comments, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
   user: User;
 
-  @ManyToOne(() => Note, (note) => note.comments)
+  @ManyToOne(() => Note, (note) => note.comments, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
   note: Note;
 
   @Column({ nullable: false, type: "text" })

@@ -49,9 +49,9 @@ export class User {
   @JoinTable()
   favorite_notes: Note[];
 
-  @ManyToMany(() => Collection, { cascade: true })
-  @JoinTable()
-  favorite_collections: Collection[];
+  // @ManyToMany(() => Collection, { cascade: true })
+  // @JoinTable()
+  // favorite_collections: Collection[];
 
   @CreateDateColumn()
   created_at: Date;

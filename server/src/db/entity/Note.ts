@@ -16,13 +16,17 @@ export class Note {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Collection, (collection) => collection.notes)
+  @ManyToOne(() => Collection, (collection) => collection.notes, {
+    onDelete: "CASCADE",
+  })
   collection: Collection;
 
-  @ManyToOne(() => User, (user) => user.notes)
+  @ManyToOne(() => User, (user) => user.notes, {
+    onDelete: "CASCADE",
+  })
   user: User;
 
-  @OneToMany(() => Comment, (comment) => comment.note, { onDelete: "CASCADE" })
+  @OneToMany(() => Comment, (comment) => comment.note)
   comments: Comment[];
 
   @Column({ nullable: false })

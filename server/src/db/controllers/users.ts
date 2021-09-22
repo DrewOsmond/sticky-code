@@ -122,7 +122,13 @@ export class Users {
         else
           res
             .status(200)
-            .send({ id: null, username: null, email: null, favorites: [] });
+            .send({
+              id: null,
+              username: null,
+              email: null,
+              favorite_notes: [],
+              favorite_collections: [],
+            });
       }
     });
   };
