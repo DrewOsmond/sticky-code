@@ -9,11 +9,12 @@ interface Notes {
   title: string;
   description: string;
   language: string;
-  userId: number;
   user: {
-    id: number | string;
+    id: number;
     username: string;
     email: string;
+    favorite_notes: { id: number }[];
+    favorite_collections: { id: number }[];
   };
   comments: [];
 }
@@ -23,12 +24,12 @@ const Note = () => {
   const note: Notes = useAppSelector((state) => state.selectedNote);
   const [loaded, setLoaded] = useState<boolean>(false);
   const { id } = useParams<{ id?: string }>();
+  console.log(note);
 
   useEffect(() => {
+    console.log("we get here how often?");
     const numberId = Number(id);
-    if (!isNaN(numberId)) {
-      dispatch(fetchNote(Number(id)) as any);
-    }
+    dispatch(fetchNote(numberId) as any);
     setLoaded(true);
   }, []);
 

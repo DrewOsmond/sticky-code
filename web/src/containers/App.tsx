@@ -9,6 +9,8 @@ import SearchResults from "./SearchResults";
 import AddNotes from "../components/AddNotes";
 import Profile from "./Profie";
 import SelectedCollection from "../components/SelectedCollection";
+import Limbo from "../components/Limbo";
+
 const App = () => {
   const dispatch = useAppDispatch();
 
@@ -28,6 +30,9 @@ const App = () => {
         </Route>
         <Route path="/note/:id">
           <Note />
+        </Route>
+        <Route path="/adding-note">
+          <Limbo />
         </Route>
         <Route path="/add-note">
           <AddNotes />

@@ -52,17 +52,19 @@ const AddNotes: FC = () => {
         (col: { name: string }) => col.name === collection
       );
       dispatch(
-        addNote({
-          title,
-          description,
-          language,
-          id: user.id,
-          collectionId: collectionId[0].id,
-        }) as any
+        addNote(
+          {
+            title,
+            description,
+            language,
+            collectionId: collectionId[0].id,
+          },
+          user
+        ) as any
       );
       //setTimeout to delay it slightly so we have time to add items to the DB
       setTimeout(() => {
-        history.push("/");
+        history.push("/adding-note");
       }, 100);
     }
   };
@@ -101,7 +103,7 @@ const AddNotes: FC = () => {
         <select onChange={handleLanguageChange}>
           <option value="pick a language">pick a language</option>
           <option value="javascript">javascript</option>
-          <option value="typescrip">typescript</option>
+          <option value="typescript">typescript</option>
           <option value="go">go</option>
           <option value="python">python</option>
         </select>

@@ -29,7 +29,7 @@ const Edit: FC<Props> = ({ note, setEdit }) => {
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
     const errors: string[] = [];
-    if (!title) errors.push("Tile cannot be empty");
+    if (!title) errors.push("Title cannot be empty");
     if (!description) errors.push("Description cannot be empty");
     if (errors.length) setErrors(errors);
     else {

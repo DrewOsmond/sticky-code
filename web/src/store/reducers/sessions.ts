@@ -21,7 +21,8 @@ interface User {
   username: string;
   password?: string;
   email?: string;
-  favorites?: any[];
+  favorite_notes?: any[];
+  favorite_collections?: any[];
 }
 
 interface Collection {
@@ -35,6 +36,7 @@ const ADD_FAVORITE = "session/addFavoriteNote";
 const REMOVE_FAVORITE = "session/removeFavoriteNote";
 const ADD_COLLECTION = "session/addCollection";
 const REMOVE_COLLECTION = "session/removeCollection";
+const EDIT_COLLECTION = "session/editCollection";
 
 const loginUser = (user: {}) => {
   return {
@@ -172,6 +174,13 @@ export const deleteCollection =
     }
   };
 
+export const editMyCollection = (collection: Collection) => {
+  return {
+    type: EDIT_COLLECTION,
+    payload: collection,
+  };
+};
+
 const initialState = {
   id: null,
   username: null,
@@ -197,7 +206,7 @@ const sessionReducer = (state = initialState, action: Action) => {
       return { ...state };
     case REMOVE_FAVORITE:
       //@ts-ignore FIX LATER
-      state.favorites = state.favorite_notes.filter(
+      state.favorite_notes = state.favorite_notes.filter(
         (favs: ArrayOfFavs) => favs.id !== action.payload.id
       );
       return { ...state };
@@ -210,6 +219,14 @@ const sessionReducer = (state = initialState, action: Action) => {
         //@ts-ignore FIX LATER
         (col) => col.id !== action.payload
       );
+      return { ...state };
+    case EDIT_COLLECTION:
+      state.collections = [
+        //@ts-ignore FIX LATER
+        action.payload,
+        //@ts-ignore FIX LATER
+        ...state.collections.filter((ele) => ele.id !== action.payload.id),
+      ];
       return { ...state };
     default:
       return state;

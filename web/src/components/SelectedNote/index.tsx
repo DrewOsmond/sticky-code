@@ -21,9 +21,11 @@ interface Props {
     description: string;
     language: string;
     user: {
-      id: number | string;
+      id: number;
       username: string;
       email: string;
+      favorite_notes: { id: number }[];
+      favorite_collections: { id: number }[];
     };
     comments: { id: string; description: string; user: User }[];
   };
@@ -32,7 +34,8 @@ interface User {
   id: number;
   username: string;
   email: string;
-  favorites: { id: number }[];
+  favorite_notes: { id: number }[];
+  favorite_collections: { id: number }[];
 }
 
 const Note: FC<Props> = ({ note }) => {
@@ -60,8 +63,8 @@ const Note: FC<Props> = ({ note }) => {
     dispatch(removeFavoriteNote(user, note) as any);
 
   const isFavorite = () => {
-    if (!user.username && user.favorites.length <= 0) return <div></div>;
-    for (let favorite of user.favorites) {
+    if (!user.username && user.favorite_notes.length <= 0) return <div></div>;
+    for (let favorite of user.favorite_notes) {
       if (favorite.id === note.id) {
         return <button onClick={handleRemoveFavorite}>unfavorite</button>;
       }
@@ -90,7 +93,8 @@ const Note: FC<Props> = ({ note }) => {
           <br />
 
           <form onSubmit={handleSubmit}>
-            {errors.length > 0 &&
+            {edit &&
+              errors.length > 0 &&
               errors.map((err, i) => <li key={i}>{err}</li>)}
             <textarea
               id="comment"
@@ -101,13 +105,14 @@ const Note: FC<Props> = ({ note }) => {
             <button type="submit">comment</button>
           </form>
 
-          {note.comments.map((comment) => (
-            <Comment
-              comment={comment as any}
-              sessionUser={user}
-              key={comment.id}
-            />
-          ))}
+          {note.comments.length > 0 &&
+            note.comments.map((comment) => (
+              <Comment
+                comment={comment as any}
+                sessionUser={user}
+                key={comment.id}
+              />
+            ))}
         </section>
       );
     } else {

@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { csrfProtectedFetch } from "../csrfProtection";
-
+import { editMyCollection } from "./sessions";
 interface Note {
   id: number;
   title: string;
@@ -20,6 +20,7 @@ interface Action {
 }
 
 const SELECT_COLLECTION = "collections/selectCollection";
+const EDIT_COLLECTION = "collections/editCollection";
 
 const makeSelectedCollection = (collection: Collection) => {
   return {
@@ -38,6 +39,28 @@ export const selectCollection =
       dispatch(makeSelectedCollection(data));
     }
   };
+
+const editCollections = (collection: Collection) => {
+  return {
+    type: EDIT_COLLECTION,
+    payload: collection,
+  };
+};
+
+export const editCollection =
+  (collection: Collection, name: string) => async (dispatch: Dispatch) => {
+    const response = await csrfProtectedFetch("/api/collections/edit", {
+      method: "PUT",
+      body: JSON.stringify({ collection, name }),
+    });
+    if (response?.ok) {
+      const data = await response.json();
+      dispatch(editCollections(data));
+      dispatch(editMyCollection(data));
+    }
+  };
+
+
 
 const initialCollectionState: Collection = {
   id: 0,

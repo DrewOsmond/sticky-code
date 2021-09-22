@@ -7,7 +7,7 @@ interface Action {
 }
 
 const LOOKUP_SEARCH = "search/lookupSearch";
-const RECENT_SEARCH = "search/recentSearch";
+// const RECENT_SEARCH = "search/recentSearch";
 
 const search = (results: object[]) => {
   return {

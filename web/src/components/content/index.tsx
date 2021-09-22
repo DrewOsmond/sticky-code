@@ -5,7 +5,7 @@ import "./index.css";
 interface Results {
   id: number;
   title: string;
-  description: string;
+  description?: string;
 }
 
 interface Props {

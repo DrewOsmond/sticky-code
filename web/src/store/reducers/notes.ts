@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 import { csrfProtectedFetch } from "../csrfProtection";
+import { selectNote } from "./selectedNote";
 
 const ADD_NOTE = "notes/addNote";
 const DELETE_NOTE = "notes/deleteNote";
@@ -7,12 +8,28 @@ const DELETE_NOTE = "notes/deleteNote";
 // const UPDATE_NOTE = "note/updateNote";
 // const ADD_COMMENT = "notes/addComments";
 
+interface User {
+  id: number;
+  username: string;
+  password?: string;
+  email?: string;
+  favorite_notes?: any[];
+  favorite_collections?: any[];
+}
+
 interface Note {
   id: number;
   title: string;
   description: string;
   language: string;
   [key: string]: any;
+}
+
+interface NewNote {
+  title: string;
+  description: string;
+  language: string;
+  collectionId: number;
 }
 
 interface Action {
@@ -27,16 +44,20 @@ const add = (note: Note) => {
   };
 };
 
-export const addNote = (note: Note) => async (dispatch: Dispatch) => {
-  const response = await csrfProtectedFetch("/api/notes/add", {
-    method: "POST",
-    body: JSON.stringify(note),
-  });
-  if (response?.ok) {
-    const data = await response.json();
-    dispatch(add(data));
-  }
-};
+export const addNote =
+  (note: NewNote, user: User) => async (dispatch: Dispatch) => {
+    const response = await csrfProtectedFetch("/api/notes/add", {
+      method: "POST",
+      body: JSON.stringify({ note, user }),
+    });
+    if (response?.ok) {
+      const data = await response.json();
+      data.user = user;
+      data.comments = [];
+      dispatch(add(data));
+      dispatch(selectNote(data));
+    }
+  };
 
 const dltNote = (id: number) => {
   return {
@@ -66,8 +87,5 @@ const notesReducer = (state = initialState, action: Action) => {
       return state;
   }
 };
-
-
-
 
 export default notesReducer;

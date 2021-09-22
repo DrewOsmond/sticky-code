@@ -92,7 +92,7 @@ export const fetchDeleteComment =
     }
   };
 
-const selectNote = (note: Note) => {
+export const selectNote = (note: Note) => {
   return {
     type: SELECT_NOTE,
     payload: note,
@@ -132,6 +132,10 @@ const initalNoteState: Note = {
   title: "no note found",
   description: "please select a note",
   language: "undefined",
+  comments: [],
+  user: {
+    username: "404",
+  },
 };
 
 const selectedNoteReducer = (state: Note = initalNoteState, action: Action) => {
