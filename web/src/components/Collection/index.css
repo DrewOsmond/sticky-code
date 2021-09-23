@@ -1,9 +1,0 @@
-.notes {
-  /* word-wrap: break-word; */
-  overflow-block: auto;
-  /* overflow-wrap: normal; */
-  white-space: pre;
-  border: darkgray solid 1.5px;
-  margin: 15px 0px;
-  overflow: auto;
-}

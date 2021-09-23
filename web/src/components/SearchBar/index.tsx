@@ -2,6 +2,7 @@ import { FC, FormEventHandler, useState } from "react";
 import { useAppDispatch } from "../../store/hooks";
 import { searchFor } from "../../store/reducers/searchResults";
 import { useHistory } from "react-router-dom";
+import "./index.css";
 
 const SearchBar: FC = () => {
   const [language, setLanguage] = useState<string>("");
@@ -13,7 +14,7 @@ const SearchBar: FC = () => {
   const handleChange: FormEventHandler = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (e.target.value === "pick a language") {
+    if (e.target.value === "languages") {
       setLanguage("");
     } else setLanguage(e.target.value);
   };
@@ -27,7 +28,9 @@ const SearchBar: FC = () => {
     } else if (!search) {
       setErrors(["Your search may not be blank"]);
     } else {
-      history.push("/search");
+      setTimeout(() => {
+        history.push("/search");
+      }, 100);
       setErrors([]);
       dispatch(searchFor([search.trim(), language]) as any);
     }
@@ -37,19 +40,25 @@ const SearchBar: FC = () => {
     <form onSubmit={handleSubmit}>
       {errors.length > 0 && errors.map((error, i) => <li key={i}>{error}</li>)}
       <select onChange={handleChange}>
-        <option value="pick a language">pick a language</option>
+        <option value="language">language</option>
         <option value="javascript">javascript</option>
         <option value="typescrip">typescript</option>
         <option value="go">go</option>
         <option value="python">python</option>
       </select>
-      <input
-        type="text"
-        placeholder="search"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      ></input>
-      <button type="submit">search for notes</button>
+      <span>
+        <input
+          type="text"
+          placeholder="search"
+          className="search-bar"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        ></input>
+
+        <button type="submit" className="search-button">
+          {`  => Search`}
+        </button>
+      </span>
     </form>
   );
 };

@@ -23,17 +23,15 @@ const ContentPage: FC<Props> = ({ results }): ReactElement => {
     else if (typeof results[0] === "string") return <div>{results[0]}</div>;
     else
       return results.map((note: Results) => (
-        <section
+        <div
           id={`${note.id}`}
           key={note.id}
-          className="search__notes"
+          className="notes"
           onClick={handleClick}
-        >
-          <div>{note.title}</div>
-          <br />
-          <div>{note.description}</div>
-          <br />
-        </section>
+        > 
+          <h5 className="note-title">{note.title}</h5>
+          <div className="note-description">{note.description}</div>
+        </div>
       ));
   };
 

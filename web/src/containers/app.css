@@ -1,0 +1,87 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+body {
+  background-color: darkgrey;
+}
+
+.nav__bar {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: lightblue;
+  align-items: center;
+  border: black solid 1.5px;
+  justify-content: space-around;
+}
+
+.home-button {
+  color: black;
+}
+
+.home-button:hover {
+  color: white;
+  cursor: pointer;
+  text-shadow: 1px 1px 1px black;
+}
+
+.notes {
+  overflow-block: auto;
+  white-space: pre;
+  border: lightgray solid 2px;
+  padding: 1% 1% 1% 1%;
+  margin: 15px 15px;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.notes:hover {
+  box-shadow: 0px 0px 15px black;
+  cursor: pointer;
+}
+
+.note-title {
+  justify-content: center;
+}
+
+/* .note-title {
+  display: block;
+  justify-content: flex-start;
+}
+
+.note-description {
+  display: block;
+} */
+
+.create-note-button:hover,
+.login-button:hover,
+.search-button:hover,
+.signup-button:hover,
+.signup-button:hover {
+  color: white;
+  text-shadow: 1px 1px 1px black;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: "";
+}
+
+textarea,
+input,
+select {
+  outline: none;
+}

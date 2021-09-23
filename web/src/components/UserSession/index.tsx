@@ -5,12 +5,12 @@ import {
   ChangeEventHandler,
   MouseEventHandler,
 } from "react";
-import { logout } from "../../store/reducers/sessions";
 import Login from "../login";
 import Signup from "../signup";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppSelector } from "../../store/hooks";
 import { useHistory } from "react-router";
-
+import "./index.css";
+import Modal from "../Modal";
 interface User {
   id: number | string;
   username: string;
@@ -18,7 +18,6 @@ interface User {
 }
 
 const UserSessions: FC = (): ReactElement => {
-  const dispatch = useAppDispatch();
   const user: User = useAppSelector((state) => state.session);
   const [showStatus, setShowStatus] = useState<string>("");
   const [username, setUsername] = useState<string>("");
@@ -27,11 +26,6 @@ const UserSessions: FC = (): ReactElement => {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const credentials = { username, email, password, confirmPassword };
   const history = useHistory();
-
-  const signout: MouseEventHandler = () => {
-    dispatch(logout() as any);
-    clearResults();
-  };
 
   const clearResults = () => {
     const values = [
@@ -70,42 +64,44 @@ const UserSessions: FC = (): ReactElement => {
   };
 
   return (
-    <nav>
+    <>
       {user.id === 0 && (
-        <>
-          <button id="login" onClick={changeStatus}>
-            login
-          </button>
-          <button id="signup" onClick={changeStatus}>
-            signup
-          </button>
-        </>
-      )}
-
-      {user.id !== 0 && <button onClick={signout}>logout</button>}
-
-      {user.id !== 0 && <div>{`welcome, ${user.username}`}</div>}
-
-      {user.id !== 0 && (
-        <button onClick={() => history.push("/profile")}>profile</button>
+        <button id="login" onClick={changeStatus} className="login">
+          login || signup
+        </button>
       )}
 
       {user.id === 0 && showStatus === "login" && (
-        <Login
-          handleChange={handleChange}
-          credentials={credentials}
-          clearResults={clearResults}
-        />
+        <Modal onClose={() => setShowStatus("")}>
+          <Login
+            handleChange={handleChange}
+            credentials={credentials}
+            clearResults={clearResults}
+            changeStatus={changeStatus}
+          />
+        </Modal>
       )}
 
       {user.id === 0 && showStatus === "signup" && (
-        <Signup
-          handleChange={handleChange}
-          credentials={credentials}
-          clearResults={clearResults}
-        />
+        <Modal onClose={() => setShowStatus("")}>
+          <Signup
+            handleChange={handleChange}
+            credentials={credentials}
+            clearResults={clearResults}
+            changeStatus={changeStatus}
+          />
+        </Modal>
       )}
-    </nav>
+
+      {user.id !== 0 && (
+        <button
+          onClick={() => history.push("/profile")}
+          className="profile-button"
+        >
+          {`<${user.username} />`}
+        </button>
+      )}
+    </>
   );
 };
 

@@ -3,7 +3,7 @@ import { useAppSelector } from "../store/hooks";
 import UserSessions from "../components/UserSession";
 import SearchBar from "../components/SearchBar";
 import { useHistory } from "react-router-dom";
-import "./index.css";
+import "./app.css";
 interface SessionUser {
   id: number | string;
   username: string;
@@ -17,10 +17,15 @@ const Navbar: FC = () => {
 
   return (
     <nav className="nav__bar">
-      <button onClick={() => history.push("/")}>home</button>
+      <div onClick={() => history.push("/")} className="home-button">
+        {`( ) => Home;`}
+      </div>
       <SearchBar />
       {loggedIn && (
-        <button onClick={() => history.push("/add-note")}>Create Note</button>
+        <button
+          className="create-note-button"
+          onClick={() => history.push("/add-note")}
+        >{`{ Create Note }`}</button>
       )}
       <UserSessions />
     </nav>

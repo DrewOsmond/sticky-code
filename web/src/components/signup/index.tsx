@@ -1,4 +1,10 @@
-import { ChangeEventHandler, FC, FormEventHandler, useState } from "react";
+import {
+  ChangeEventHandler,
+  FC,
+  FormEventHandler,
+  MouseEventHandler,
+  useState,
+} from "react";
 import { useDispatch } from "react-redux";
 import { signup } from "../../store/reducers/sessions";
 
@@ -11,9 +17,14 @@ interface SignupProps {
     confirmPassword: string;
   };
   clearResults: Function;
+  changeStatus: MouseEventHandler;
 }
 
-const Signup: FC<SignupProps> = ({ handleChange, credentials }) => {
+const Signup: FC<SignupProps> = ({
+  handleChange,
+  credentials,
+  changeStatus,
+}) => {
   const [errors, setErrors] = useState<string[]>([]);
   const { username, email, password, confirmPassword } = credentials;
   const dispatch = useDispatch();
@@ -42,60 +53,69 @@ const Signup: FC<SignupProps> = ({ handleChange, credentials }) => {
   };
 
   return (
-    <form onSubmit={handleSignup}>
-      {errors.length > 0 && errors.map((error, i) => <li key={i}>{error}</li>)}
-      <label htmlFor="username"> username:</label>
-      <input
-        id="username"
-        type="text"
-        placeholder="enter username"
-        value={username}
-        required
-        min="4"
-        max="12"
-        onChange={handleChange}
-      ></input>
+    <>
+      <form onSubmit={handleSignup}>
+        {errors.length > 0 &&
+          errors.map((error, i) => <li key={i}>{error}</li>)}
+        <label htmlFor="username"> username:</label>
+        <input
+          id="username"
+          type="text"
+          placeholder="enter username"
+          value={username}
+          required
+          min="4"
+          max="12"
+          onChange={handleChange}
+        ></input>
 
-      <br />
+        <br />
 
-      <label htmlFor="email">email:</label>
-      <input
-        id="email"
-        type="email"
-        placeholder="enter email"
-        value={email}
-        required
-        onChange={handleChange}
-      ></input>
+        <label htmlFor="email">email:</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="enter email"
+          value={email}
+          required
+          onChange={handleChange}
+        ></input>
 
-      <br />
+        <br />
 
-      <label htmlFor="password"> password: </label>
-      <input
-        id="password"
-        type="password"
-        placeholder="enter password"
-        value={password}
-        required
-        onChange={handleChange}
-      ></input>
+        <label htmlFor="password"> password: </label>
+        <input
+          id="password"
+          type="password"
+          placeholder="enter password"
+          value={password}
+          required
+          onChange={handleChange}
+        ></input>
 
-      <br />
+        <br />
 
-      <label htmlFor="confirm_password"> confirm password: </label>
-      <input
-        id="confirm_password"
-        type="password"
-        placeholder="confirm password"
-        value={confirmPassword}
-        required
-        onChange={handleChange}
-      ></input>
+        <label htmlFor="confirm_password"> confirm password: </label>
+        <input
+          id="confirm_password"
+          type="password"
+          placeholder="confirm password"
+          value={confirmPassword}
+          required
+          onChange={handleChange}
+        ></input>
 
-      <br />
+        <br />
 
-      <button type="submit">signup</button>
-    </form>
+        <button
+          type="submit"
+          className="signup-button"
+        >{`( signup ) => newUser;`}</button>
+      </form>
+      <button id="login" onClick={changeStatus} className="login-button">
+        already a user ? login :
+      </button>
+    </>
   );
 };
 

@@ -105,7 +105,7 @@ const AddNotes: FC = () => {
         </select>
 
         <select onChange={handleLanguageChange}>
-          <option value="pick a language">pick a language</option>
+          <option value="language">language</option>
           <option value="javascript">javascript</option>
           <option value="typescript">typescript</option>
           <option value="go">go</option>

@@ -4,14 +4,17 @@ import App from "./containers/App";
 import { store } from "./store";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
+import { ModalProvider } from "./components/Modal/index";
 // import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router>
-        <App />
-      </Router>
+      <ModalProvider>
+        <Router>
+          <App />
+        </Router>
+      </ModalProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

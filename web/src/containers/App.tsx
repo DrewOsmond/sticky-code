@@ -10,6 +10,7 @@ import AddNotes from "../components/AddNotes";
 import Profile from "./Profie";
 import SelectedCollection from "../components/Collection";
 import Limbo from "../components/Limbo";
+import "./app.css";
 
 const App = () => {
   const dispatch = useAppDispatch();

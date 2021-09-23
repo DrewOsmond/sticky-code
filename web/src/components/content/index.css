@@ -1,6 +1,7 @@
 .search__notes {
-  border: darkgray solid 1.5px;
+  border: black solid 1.5px;
   margin: 8px 0px;
+  align-items: center;
 }
 
 .search__notes:hover {

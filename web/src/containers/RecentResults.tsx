@@ -11,7 +11,11 @@ const RecentResults = () => {
     dispatch(recentSearch() as any);
   }, []);
 
-  return <ContentPage results={recent} />;
+  return (
+    <div className="results">
+      <ContentPage results={recent} />
+    </div>
+  );
 };
 
 export default RecentResults;
