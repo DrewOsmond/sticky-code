@@ -7,8 +7,8 @@ interface Props {
     id: number;
     username: string;
     email: string;
-    favorite_notes: [];
-    collections: [];
+    favorite_notes: { id: number }[];
+    collections: { id: number; name: string }[];
   };
   setCollection: Function;
 }

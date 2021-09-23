@@ -182,7 +182,7 @@ export const editMyCollection = (collection: Collection) => {
 };
 
 const initialState = {
-  id: null,
+  id: 0,
   username: null,
   email: null,
   favorite_notes: [],

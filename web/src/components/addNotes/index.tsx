@@ -8,8 +8,8 @@ interface User {
   id: number;
   username: string;
   email: string;
-  favorite_notes: [];
-  collections: [];
+  favorite_notes: { id: number }[];
+  collections: { id: number; name: string }[];
 }
 
 const AddNotes: FC = () => {
@@ -51,17 +51,21 @@ const AddNotes: FC = () => {
       const collectionId: { id: number }[] = collections.filter(
         (col: { name: string }) => col.name === collection
       );
-      dispatch(
-        addNote(
-          {
-            title,
-            description,
-            language,
-            collectionId: collectionId[0].id,
-          },
-          user
-        ) as any
-      );
+      if (collectionId.length > 0) {
+        dispatch(
+          addNote(
+            {
+              title,
+              description,
+              language,
+              collectionId: collectionId[0].id,
+            },
+            user
+          ) as any
+        );
+      } else {
+        setErrors(["please select a collection"]);
+      }
       //setTimeout to delay it slightly so we have time to add items to the DB
       setTimeout(() => {
         history.push("/adding-note");

@@ -5,7 +5,7 @@ import {
   ReactElement,
   useState,
 } from "react";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { login } from "../../store/reducers/sessions";
 
 interface LoginProps {
@@ -25,6 +25,7 @@ const Login: FC<LoginProps> = ({
   clearResults,
 }): ReactElement => {
   const dispatch = useAppDispatch();
+  // const user = useAppSelector((state) => state.session);
   const { username, password } = credentials;
   const [errors, setErrors] = useState<string[]>([]);
 

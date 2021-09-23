@@ -8,20 +8,18 @@ import {
 import { logout } from "../../store/reducers/sessions";
 import Login from "../login";
 import Signup from "../signup";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useHistory } from "react-router";
 
-interface LoggedInProps {
-  loggedIn: boolean;
-  user: {
-    id: number | string;
-    username: string;
-    email: string;
-  };
+interface User {
+  id: number | string;
+  username: string;
+  email: string;
 }
 
-const UserSessions: FC<LoggedInProps> = ({ loggedIn, user }): ReactElement => {
+const UserSessions: FC = (): ReactElement => {
   const dispatch = useAppDispatch();
+  const user: User = useAppSelector((state) => state.session);
   const [showStatus, setShowStatus] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -73,7 +71,7 @@ const UserSessions: FC<LoggedInProps> = ({ loggedIn, user }): ReactElement => {
 
   return (
     <nav>
-      {!loggedIn && (
+      {user.id === 0 && (
         <>
           <button id="login" onClick={changeStatus}>
             login
@@ -84,15 +82,15 @@ const UserSessions: FC<LoggedInProps> = ({ loggedIn, user }): ReactElement => {
         </>
       )}
 
-      {loggedIn && <button onClick={signout}>logout</button>}
+      {user.id !== 0 && <button onClick={signout}>logout</button>}
 
-      {loggedIn && <div>{`welcome, ${user.username}`}</div>}
+      {user.id !== 0 && <div>{`welcome, ${user.username}`}</div>}
 
-      {loggedIn && (
+      {user.id !== 0 && (
         <button onClick={() => history.push("/profile")}>profile</button>
       )}
 
-      {!loggedIn && showStatus === "login" && (
+      {user.id === 0 && showStatus === "login" && (
         <Login
           handleChange={handleChange}
           credentials={credentials}
@@ -100,7 +98,7 @@ const UserSessions: FC<LoggedInProps> = ({ loggedIn, user }): ReactElement => {
         />
       )}
 
-      {!loggedIn && showStatus === "signup" && (
+      {user.id === 0 && showStatus === "signup" && (
         <Signup
           handleChange={handleChange}
           credentials={credentials}

@@ -11,8 +11,8 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { editCollection } from "../../store/reducers/selectedCollection";
 import { deleteCollection } from "../../store/reducers/sessions";
 import "./index.css";
-import ContentPage from "../Content";
-
+import { deleteNote } from "../../store/reducers/notes";
+import { deleteFromCollection } from "../../store/reducers/selectedCollection";
 interface User {
   id: number | string;
   username: string;
@@ -27,6 +27,7 @@ interface Note {
   userId: number;
   user: User;
   comments: [];
+  collection: Collection;
 }
 
 interface Collection {
@@ -34,12 +35,14 @@ interface Collection {
   name: string;
   notes: Note[];
   user: User;
+  added_notes: Note[];
 }
 
 const SelectedCollection: FC = () => {
   const collection: Collection = useAppSelector(
     (state) => state.selectedCollection
   );
+
   const dispatch = useAppDispatch();
   const history = useHistory();
   const user: User = useAppSelector((state) => state.session);
@@ -50,7 +53,6 @@ const SelectedCollection: FC = () => {
   const [editName, setEditName] = useState("");
   const [errors, setErrors] = useState(false);
 
-  console.log(collection);
   useEffect(() => {
     dispatch(selectCollection(Number(id), username) as any);
     setLoaded(true);
@@ -66,9 +68,7 @@ const SelectedCollection: FC = () => {
     }
   };
 
-  const handleDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
-    const element = e.currentTarget as HTMLInputElement;
-    const id = element.id;
+  const handleDeleteCollection: MouseEventHandler<HTMLButtonElement> = (e) => {
     let collectionToDelete: Collection | void;
 
     for (let collectionToRemove of user.collections) {
@@ -80,15 +80,37 @@ const SelectedCollection: FC = () => {
 
     if (collectionToDelete) {
       dispatch(deleteCollection(collectionToDelete) as any);
-      setTimeout(() => {
-        history.push("/profile");
-      }, 100);
+      setTimeout(() => [history.push("/profile")], 100);
     } else return;
   };
 
+  const handleDeleteNote: MouseEventHandler<HTMLButtonElement> = (e) => {
+    const noteIdToRemove = Number(e.currentTarget.id);
+    const noteToRemove: Note[] = collection.notes
+      .concat(collection.added_notes)
+      .filter((note: Note) => note.id === noteIdToRemove);
+
+    if (noteToRemove.length > 0) {
+      dispatch(deleteNote(noteToRemove[0]) as any);
+    }
+  };
+
+  const handleDeleteFromCollection: MouseEventHandler<HTMLButtonElement> = (
+    e
+  ) => {
+    const noteIdToRemove = Number(e.currentTarget.id);
+    const noteToRemove: Note[] = collection.notes
+      .concat(collection.added_notes)
+      .filter((note: Note) => note.id === noteIdToRemove);
+    dispatch(deleteFromCollection(collection, noteToRemove[0]) as any);
+  };
+
+  const handleClick: MouseEventHandler = (e: React.MouseEvent) =>
+    history.push(`/note/${e.currentTarget.id}`);
+
   const render = () => {
     if (loaded) {
-      if (collection.name !== "null" && !edit) {
+      if (collection.id !== 0 && !edit) {
         return (
           <section>
             <h1>{collection.name}</h1>
@@ -103,12 +125,45 @@ const SelectedCollection: FC = () => {
               </button>
             )}
             <div>Notes:</div>
-            <ContentPage results={collection.notes} />
-            {collection.notes.length === 0 && (
+            {(collection.notes.length > 0 ||
+              collection.added_notes.length > 0) &&
+              collection.notes
+                .concat(collection.added_notes)
+                .map((note: Note) => (
+                  <div className="search__notes">
+                    {note.user.id === user.id &&
+                    note.collection.id === collection.id ? (
+                      <button
+                        id={`${note.id}`}
+                        onClick={(e) => {
+                          handleDeleteNote(e);
+                          handleDeleteFromCollection(e);
+                        }}
+                      >
+                        delete note
+                      </button>
+                    ) : (
+                      <button
+                        id={`${note.id}`}
+                        onClick={handleDeleteFromCollection}
+                      >
+                        delete from collection
+                      </button>
+                    )}
+                    <div id={`${note.id}`} key={note.id} onClick={handleClick}>
+                      <h3>{note.title}</h3>
+                      <br />
+                      <div>{note.description}</div>
+                    </div>
+                  </div>
+                ))}
+            {collection.notes.concat(collection.added_notes).length === 0 && (
               <div>this collection is empty</div>
             )}
           </section>
         );
+      } else if (collection.name === "loading") {
+        return <div>loading...</div>;
       } else if (edit) {
         return (
           <div>
@@ -124,7 +179,7 @@ const SelectedCollection: FC = () => {
               <button type="submit">save</button>
             </form>
             <button onClick={() => setEdit(false)}>cancel changes</button>
-            <button onClick={handleDelete}>delete</button>
+            <button onClick={handleDeleteCollection}>delete</button>
           </div>
         );
       } else return <div>no collections found :( </div>;

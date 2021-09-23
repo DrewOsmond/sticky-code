@@ -12,7 +12,7 @@ interface SessionUser {
 
 const Navbar: FC = () => {
   const user: SessionUser = useAppSelector((state) => state.session);
-  const loggedIn = user.id ? true : false;
+  const loggedIn = user.id !== 0 ? true : false;
   const history = useHistory();
 
   return (
@@ -22,7 +22,7 @@ const Navbar: FC = () => {
       {loggedIn && (
         <button onClick={() => history.push("/add-note")}>Create Note</button>
       )}
-      <UserSessions loggedIn={loggedIn} user={user} />
+      <UserSessions />
     </nav>
   );
 };

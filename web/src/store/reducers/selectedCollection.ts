@@ -21,6 +21,7 @@ interface Action {
 
 const SELECT_COLLECTION = "collections/selectCollection";
 const EDIT_COLLECTION = "collections/editCollection";
+const DELETE_NOTE_FROM_COLLECTION = "collections/deleteNoteFromCollection";
 
 const makeSelectedCollection = (collection: Collection) => {
   return {
@@ -31,6 +32,7 @@ const makeSelectedCollection = (collection: Collection) => {
 
 export const selectCollection =
   (id: number, username: string) => async (dispatch: Dispatch) => {
+    dispatch(makeSelectedCollection({ id: 0, name: "loading", notes: [] }));
     const response = await csrfProtectedFetch(
       `/api/collections/${username}/${id}`
     );
@@ -60,7 +62,25 @@ export const editCollection =
     }
   };
 
+const deleteNoteFromMyCollection = (updatedCollection: Collection) => {
+  return {
+    type: DELETE_NOTE_FROM_COLLECTION,
+    payload: updatedCollection,
+  };
+};
 
+export const deleteFromCollection =
+  (collection: Collection, note: Note) => async (dispatch: Dispatch) => {
+    const response = await csrfProtectedFetch("/api/collections/remove-note", {
+      method: "DELETE",
+      body: JSON.stringify({ collection, note }),
+    });
+
+    if (response?.ok) {
+      const data = await response.json();
+      dispatch(deleteNoteFromMyCollection(data));
+    }
+  };
 
 const initialCollectionState: Collection = {
   id: 0,
@@ -82,6 +102,11 @@ const selectedCollection = (
   switch (action.type) {
     case SELECT_COLLECTION:
       return action.payload;
+    case DELETE_NOTE_FROM_COLLECTION:
+      return action.payload;
+    case EDIT_COLLECTION: {
+      return action.payload;
+    }
     default:
       return state;
   }

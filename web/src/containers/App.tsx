@@ -8,7 +8,7 @@ import RecentResults from "./RecentResults";
 import SearchResults from "./SearchResults";
 import AddNotes from "../components/AddNotes";
 import Profile from "./Profie";
-import SelectedCollection from "../components/SelectedCollection";
+import SelectedCollection from "../components/Collection";
 import Limbo from "../components/Limbo";
 
 const App = () => {

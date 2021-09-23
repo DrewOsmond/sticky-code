@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { fetchNote } from "../store/reducers/selectedNote";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import SelectedNote from "../components/SelectedNote";
+import SelectedNote from "../components/Note";
 
 interface Notes {
   id: number;
@@ -24,13 +24,13 @@ const Note = () => {
   const note: Notes = useAppSelector((state) => state.selectedNote);
   const [loaded, setLoaded] = useState<boolean>(false);
   const { id } = useParams<{ id?: string }>();
-  console.log(note);
 
   useEffect(() => {
-    console.log("we get here how often?");
     const numberId = Number(id);
     dispatch(fetchNote(numberId) as any);
-    setLoaded(true);
+    setTimeout(() => {
+      setLoaded(true);
+    }, 50);
   }, []);
 
   const render = () => {

@@ -25,7 +25,6 @@ const Profie = () => {
   const { username } = user;
   const history = useHistory();
 
-  console.log(user);
   return (
     <section>
       <h2>{username}</h2>
@@ -36,22 +35,6 @@ const Profie = () => {
       )}
       {user.collections.length > 0 &&
         user.collections.map((val) => (
-          <div key={val.id}>
-            {val.name + "  "}
-            <button
-              onClick={() => history.push(`/collection/${username}/${val.id}`)}
-            >
-              go to collection
-            </button>
-          </div>
-        ))}
-      {user.favorite_collections.length > 0 ? (
-        <p>Your favorite collections:</p>
-      ) : (
-        <p>you haven't favorited any collections yet!</p>
-      )}
-      {user.favorite_collections.length > 0 &&
-        user.favorite_collections.map((val) => (
           <div key={val.id}>
             {val.name + "  "}
             <button
