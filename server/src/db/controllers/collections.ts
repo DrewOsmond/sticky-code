@@ -10,13 +10,21 @@ export class Collections {
     const username = req.params.user;
     const query = await createQueryBuilder(Collection, "collections")
       .leftJoinAndSelect("collections.notes", "notes")
+      .leftJoinAndSelect("notes.collection", "collection")
       .leftJoinAndSelect("collections.user", "user")
+      .leftJoinAndSelect("notes.user", "notes_user")
+      .leftJoinAndSelect("collections.added_notes", "added_notes")
+      .leftJoinAndSelect("added_notes.collection", "collectionz")
+      .leftJoinAndSelect("added_notes.user", "user_notes")
       .where("collections.id = :id", { id })
       .andWhere("user.username = :username", { username })
       .getOne();
     if (query) {
       res.json(query);
-    } else res.json(404);
+    } else
+      res.status(404).json({
+        id: 0,
+      });
   };
 
   static addCollection = async (req: Request, res: Response) => {
@@ -26,6 +34,7 @@ export class Collections {
     newCollection.name = name;
     newCollection.user = user;
     newCollection.personal = personal;
+    newCollection.added_notes = [];
 
     const saving = await collectionsRepo.save(newCollection);
     if (saving) {
@@ -48,24 +57,26 @@ export class Collections {
     res.json(collection);
   };
 
-  static addFavorite = async (req: Request, res: Response) => {
-    const { user, collection } = req.body;
-    const userTable = getRepository(user);
-    user.favorite_collections = [...user.favorite_collections, collection];
-    const data = await userTable.save(user);
-    if (data) res.json(user);
-    else res.sendStatus(400);
+  static addNoteToCollection = async (req: Request, res: Response) => {
+    const { collection, note } = req.body;
+    const collectionRepo = getRepository(Collection);
+    collection.added_notes.push(note);
+    const saving = await collectionRepo.save(collection);
+
+    if (saving) {
+      res.json(saving);
+    } else res.sendStatus(400);
   };
 
-  static removeFavorite = async (req: Request, res: Response) => {
-    const { user, collection } = req.body;
-    const userTable = getRepository(user);
-    user.favorite_collections = user.favorite_collections.filter(
-      (collectionToKeep: { id: number }) =>
-        collectionToKeep.id !== collection.id
+  static deleteNoteFromCollection = async (req: Request, res: Response) => {
+    const { collection, note } = req.body;
+    const collectionRepo = getRepository(Collection);
+    collection.added_notes = collection.added_notes.filter(
+      (ele: { id: number }) => ele.id !== note.id
     );
-    const data = await userTable.save(user);
-    if (data) res.json(user);
-    else res.sendStatus(404);
+    const updatedCollection = await collectionRepo.save(collection);
+    if (updatedCollection) {
+      res.json(updatedCollection);
+    }
   };
 }

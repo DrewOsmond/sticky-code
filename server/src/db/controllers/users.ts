@@ -60,12 +60,11 @@ export class Users {
 
     const user = await createQueryBuilder(User, "user")
       .leftJoinAndSelect("user.favorite_notes", "favorite_notes")
-      .leftJoinAndSelect("user.favorite_collections", "favorite_collections")
       .leftJoinAndSelect("user.collections", "collections")
+      .leftJoinAndSelect("collections.added_notes", "added_notes")
       .where("user.username =:username", { username })
       .getOne()
       .catch(console.error);
-
     if (!user) {
       res.status(400).send("username or password does not match");
     } else if (user.checkValidPassword(password)) {
@@ -103,17 +102,22 @@ export class Users {
     const { token } = req.cookies;
 
     jwt.verify(token, secret, undefined, async (err, jwtPayload: any) => {
-      if (err) res.status(200).json({ user: null });
+      if (err)
+        res.status(200).json({
+          id: 0,
+          username: null,
+          email: null,
+          favorite_notes: [],
+          favorite_collections: [],
+          collections: [],
+        });
 
       if (jwtPayload) {
         const { id } = jwtPayload;
         const query = await createQueryBuilder(User, "user")
           .leftJoinAndSelect("user.favorite_notes", "favorite_notes")
-          .leftJoinAndSelect(
-            "user.favorite_collections",
-            "favorite_collections"
-          )
           .leftJoinAndSelect("user.collections", "collections")
+          .leftJoinAndSelect("collections.added_notes", "added_notes")
           .where("user.id =:id", { id })
           .getOne()
           .catch(console.error);

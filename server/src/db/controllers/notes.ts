@@ -11,7 +11,6 @@ import { User } from "../entity/User";
 export class Notes {
   static addNote = async (req: Request, res: Response) => {
     const { note, user } = req.body;
-    console.log(note);
     const { collectionId, title, description, language } = note;
     const notesRepo = getRepository(Note);
 
@@ -58,7 +57,6 @@ export class Notes {
       .where("note.id = :id", { id })
       .getOne();
     if (note) {
-      console.log(note);
       res.status(200).json(note);
     } else {
       res.json({

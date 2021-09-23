@@ -32,4 +32,18 @@ router.get(
   })
 );
 
+router.post(
+  "/add-note",
+  asyncHandler(async (req, res) => {
+    await Collections.addNoteToCollection(req, res);
+  })
+);
+
+router.delete(
+  "/remove-note",
+  asyncHandler(async (req, res) => {
+    await Collections.deleteNoteFromCollection(req, res);
+  })
+);
+
 export default router;
