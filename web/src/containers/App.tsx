@@ -11,6 +11,7 @@ import Profile from "./Profie";
 import SelectedCollection from "../components/Collection";
 import Limbo from "../components/Limbo";
 import "./app.css";
+import UserProfile from "../components/Profile";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -38,8 +39,11 @@ const App = () => {
         <Route path="/add-note">
           <AddNotes />
         </Route>
-        <Route path="/profile">
+        <Route path="/profile" exact>
           <Profile />
+        </Route>
+        <Route path="/profile/:user">
+          <UserProfile />
         </Route>
         <Route path="/collection/:username/:id">
           <SelectedCollection />

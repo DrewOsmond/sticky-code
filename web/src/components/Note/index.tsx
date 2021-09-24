@@ -15,6 +15,7 @@ import Edit from "../EditNotes/index";
 import Comment from "../Comments/index";
 import AddCollection from "../addCollection";
 import "./index.css";
+import { useHistory } from "react-router";
 
 interface Props {
   note: {
@@ -43,6 +44,7 @@ interface User {
 const SelectedNote: FC<Props> = ({ note }) => {
   const user: User = useAppSelector((state) => state.session);
   // const notez = useAppSelector((state) => state.selectedNote);
+  const history = useHistory();
   const [edit, setEdit] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
@@ -103,13 +105,22 @@ const SelectedNote: FC<Props> = ({ note }) => {
     return <button onClick={handleAddFavorite}>favorite</button>;
   };
 
+  const handleProfileRedirect: MouseEventHandler = () => {
+    history.push(`/profile/${note.user.username}`);
+  };
+
   const render = () => {
     if (!edit) {
       return (
         <div>
           <div className="selected_note">
             <div>
-              by: <span className="bold">{note.user.username}</span>
+              by:{" "}
+              <span className="bold">
+                <button onClick={handleProfileRedirect}>
+                  {`@${note.user.username}`}
+                </button>
+              </span>
             </div>
             <div>
               language: <span className="bold">{note.language}</span>
