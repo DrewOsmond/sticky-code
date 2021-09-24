@@ -1,27 +1,9 @@
-import {
-  ChangeEventHandler,
-  FC,
-  FormEventHandler,
-  MouseEventHandler,
-  ReactElement,
-  useState,
-} from "react";
+import { FC, FormEventHandler, ReactElement, useState } from "react";
 import { useHistory } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { login } from "../../store/reducers/sessions";
+import { LoginProps } from "../../types";
 import "./index.css";
-
-interface LoginProps {
-  credentials: {
-    username: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-  };
-  handleChange: ChangeEventHandler;
-  clearResults: Function;
-  changeStatus: MouseEventHandler;
-}
 
 const Login: FC<LoginProps> = ({
   credentials,

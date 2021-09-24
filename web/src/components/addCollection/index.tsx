@@ -1,15 +1,9 @@
 import { useState, FC, FormEventHandler } from "react";
 import { createCollection } from "../../store/reducers/sessions";
 import { useAppDispatch } from "../../store/hooks";
-
+import { User } from "../../types";
 interface Props {
-  user: {
-    id: number;
-    username: string;
-    email: string;
-    favorite_notes: { id: number }[];
-    collections: { id: number; name: string }[];
-  };
+  user: User;
   setCollection: Function;
 }
 

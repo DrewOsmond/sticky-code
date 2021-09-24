@@ -3,15 +3,11 @@ import { useAppSelector } from "../store/hooks";
 import UserSessions from "../components/UserSession";
 import SearchBar from "../components/SearchBar";
 import { useHistory } from "react-router-dom";
+import { User } from "../types";
 import "./app.css";
-interface SessionUser {
-  id: number | string;
-  username: string;
-  email: string;
-}
 
 const Navbar: FC = () => {
-  const user: SessionUser = useAppSelector((state) => state.session);
+  const user: User = useAppSelector((state) => state.session);
   const loggedIn = user.id !== 0 ? true : false;
   const history = useHistory();
 

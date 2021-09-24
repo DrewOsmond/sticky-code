@@ -3,24 +3,7 @@ import { useHistory } from "react-router-dom";
 import ContentPage from "../components/Content";
 import { logout } from "../store/reducers/sessions";
 import { MouseEventHandler } from "react";
-interface Collection {
-  id: number;
-  name: string;
-}
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  favorite_notes: Note[];
-  favorite_collections: Collection[];
-  collections: Collection[];
-}
-
-interface Note {
-  id: number;
-  category: string;
-  title: string;
-}
+import { User } from "../types";
 
 const Profie = () => {
   const user: User = useAppSelector((state) => state.session);
@@ -31,8 +14,8 @@ const Profie = () => {
   const signout: MouseEventHandler = () => {
     dispatch(logout() as any);
     setTimeout(() => {
-      history.push("/")
-    }, 50)
+      history.push("/");
+    }, 50);
   };
 
   return (

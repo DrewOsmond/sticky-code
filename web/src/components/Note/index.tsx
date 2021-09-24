@@ -16,34 +16,14 @@ import Comment from "../Comments/index";
 import AddCollection from "../addCollection";
 import "./index.css";
 import { useHistory } from "react-router";
+import { Notes, User } from "../../types";
 
 interface Props {
-  note: {
-    id: number;
-    title: string;
-    description: string;
-    language: string;
-    user: {
-      id: number;
-      username: string;
-      email: string;
-      favorite_notes: { id: number }[];
-      favorite_collections: { id: number }[];
-    };
-    comments: { id: string; description: string; user: User }[];
-  };
-}
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  favorite_notes: { id: number }[];
-  collections: { id: number; name: string }[];
+  note: Notes;
 }
 
 const SelectedNote: FC<Props> = ({ note }) => {
   const user: User = useAppSelector((state) => state.session);
-  // const notez = useAppSelector((state) => state.selectedNote);
   const history = useHistory();
   const [edit, setEdit] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");

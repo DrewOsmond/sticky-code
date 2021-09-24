@@ -1,0 +1,25 @@
+.profile {
+  white-space: pre;
+  padding-left: 20px;
+}
+
+.white {
+  color: rgb(122, 120, 120);
+}
+
+.variable-name {
+  color: blue;
+}
+
+.object-name {
+  color: rgb(0, 106, 177);
+}
+
+.object-name:hover {
+  text-shadow: 1px 1px 1px black;
+  cursor: pointer;
+}
+
+.destructured-var {
+  color: rgb(139, 139, 12);
+}

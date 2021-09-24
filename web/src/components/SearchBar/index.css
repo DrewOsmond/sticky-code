@@ -3,9 +3,14 @@
   text-align: center;
 }
 
+.search-button {
+  white-space: pre;
+}
+
 button,
 input[type="submit"],
-input[type="reset"] {
+input[type="reset"],
+.search-button {
   background: none;
   color: inherit;
   border: none;

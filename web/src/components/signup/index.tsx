@@ -6,19 +6,9 @@ import {
   useState,
 } from "react";
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../store/hooks";
 import { signup } from "../../store/reducers/sessions";
-
-interface SignupProps {
-  handleChange: ChangeEventHandler;
-  credentials: {
-    username: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-  };
-  clearResults: Function;
-  changeStatus: MouseEventHandler;
-}
+import { SignupProps } from "../../types";
 
 const Signup: FC<SignupProps> = ({
   handleChange,
@@ -28,6 +18,7 @@ const Signup: FC<SignupProps> = ({
   const [errors, setErrors] = useState<string[]>([]);
   const { username, email, password, confirmPassword } = credentials;
   const dispatch = useDispatch();
+  const user = useAppSelector((state) => state.session);
 
   const handleSignup: FormEventHandler = (e: React.FormEvent) => {
     e.preventDefault();

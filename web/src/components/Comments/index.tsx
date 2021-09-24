@@ -5,23 +5,10 @@ import {
   fetchUpdateComment,
 } from "../../store/reducers/selectedNote";
 import "./index.css";
-
-interface User {
-  id: number;
-  username: string;
-  email: string;
-}
-
-interface Comment {
-  id: number;
-  description: string;
-  user: User;
-  userId: number;
-  noteId: number;
-}
+import { User, Comments } from "../../types";
 
 interface Props {
-  comment: Comment;
+  comment: Comments;
   sessionUser: User;
 }
 

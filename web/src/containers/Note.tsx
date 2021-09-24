@@ -3,21 +3,7 @@ import { fetchNote } from "../store/reducers/selectedNote";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import SelectedNote from "../components/Note";
-
-interface Notes {
-  id: number;
-  title: string;
-  description: string;
-  language: string;
-  user: {
-    id: number;
-    username: string;
-    email: string;
-    favorite_notes: { id: number }[];
-    favorite_collections: { id: number }[];
-  };
-  comments: [];
-}
+import { Notes } from "../types";
 
 const Note = () => {
   const dispatch = useAppDispatch();

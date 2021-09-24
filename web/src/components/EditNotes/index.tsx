@@ -3,19 +3,10 @@ import { useAppDispatch } from "../../store/hooks";
 import { fetchUpdateNote } from "../../store/reducers/selectedNote";
 import { deleteNote } from "../../store/reducers/notes";
 import { useHistory } from "react-router-dom";
+import { Notes } from "../../types";
 
 interface Props {
-  note: {
-    id: number;
-    title: string;
-    description: string;
-    language: string;
-    user: {
-      id: number | string;
-      username: string;
-      email: string;
-    };
-  };
+  note: Notes;
   setEdit: Function;
 }
 

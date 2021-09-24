@@ -1,6 +1,7 @@
 import { useAppSelector } from "../../store/hooks";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router";
+
 const Limbo = () => {
   const selectedNote: { id: number } = useAppSelector(
     (state) => state.selectedNote

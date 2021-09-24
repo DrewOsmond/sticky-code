@@ -3,14 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { addNote } from "../../store/reducers/notes";
 import { useHistory } from "react-router";
 import AddCollection from "../addCollection";
-
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  favorite_notes: { id: number }[];
-  collections: { id: number; name: string }[];
-}
+import { User } from "../../types";
 
 const AddNotes: FC = () => {
   const user: User = useAppSelector((state) => state.session);

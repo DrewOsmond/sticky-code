@@ -13,30 +13,31 @@ import { deleteCollection } from "../../store/reducers/sessions";
 import "./index.css";
 import { deleteNote } from "../../store/reducers/notes";
 import { deleteFromCollection } from "../../store/reducers/selectedCollection";
-interface User {
-  id: number | string;
-  username: string;
-  email: string;
-  collections: Collection[];
-}
-interface Note {
-  id: number;
-  title: string;
-  description: string;
-  language: string;
-  userId: number;
-  user: User;
-  comments: [];
-  collection: Collection;
-}
+import { User, Notes, Collection } from "../../types";
+// interface User {
+//   id: number | string;
+//   username: string;
+//   email: string;
+//   collections: Collection[];
+// }
+// interface Note {
+//   id: number;
+//   title: string;
+//   description: string;
+//   language: string;
+//   userId: number;
+//   user: User;
+//   comments: [];
+//   collection: Collection;
+// }
 
-interface Collection {
-  id: number;
-  name: string;
-  notes: Note[];
-  user: User;
-  added_notes: Note[];
-}
+// interface Collection {
+//   id: number;
+//   name: string;
+//   notes: Note[];
+//   user: User;
+//   added_notes: Note[];
+// }
 
 const SelectedCollection: FC = () => {
   const collection: Collection = useAppSelector(
@@ -86,9 +87,9 @@ const SelectedCollection: FC = () => {
 
   const handleDeleteNote: MouseEventHandler<HTMLButtonElement> = (e) => {
     const noteIdToRemove = Number(e.currentTarget.id);
-    const noteToRemove: Note[] = collection.notes
+    const noteToRemove: Notes[] = collection.notes
       .concat(collection.added_notes)
-      .filter((note: Note) => note.id === noteIdToRemove);
+      .filter((note: Notes) => note.id === noteIdToRemove);
 
     if (noteToRemove.length > 0) {
       dispatch(deleteNote(noteToRemove[0]) as any);
@@ -99,9 +100,9 @@ const SelectedCollection: FC = () => {
     e
   ) => {
     const noteIdToRemove = Number(e.currentTarget.id);
-    const noteToRemove: Note[] = collection.notes
+    const noteToRemove: Notes[] = collection.notes
       .concat(collection.added_notes)
-      .filter((note: Note) => note.id === noteIdToRemove);
+      .filter((note: Notes) => note.id === noteIdToRemove);
     dispatch(deleteFromCollection(collection, noteToRemove[0]) as any);
   };
 
@@ -129,7 +130,7 @@ const SelectedCollection: FC = () => {
               collection.added_notes.length > 0) &&
               collection.notes
                 .concat(collection.added_notes)
-                .map((note: Note) => (
+                .map((note: Notes) => (
                   <div className="search__notes">
                     {note.user.id === user.id &&
                     note.collection.id === collection.id ? (
