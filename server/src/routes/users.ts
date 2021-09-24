@@ -45,18 +45,11 @@ router.delete(
   })
 );
 
-// router.post(
-//   "/add-favorite-collection",
-//   asyncHandler(async (req, res) => {
-//     await Collections.addFavorite(req, res);
-//   })
-// );
-
-// router.delete(
-//   "/remove-favorite-collection",
-//   asyncHandler(async (req, res) => {
-//     await Collections.removeFavorite(req, res);
-//   })
-// );
+router.get(
+  "/profile/:user",
+  asyncHandler(async (req, res) => {
+    await Users.getProfile(req, res);
+  })
+);
 
 export default router;

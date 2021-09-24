@@ -33,14 +33,30 @@ export class Users {
 
     if (potentialErrors.length > 0) {
       const errors = getValidationErrors(potentialErrors);
-      res.status(404).send(errors);
+      res.json({
+        id: 0,
+        username: null,
+        email: null,
+        favorite_notes: [],
+        favorite_collections: [],
+        errors: errors,
+      });
+      // res.status(404).send(errors);
       return;
     }
 
     user.stringPasswordToHashed();
 
     await userTable.save(user).catch((_e: any) => {
-      throw new Error("Username or email already in use");
+      res.json({
+        id: 0,
+        username: null,
+        email: null,
+        favorite_notes: [],
+        favorite_collections: [],
+        errors: ["Username or email already in use"],
+      });
+      // throw new Error("Username or email already in use");
     });
     // res.status(409).send('username or email already in use');
     // return;
@@ -63,15 +79,30 @@ export class Users {
       .leftJoinAndSelect("user.collections", "collections")
       .leftJoinAndSelect("collections.added_notes", "added_notes")
       .where("user.username =:username", { username })
-      .getOne()
-      .catch(console.error);
+      .getOne();
+
     if (!user) {
-      res.status(400).send("username or password does not match");
+      res.json({
+        id: 0,
+        username: null,
+        email: null,
+        favorite_notes: [],
+        favorite_collections: [],
+        errors: ["username or password is incorrect"],
+      });
+      // res.status(400).send("username or password is incorrect");
     } else if (user.checkValidPassword(password)) {
       Users.createToken(res, user);
       res.status(200).json(user);
     } else {
-      res.status(400).send("password does not match");
+      res.json({
+        id: 0,
+        username: null,
+        email: null,
+        favorite_notes: [],
+        favorite_collections: [],
+        errors: "password is incorrect",
+      });
     }
   };
 
@@ -96,6 +127,22 @@ export class Users {
     });
     return token;
   }
+
+  static getProfile = async (req: Request, res: Response) => {
+    const username = req.params.user;
+    const data = await createQueryBuilder(User, "users")
+      .leftJoinAndSelect("users.collections", "collections")
+      .leftJoinAndSelect("collections.added_notes", "added_notes")
+      .leftJoinAndSelect("collections.notes", "notes")
+      .leftJoinAndSelect("added_notes.user", "user")
+      .where("collections.personal =:personal", { personal: false })
+      .andWhere("users.username =:username", { username })
+      .getOne();
+
+    if (data) {
+      res.json(data);
+    } else res.json({ id: 0 });
+  };
 
   static restoreUser = async (req: Request, res: Response) => {
     const secret: jwt.Secret = process.env.JWT_SECRET as jwt.Secret;
@@ -124,7 +171,7 @@ export class Users {
         if (query) res.status(200).json(query);
         else
           res.status(200).send({
-            id: null,
+            id: 0,
             username: null,
             email: null,
             favorite_notes: [],

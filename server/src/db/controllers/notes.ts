@@ -52,10 +52,12 @@ export class Notes {
   static getNote = async (id: Number, res: Response) => {
     const note = await createQueryBuilder(Note, "note")
       .innerJoinAndSelect("note.user", "user")
+      .leftJoinAndSelect("note.collection", "collection")
       .leftJoinAndSelect("note.comments", "comments")
       .leftJoinAndSelect("comments.user", "users")
       .where("note.id = :id", { id })
       .getOne();
+
     if (note) {
       res.status(200).json(note);
     } else {

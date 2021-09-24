@@ -19,6 +19,7 @@ export class Collections {
       .where("collections.id = :id", { id })
       .andWhere("user.username = :username", { username })
       .getOne();
+
     if (query) {
       res.json(query);
     } else
