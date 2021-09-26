@@ -1,11 +1,13 @@
 import { Router } from "express";
 import asyncHandler from "express-async-handler";
+import { Users } from "../db/controllers/users";
 import { Collections } from "../db/controllers/collections";
 
 const router = Router();
 
 router.post(
   "/add",
+  Users.verifyUser,
   asyncHandler(async (req, res) => {
     await Collections.addCollection(req, res);
   })
@@ -13,6 +15,7 @@ router.post(
 
 router.delete(
   "/remove",
+  Users.verifyUser,
   asyncHandler(async (req, res) => {
     await Collections.deleteCollection(req, res);
   })
@@ -20,6 +23,7 @@ router.delete(
 
 router.put(
   "/edit",
+  Users.verifyUser,
   asyncHandler(async (req, res) => {
     await Collections.editCollection(req, res);
   })
@@ -34,6 +38,7 @@ router.get(
 
 router.post(
   "/add-note",
+  Users.verifyUser,
   asyncHandler(async (req, res) => {
     await Collections.addNoteToCollection(req, res);
   })
@@ -41,6 +46,7 @@ router.post(
 
 router.delete(
   "/remove-note",
+  Users.verifyUser,
   asyncHandler(async (req, res) => {
     await Collections.deleteNoteFromCollection(req, res);
   })

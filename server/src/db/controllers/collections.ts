@@ -44,40 +44,55 @@ export class Collections {
   };
 
   static deleteCollection = async (req: Request, res: Response) => {
-    const { collection } = req.body;
+    const { collection, user } = req.body;
+    if (collection.user.id !== user.id) {
+      return res.status(400).send("not authorized");
+    }
     const collectionsRepo = getRepository(Collection);
     await collectionsRepo.remove(collection);
-    res.sendStatus(201);
+    return res.sendStatus(201);
   };
 
   static editCollection = async (req: Request, res: Response) => {
-    const { collection, name } = req.body;
+    const { collection, name, isPersonal, user } = req.body;
+    if (collection.user.id !== user.id) {
+      return res.status(400).json("not authorized");
+    }
     const collectionsRepo = getRepository(Collection);
     collection.name = name;
+    collection.personal = isPersonal;
     await collectionsRepo.save(collection);
-    res.json(collection);
+    return res.json(collection);
   };
 
   static addNoteToCollection = async (req: Request, res: Response) => {
-    const { collection, note } = req.body;
+    const { collection, note, user } = req.body;
+    if (collection.user.id !== user.id) {
+      return res.sendStatus(500);
+    }
     const collectionRepo = getRepository(Collection);
     collection.added_notes.push(note);
     const saving = await collectionRepo.save(collection);
 
     if (saving) {
-      res.json(saving);
-    } else res.sendStatus(400);
+      return res.json(saving);
+    } else return res.sendStatus(400);
   };
 
   static deleteNoteFromCollection = async (req: Request, res: Response) => {
-    const { collection, note } = req.body;
+    const { collection, note, user } = req.body;
+    if (collection.user.id !== user.id) {
+      return res.sendStatus(500);
+    }
     const collectionRepo = getRepository(Collection);
     collection.added_notes = collection.added_notes.filter(
       (ele: { id: number }) => ele.id !== note.id
     );
     const updatedCollection = await collectionRepo.save(collection);
     if (updatedCollection) {
-      res.json(updatedCollection);
+      return res.json(updatedCollection);
+    } else {
+      return res.sendStatus(500);
     }
   };
 }

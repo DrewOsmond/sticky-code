@@ -20,17 +20,24 @@ export class Comments {
   };
 
   static deleteComment = async (req: Request, res: Response) => {
-    const { comment } = req.body;
+    const { comment, user } = req.body;
+    if (comment.user.id !== user.id) {
+      return res.status(400).send("not authorized");
+    }
     const CommentsRepo = getRepository(Comment);
     await CommentsRepo.remove(comment);
-    res.sendStatus(201);
+    return res.sendStatus(201);
   };
 
   static updateComment = async (req: Request, res: Response) => {
-    const { comment, update } = req.body;
+    const { comment, update, user } = req.body;
+    if (comment.user.id !== user.id) {
+      return res.status(400).send("not authorized");
+    }
+
     const CommentsRepo = getRepository(Comment);
     comment.description = update;
     const updatedComment = await CommentsRepo.save(comment);
-    res.json(updatedComment);
+    return res.json(updatedComment);
   };
 }

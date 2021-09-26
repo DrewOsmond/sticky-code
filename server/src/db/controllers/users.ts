@@ -2,7 +2,7 @@ import { User } from "../entity/User";
 import { createQueryBuilder, getRepository } from "typeorm";
 import { validate, ValidationError } from "class-validator";
 import { getValidationErrors } from "./errors";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -38,35 +38,31 @@ export class Users {
         username: null,
         email: null,
         favorite_notes: [],
-        favorite_collections: [],
+        collections: [],
         errors: errors,
       });
-      // res.status(404).send(errors);
       return;
     }
 
     user.stringPasswordToHashed();
 
-    await userTable.save(user).catch((_e: any) => {
+    const data = await userTable.save(user).catch((_e: any) => {
       res.json({
         id: 0,
         username: null,
         email: null,
         favorite_notes: [],
-        favorite_collections: [],
+        collections: [],
         errors: ["Username or email already in use"],
       });
-      // throw new Error("Username or email already in use");
     });
-    // res.status(409).send('username or email already in use');
-    // return;
-
-    Users.createToken(res, user);
-    res.status(201).json({ user });
+    if (data) {
+      Users.createToken(res, user);
+      res.status(201).json(data);
+    }
   };
 
   static login = async (req: Request, res: Response): Promise<void> => {
-    // const userTable = getRepository(User);
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -101,7 +97,7 @@ export class Users {
         email: null,
         favorite_notes: [],
         favorite_collections: [],
-        errors: "password is incorrect",
+        errors: ["password is incorrect"],
       });
     }
   };
@@ -144,39 +140,40 @@ export class Users {
     } else res.json({ id: 0 });
   };
 
-  static restoreUser = async (req: Request, res: Response) => {
-    const secret: jwt.Secret = process.env.JWT_SECRET as jwt.Secret;
+  static verifyUser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
     const { token } = req.cookies;
-
+    const secret: jwt.Secret = process.env.JWT_SECRET as jwt.Secret;
     jwt.verify(token, secret, undefined, async (err, jwtPayload: any) => {
-      if (err)
-        res.status(200).json({
-          id: 0,
-          username: null,
-          email: null,
-          favorite_notes: [],
-          favorite_collections: [],
-          collections: [],
-        });
-
+      const { id } = jwtPayload;
+      if (err) {
+        res.status(404).send("not authorized");
+      }
       if (jwtPayload) {
-        const { id } = jwtPayload;
         const query = await createQueryBuilder(User, "user")
           .leftJoinAndSelect("user.favorite_notes", "favorite_notes")
           .leftJoinAndSelect("user.collections", "collections")
+          .leftJoinAndSelect("collections.user", "userId")
           .leftJoinAndSelect("collections.added_notes", "added_notes")
           .where("user.id =:id", { id })
           .getOne()
           .catch(console.error);
-        if (query) res.status(200).json(query);
-        else
-          res.status(200).send({
+        if (query) {
+          req.body.user = query;
+          next();
+        } else {
+          res.status(200).json({
             id: 0,
             username: null,
             email: null,
             favorite_notes: [],
             favorite_collections: [],
+            collections: [],
           });
+        }
       }
     });
   };

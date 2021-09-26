@@ -21,8 +21,11 @@ router.post(
 
 router.get(
   "/restore",
+  Users.verifyUser,
   asyncHandler(async (req, res) => {
-    await Users.restoreUser(req, res);
+    req.body.user
+      ? res.send(req.body.user)
+      : res.status(500).send("something went wrong");
   })
 );
 
@@ -33,6 +36,7 @@ router.delete("/logout", (_req, res) => {
 
 router.post(
   "/add-favorite-note",
+  Users.verifyUser,
   asyncHandler(async (req, res) => {
     await Notes.addFavoriteNotes(req, res);
   })
@@ -40,6 +44,7 @@ router.post(
 
 router.delete(
   "/remove-favorite-note",
+  Users.verifyUser,
   asyncHandler(async (req, res) => {
     await Notes.removeFavoriteNotes(req, res);
   })

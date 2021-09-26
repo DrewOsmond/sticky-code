@@ -31,15 +31,21 @@ export class Notes {
   };
 
   static deleteNote = async (req: Request, res: Response) => {
-    const { note } = req.body;
-    const notesRepo = getRepository(Note);
+    const { note, user } = req.body;
+    if (note.user.id !== user.id) {
+      res.status(400).send("not authorized");
+    }
 
+    const notesRepo = getRepository(Note);
     await notesRepo.remove(note);
     res.sendStatus(201);
   };
 
   static updateNote = async (req: Request, res: Response) => {
-    const { note, title, description } = req.body;
+    const { note, title, description, user } = req.body;
+    if (note.user.id !== user.id) {
+      res.status(400).send("not authorized");
+    }
     const notesRepo = getRepository(Note);
 
     note.title = title;
