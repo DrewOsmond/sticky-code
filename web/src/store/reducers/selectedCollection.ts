@@ -22,6 +22,19 @@ interface Action {
 const SELECT_COLLECTION = "collections/selectCollection";
 const EDIT_COLLECTION = "collections/editCollection";
 const DELETE_NOTE_FROM_COLLECTION = "collections/deleteNoteFromCollection";
+const DELETE_USER_NOTE_FROM_COLLECTION =
+  "collections/deleteUsersNoteFromCollection";
+
+const removePersonalNoteFromCollection = (noteId: number) => {
+  return {
+    type: DELETE_USER_NOTE_FROM_COLLECTION,
+    payload: noteId,
+  };
+};
+
+export const deletePersonalNoteFromCollection =
+  (noteId: number) => (dispatch: Dispatch) =>
+    dispatch(removePersonalNoteFromCollection(noteId));
 
 const makeSelectedCollection = (collection: Collection) => {
   return {
@@ -50,10 +63,12 @@ const editCollections = (collection: Collection) => {
 };
 
 export const editCollection =
-  (collection: Collection, name: string) => async (dispatch: Dispatch) => {
+  (collection: Collection, name: string, personal: string) =>
+  async (dispatch: Dispatch) => {
+    const isPersonal = personal === "private" ? true : false;
     const response = await csrfProtectedFetch("/api/collections/edit", {
       method: "PUT",
-      body: JSON.stringify({ collection, name }),
+      body: JSON.stringify({ collection, name, isPersonal }),
     });
     if (response?.ok) {
       const data = await response.json();
@@ -107,6 +122,12 @@ const selectedCollection = (
     case EDIT_COLLECTION: {
       return action.payload;
     }
+    case DELETE_USER_NOTE_FROM_COLLECTION:
+      const filteredNotes = state.notes.filter(
+        (note) => note.id !== action.payload
+      );
+      state.notes = filteredNotes;
+      return { ...state };
     default:
       return state;
   }

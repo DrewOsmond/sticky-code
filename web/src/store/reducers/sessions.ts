@@ -70,8 +70,7 @@ export const signup = (user: User) => async (dispatch: Dispatch) => {
   });
   if (response?.ok) {
     const userData = await response.json();
-    dispatch(loginUser(userData.user));
-    return response;
+    dispatch(loginUser(userData));
   }
 };
 
@@ -106,16 +105,15 @@ const addFavoriteNotes = (note: Note) => {
   };
 };
 
-export const addFavoriteNote =
-  (user: User, note: Note) => async (dispatch: Dispatch) => {
-    const response = await csrfProtectedFetch("/api/users/add-favorite-note", {
-      method: "POST",
-      body: JSON.stringify({ user, note }),
-    });
-    if (response?.ok) {
-      dispatch(addFavoriteNotes(note));
-    }
-  };
+export const addFavoriteNote = (note: Note) => async (dispatch: Dispatch) => {
+  const response = await csrfProtectedFetch("/api/users/add-favorite-note", {
+    method: "POST",
+    body: JSON.stringify({ note }),
+  });
+  if (response?.ok) {
+    dispatch(addFavoriteNotes(note));
+  }
+};
 
 const removeFromFavoriteNotes = (note: Note) => {
   return {
@@ -125,10 +123,10 @@ const removeFromFavoriteNotes = (note: Note) => {
 };
 
 export const removeFavoriteNote =
-  (user: User, note: Note) => async (dispatch: Dispatch) => {
+  (note: Note) => async (dispatch: Dispatch) => {
     await csrfProtectedFetch("/api/users/remove-favorite-note", {
       method: "DELETE",
-      body: JSON.stringify({ user, note }),
+      body: JSON.stringify({ note }),
     });
     dispatch(removeFromFavoriteNotes(note));
   };
@@ -141,11 +139,10 @@ const addCollection = (collection: Collection) => {
 };
 
 export const createCollection =
-  (user: User, name: string, personal: boolean) =>
-  async (dispatch: Dispatch) => {
+  (name: string, personal: boolean) => async (dispatch: Dispatch) => {
     const response = await csrfProtectedFetch("/api/collections/add", {
       method: "POST",
-      body: JSON.stringify({ name, user, personal }),
+      body: JSON.stringify({ name, personal }),
     });
 
     if (response?.ok) {

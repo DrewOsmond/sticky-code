@@ -11,11 +11,7 @@ import { useAppSelector } from "../../store/hooks";
 import { useHistory } from "react-router";
 import "./index.css";
 import Modal from "../Modal";
-interface User {
-  id: number | string;
-  username: string;
-  email: string;
-}
+import { User } from "../../types";
 
 const UserSessions: FC = (): ReactElement => {
   const user: User = useAppSelector((state) => state.session);

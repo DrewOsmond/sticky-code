@@ -1,9 +1,9 @@
-import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useHistory } from "react-router-dom";
-import ContentPage from "../components/Content";
-import { logout } from "../store/reducers/sessions";
+import ContentPage from "../Content";
+import { logout } from "../../store/reducers/sessions";
 import { MouseEventHandler } from "react";
-import { User } from "../types";
+import { User } from "../../types";
 
 const Profie = () => {
   const user: User = useAppSelector((state) => state.session);

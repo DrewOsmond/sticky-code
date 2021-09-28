@@ -4,6 +4,7 @@ export interface Collection {
   id: number;
   user: User;
   name: string;
+  personal: boolean;
   notes: Notes[];
   added_notes: Notes[];
 }
@@ -14,6 +15,7 @@ export interface User {
   favorite_notes: Notes[];
   favorite_collections: Collection[];
   collections: Collection[];
+  errors?: string[];
 }
 
 export interface Comments {

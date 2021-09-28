@@ -1,14 +1,8 @@
-import {
-  ChangeEventHandler,
-  FC,
-  FormEventHandler,
-  MouseEventHandler,
-  useState,
-} from "react";
+import { FC, FormEventHandler, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../store/hooks";
 import { signup } from "../../store/reducers/sessions";
-import { SignupProps } from "../../types";
+import { SignupProps, User } from "../../types";
 
 const Signup: FC<SignupProps> = ({
   handleChange,
@@ -18,7 +12,7 @@ const Signup: FC<SignupProps> = ({
   const [errors, setErrors] = useState<string[]>([]);
   const { username, email, password, confirmPassword } = credentials;
   const dispatch = useDispatch();
-  const user = useAppSelector((state) => state.session);
+  const user: User = useAppSelector((state) => state.session);
 
   const handleSignup: FormEventHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,8 +33,8 @@ const Signup: FC<SignupProps> = ({
     } else if (password !== confirmPassword) {
       potentialErrors.push("passwords do not match");
     }
-    setErrors(potentialErrors);
     dispatch(signup({ username, email, password }) as any);
+    // setErrors(potentialErrors);
   };
 
   return (
@@ -48,6 +42,7 @@ const Signup: FC<SignupProps> = ({
       <form onSubmit={handleSignup}>
         {errors.length > 0 &&
           errors.map((error, i) => <li key={i}>{error}</li>)}
+        {user?.errors && user.errors.map((err, i) => <li key={i}>{err}</li>)}
         <label htmlFor="username"> username:</label>
         <input
           id="username"

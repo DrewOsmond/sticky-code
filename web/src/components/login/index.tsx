@@ -2,7 +2,7 @@ import { FC, FormEventHandler, ReactElement, useState } from "react";
 import { useHistory } from "react-router";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { login } from "../../store/reducers/sessions";
-import { LoginProps } from "../../types";
+import { LoginProps, User } from "../../types";
 import "./index.css";
 
 const Login: FC<LoginProps> = ({
@@ -13,7 +13,7 @@ const Login: FC<LoginProps> = ({
 }): ReactElement => {
   const dispatch = useAppDispatch();
   const history = useHistory();
-  const user: { id: number } = useAppSelector((state) => state.session);
+  const user: User = useAppSelector((state) => state.session);
   const { username, password } = credentials;
   const [errors, setErrors] = useState<string[]>([]);
 
@@ -34,7 +34,9 @@ const Login: FC<LoginProps> = ({
   return (
     <div className="login-page">
       <form onSubmit={handleLogin}>
-        {errors.length > 0 && errors.map((error, i) => <li>{error}</li>)}
+        {errors.length > 0 &&
+          errors.map((error, i) => <li key={i}>{error}</li>)}
+        {user?.errors && user.errors.map((err, i) => <li key={i}>{err}</li>)}
         <label htmlFor="username"> username: </label>
         <input
           id="username"

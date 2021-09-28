@@ -36,17 +36,17 @@ const SelectedNote: FC<Props> = ({ note }) => {
     e.preventDefault();
     if (!comment) return setErrors(["comment cannot be empty"]);
     else {
-      dispatch(fetchAddComment(comment, note.id, user) as any);
+      dispatch(fetchAddComment(comment, note.id /*, user*/) as any);
       setErrors([]);
       setComment("");
     }
   };
 
   const handleAddFavorite: MouseEventHandler = () =>
-    dispatch(addFavoriteNote(user, note) as any);
+    dispatch(addFavoriteNote(note) as any);
 
   const handleRemoveFavorite: MouseEventHandler = () =>
-    dispatch(removeFavoriteNote(user, note) as any);
+    dispatch(removeFavoriteNote(note) as any);
 
   const handleCollectionChange: FormEventHandler = (
     e: React.ChangeEvent<HTMLInputElement>

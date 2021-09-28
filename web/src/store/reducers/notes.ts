@@ -44,20 +44,18 @@ const add = (note: Note) => {
   };
 };
 
-export const addNote =
-  (note: NewNote, user: User) => async (dispatch: Dispatch) => {
-    const response = await csrfProtectedFetch("/api/notes/add", {
-      method: "POST",
-      body: JSON.stringify({ note, user }),
-    });
-    if (response?.ok) {
-      const data = await response.json();
-      data.user = user;
-      data.comments = [];
-      dispatch(add(data));
-      dispatch(selectNote(data));
-    }
-  };
+export const addNote = (note: NewNote) => async (dispatch: Dispatch) => {
+  const response = await csrfProtectedFetch("/api/notes/add", {
+    method: "POST",
+    body: JSON.stringify({ note }),
+  });
+  if (response?.ok) {
+    const data = await response.json();
+    data.comments = [];
+    dispatch(add(data));
+    dispatch(selectNote(data));
+  }
+};
 
 const dltNote = (id: number) => {
   return {
@@ -69,7 +67,7 @@ const dltNote = (id: number) => {
 export const deleteNote = (note: Note) => async (dispatch: Dispatch) => {
   const { id } = note;
   dispatch(dltNote(id));
-  await csrfProtectedFetch("/api/notes/delete", {
+  const response = await csrfProtectedFetch("/api/notes/delete", {
     method: "DELETE",
     body: JSON.stringify({ note }),
   });

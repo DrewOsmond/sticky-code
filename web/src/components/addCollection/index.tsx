@@ -17,7 +17,7 @@ const AddCollection: FC<Props> = ({ user, setCollection }) => {
     e.preventDefault();
     if (name.length) {
       const isPersonal = personal === "public" ? false : true;
-      dispatch(createCollection(user, name, isPersonal) as any);
+      dispatch(createCollection(name, isPersonal) as any);
       setCollection(name);
     } else {
       setErrors(true);
@@ -33,25 +33,32 @@ const AddCollection: FC<Props> = ({ user, setCollection }) => {
         onChange={(e) => setName(e.currentTarget.value)}
       ></input>
       <button type="submit">add collection</button>
-
       <input
         type="radio"
         id="public"
         value="public"
         name="public collections"
         checked={personal === "public"}
-      />
-      <label htmlFor="public">public collection</label>
-
+        onChange={(e) =>
+          setPersonal(
+            e.currentTarget.id !== personal ? "public" : e.currentTarget.value
+          )
+        }
+      />{" "}
+      public collection
       <input
         type="radio"
         id="private"
         value="private"
         name="private collection"
         checked={personal === "private"}
-        onChange={(e) => setPersonal(e.currentTarget.value)}
+        onChange={(e) =>
+          setPersonal(
+            e.currentTarget.value !== personal ? "private" : e.currentTarget.id
+          )
+        }
       />
-      <label htmlFor="private">private collection</label>
+      private collection
     </form>
   );
 };

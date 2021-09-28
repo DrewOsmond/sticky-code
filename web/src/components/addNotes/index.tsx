@@ -46,15 +46,12 @@ const AddNotes: FC = () => {
       );
       if (collectionId.length > 0) {
         dispatch(
-          addNote(
-            {
-              title,
-              description,
-              language,
-              collectionId: collectionId[0].id,
-            },
-            user
-          ) as any
+          addNote({
+            title,
+            description,
+            language,
+            collectionId: collectionId[0].id,
+          }) as any
         );
       } else {
         setErrors(["please select a collection"]);
@@ -82,7 +79,10 @@ const AddNotes: FC = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         ></input>
-        <select onChange={handleCollectionChange}>
+        <select
+          onChange={handleCollectionChange}
+          defaultValue="select a collection"
+        >
           <option value="select a collection">select a Collection</option>
           {collections.length > 0 &&
             collections.map((collections: { name: string; id: number }) => (

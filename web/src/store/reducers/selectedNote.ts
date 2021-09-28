@@ -40,16 +40,16 @@ const addComment = (comment: Comment) => {
 };
 
 export const fetchAddComment =
-  (comment: string, noteId: number, user: User) =>
+  (comment: string, noteId: number /*, user: User*/) =>
   async (dispatch: Dispatch) => {
     const response = await csrfProtectedFetch("/api/comments/add", {
       method: "POST",
-      body: JSON.stringify({ comment, noteId, user }),
+      body: JSON.stringify({ comment, noteId /*, user*/ }),
     });
 
     if (response?.ok) {
       const data = await response.json();
-      data.user = user;
+      // data.user = user;
       dispatch(addComment(data));
     }
   };

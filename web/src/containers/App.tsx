@@ -7,7 +7,7 @@ import Note from "./Note";
 import RecentResults from "./RecentResults";
 import SearchResults from "./SearchResults";
 import AddNotes from "../components/AddNotes";
-import Profile from "./Profie";
+import Profile from "../components/PersonalProfile/Profie";
 import SelectedCollection from "../components/Collection";
 import Limbo from "../components/Limbo";
 import "./app.css";

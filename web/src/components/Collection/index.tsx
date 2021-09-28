@@ -12,32 +12,11 @@ import { editCollection } from "../../store/reducers/selectedCollection";
 import { deleteCollection } from "../../store/reducers/sessions";
 import "./index.css";
 import { deleteNote } from "../../store/reducers/notes";
-import { deleteFromCollection } from "../../store/reducers/selectedCollection";
+import {
+  deleteFromCollection,
+  deletePersonalNoteFromCollection,
+} from "../../store/reducers/selectedCollection";
 import { User, Notes, Collection } from "../../types";
-// interface User {
-//   id: number | string;
-//   username: string;
-//   email: string;
-//   collections: Collection[];
-// }
-// interface Note {
-//   id: number;
-//   title: string;
-//   description: string;
-//   language: string;
-//   userId: number;
-//   user: User;
-//   comments: [];
-//   collection: Collection;
-// }
-
-// interface Collection {
-//   id: number;
-//   name: string;
-//   notes: Note[];
-//   user: User;
-//   added_notes: Note[];
-// }
 
 const SelectedCollection: FC = () => {
   const collection: Collection = useAppSelector(
@@ -53,10 +32,16 @@ const SelectedCollection: FC = () => {
   const [edit, setEdit] = useState(false);
   const [editName, setEditName] = useState("");
   const [errors, setErrors] = useState(false);
+  const [personal, setPersonal] = useState(
+    collection.personal === true ? "private" : "public"
+  );
 
   useEffect(() => {
     dispatch(selectCollection(Number(id), username) as any);
     setLoaded(true);
+    setTimeout(() => {
+      setPersonal(collection.personal === true ? "private" : "public");
+    }, 100);
   }, []);
 
   const handleSubmit: FormEventHandler = (e) => {
@@ -64,7 +49,7 @@ const SelectedCollection: FC = () => {
     if (editName.length <= 0) {
       return setErrors(true);
     } else {
-      dispatch(editCollection(collection, editName) as any);
+      dispatch(editCollection(collection, editName, personal) as any);
       setEdit(false);
     }
   };
@@ -93,6 +78,7 @@ const SelectedCollection: FC = () => {
 
     if (noteToRemove.length > 0) {
       dispatch(deleteNote(noteToRemove[0]) as any);
+      dispatch(deletePersonalNoteFromCollection(noteToRemove[0].id) as any);
     }
   };
 
@@ -108,7 +94,6 @@ const SelectedCollection: FC = () => {
 
   const handleClick: MouseEventHandler = (e: React.MouseEvent) =>
     history.push(`/note/${e.currentTarget.id}`);
-
   const render = () => {
     if (loaded) {
       if (collection.id !== 0 && !edit) {
@@ -166,6 +151,8 @@ const SelectedCollection: FC = () => {
       } else if (collection.name === "loading") {
         return <div>loading...</div>;
       } else if (edit) {
+        //change this so it is it's own component so it can properly refresh
+
         return (
           <div>
             <form onSubmit={handleSubmit}>
@@ -177,6 +164,36 @@ const SelectedCollection: FC = () => {
                 value={editName}
                 onChange={(e) => setEditName(e.currentTarget.value)}
               ></input>
+              <input
+                type="radio"
+                id="public"
+                value="public"
+                name="public collections"
+                checked={personal === "public"}
+                onChange={(e) =>
+                  setPersonal(
+                    e.currentTarget.id !== personal
+                      ? "public"
+                      : e.currentTarget.id
+                  )
+                }
+              />{" "}
+              public collection
+              <input
+                type="radio"
+                id="private"
+                value="private"
+                name="private collection"
+                checked={personal === "private"}
+                onChange={(e) =>
+                  setPersonal(
+                    e.currentTarget.id !== personal
+                      ? "private"
+                      : e.currentTarget.id
+                  )
+                }
+              />
+              private collection
               <button type="submit">save</button>
             </form>
             <button onClick={() => setEdit(false)}>cancel changes</button>
