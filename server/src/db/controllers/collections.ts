@@ -66,10 +66,8 @@ export class Collections {
   };
 
   static addNoteToCollection = async (req: Request, res: Response) => {
-    const { collection, note, user } = req.body;
-    if (collection.user.id !== user.id) {
-      return res.sendStatus(500);
-    }
+    const { collection, note } = req.body;
+
     const collectionRepo = getRepository(Collection);
     collection.added_notes.push(note);
     const saving = await collectionRepo.save(collection);

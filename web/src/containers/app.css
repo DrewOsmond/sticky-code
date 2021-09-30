@@ -42,7 +42,7 @@ body {
   padding: 1% 1% 1% 1%;
   margin: 15px 15px;
   overflow: auto;
-  display: flex;
+  display: inline-block;
   justify-content: center;
 }
 
@@ -84,4 +84,10 @@ textarea,
 input,
 select {
   outline: none;
+}
+
+button:hover {
+  color: white;
+  cursor: pointer;
+  text-shadow: 1px 1px 1px black;
 }

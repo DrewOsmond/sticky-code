@@ -30,6 +30,7 @@ const SelectedNote: FC<Props> = ({ note }) => {
   const [errors, setErrors] = useState<string[]>([]);
   const [collectionErrors, setCollectionErrors] = useState("");
   const [collection, setCollection] = useState<string>("");
+  const [added, setAdded] = useState(false);
   const dispatch = useAppDispatch();
 
   const handleSubmit: FormEventHandler = (e: React.FormEvent) => {
@@ -70,6 +71,10 @@ const SelectedNote: FC<Props> = ({ note }) => {
         body: JSON.stringify({ collection: collectionId[0], note }),
       });
       if (response?.ok) {
+        setAdded(true);
+        setTimeout(() => {
+          setAdded(false);
+        }, 4000);
       }
     }
   };
@@ -96,7 +101,7 @@ const SelectedNote: FC<Props> = ({ note }) => {
           <div className="selected_note">
             <div>
               by:{" "}
-              <span className="bold">
+              <span className="postUser">
                 <button onClick={handleProfileRedirect}>
                   {`@${note.user.username}`}
                 </button>
@@ -117,6 +122,7 @@ const SelectedNote: FC<Props> = ({ note }) => {
           {collection === "add collection" && (
             <AddCollection user={user} setCollection={setCollection} />
           )}
+          {added && <div>successfully added</div>}
           {user.id !== 0 && (
             <select onChange={handleCollectionChange} value={collection}>
               <option value="select collection" id={"0"}>

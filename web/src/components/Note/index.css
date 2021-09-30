@@ -8,6 +8,7 @@
   overflow: auto;
 }
 
-.bold {
+.postUser {
   font-weight: bold;
+  color: rgb(110, 189, 216);
 }

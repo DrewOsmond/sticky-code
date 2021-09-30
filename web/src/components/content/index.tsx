@@ -25,7 +25,7 @@ const ContentPage: FC<Props> = ({ results }): ReactElement => {
           onClick={handleClick}
         >
           <h5 className="note-title">{note.title}</h5>
-          <div className="note-description">{note.description}</div>
+          {console.log(note)}
         </div>
       ));
   };
