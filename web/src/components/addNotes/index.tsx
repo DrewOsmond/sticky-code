@@ -4,11 +4,12 @@ import { addNote } from "../../store/reducers/notes";
 import { useHistory } from "react-router";
 import AddCollection from "../addCollection";
 import { User } from "../../types";
+import Modal from "../Modal";
+import "./index.css";
 
 const AddNotes: FC = () => {
   const user: User = useAppSelector((state) => state.session);
   const collections = user.collections;
-
   const dispatch = useAppDispatch();
   const history = useHistory();
   const [collection, setCollection] = useState<string>("");
@@ -64,7 +65,7 @@ const AddNotes: FC = () => {
   };
 
   return (
-    <div>
+    <div className="add-note">
       {collection === "add collection" && (
         <AddCollection user={user} setCollection={setCollection} />
       )}

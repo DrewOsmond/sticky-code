@@ -56,7 +56,7 @@ const SearchBar: FC = () => {
         ></input>
 
         <button type="submit" className="search-button">
-          {`  -> Search`}
+          search( )
         </button>
       </span>
     </form>

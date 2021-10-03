@@ -1,14 +1,28 @@
 .selected_note {
-  /* word-wrap: break-word; */
-  overflow-block: auto;
-  /* overflow-wrap: normal; */
-  white-space: pre;
-  border: black solid 1.5px;
+  white-space: pre-wrap;
+  border: darkgrey solid 1.5px;
+  border-radius: 5px;
   margin: 15px 0px;
-  overflow: auto;
+  width: 90%;
 }
 
 .postUser {
   font-weight: bold;
   color: rgb(110, 189, 216);
+}
+
+.note-flex {
+  display: flex;
+  justify-content: center;
+  padding: 10px 10px;
+}
+
+.edit-button {
+  float: right;
+  color: darkgrey;
+}
+
+.edit-button:hover {
+  color: black;
+  text-decoration: 1px solid underline;
 }

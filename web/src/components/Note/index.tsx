@@ -74,7 +74,7 @@ const SelectedNote: FC<Props> = ({ note }) => {
         setAdded(true);
         setTimeout(() => {
           setAdded(false);
-        }, 4000);
+        }, 2000);
       }
     }
   };
@@ -98,24 +98,31 @@ const SelectedNote: FC<Props> = ({ note }) => {
     if (!edit) {
       return (
         <div>
-          <div className="selected_note">
-            <div>
-              by:{" "}
-              <span className="postUser">
-                <button onClick={handleProfileRedirect}>
-                  {`@${note.user.username}`}
+          <div className="note-flex">
+            <div className="selected_note">
+              {user.username === note.user.username && (
+                <button
+                  className="edit-button"
+                  onClick={() => setEdit((prev) => !prev)}
+                >
+                  Edit Note
                 </button>
-              </span>
+              )}
+              <div>
+                by:{" "}
+                <span className="postUser">
+                  <button onClick={handleProfileRedirect}>
+                    {`@${note.user.username}`}
+                  </button>
+                </span>
+              </div>
+              <div>
+                language: <span className="bold">{note.language}</span>
+              </div>
+              <h3>{note.title}</h3>
+              <div>{note.description}</div>
             </div>
-            <div>
-              language: <span className="bold">{note.language}</span>
-            </div>
-            <h3>{note.title}</h3>
-            <div>{note.description}</div>
           </div>
-          {user.username === note.user.username && (
-            <button onClick={() => setEdit((prev) => !prev)}>Edit Note</button>
-          )}
           {user.username !== note.user.username && isFavorite()}
           <br />
 

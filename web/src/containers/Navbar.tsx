@@ -14,7 +14,7 @@ const Navbar: FC = () => {
   return (
     <nav className="nav__bar">
       <div onClick={() => history.push("/")} className="home-button">
-        {`( ) => Home;`}
+        {`( ) => Home`}
       </div>
       <SearchBar />
       {loggedIn && (

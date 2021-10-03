@@ -24,13 +24,20 @@ const ContentPage: FC<Props> = ({ results }): ReactElement => {
           className="notes"
           onClick={handleClick}
         >
-          <h5 className="note-title">{note.title}</h5>
-          {console.log(note)}
+          <div>
+            <div className="note-language">
+              {" "}
+              language:{" "}
+              <span className="note-language-em">{note.language}</span>{" "}
+            </div>
+            <div className="note-title">{note.title}</div>
+          </div>
+          <div className="note-description">{note.description}</div>
         </div>
       ));
   };
 
-  return <section>{renderSearches()}</section>;
+  return <section className="content">{renderSearches()}</section>;
 };
 
 export default ContentPage;
