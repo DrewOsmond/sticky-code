@@ -36,9 +36,6 @@ const App = () => {
         <Route path="/adding-note">
           <Limbo />
         </Route>
-        <Route path="/add-note">
-          <AddNotes />
-        </Route>
         <Route path="/profile" exact>
           <Profile />
         </Route>
