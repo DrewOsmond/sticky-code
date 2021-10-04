@@ -37,15 +37,17 @@ const UserSessions: FC = (): ReactElement => {
   const handleChange: ChangeEventHandler = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
+    let value = e.target.value;
+    if (value[value.length - 1] === " ") return;
     switch (e.target.id) {
       case "username":
-        return setUsername(e.target.value);
+        return setUsername(value);
       case "email":
-        return setEmail(e.target.value);
+        return setEmail(value);
       case "password":
-        return setPassword(e.target.value);
+        return setPassword(value);
       case "confirm_password":
-        return setConfirmPassword(e.target.value);
+        return setConfirmPassword(value);
       default:
         return;
     }

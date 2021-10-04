@@ -27,14 +27,14 @@ const Signup: FC<SignupProps> = ({
     if (!strongPassword) {
       const errorMsg: string =
         password.length >= 8
-          ? "password must contain at least 1 uppercase letter and a number"
+          ? "password must contain at least 1 uppercase letter, a lower case letter, and a number"
           : "password must have at least 8 characters";
       potentialErrors.push(errorMsg);
     } else if (password !== confirmPassword) {
       potentialErrors.push("passwords do not match");
     }
     dispatch(signup({ username, email, password }) as any);
-    // setErrors(potentialErrors);
+    setErrors(potentialErrors);
   };
 
   return (
@@ -54,9 +54,6 @@ const Signup: FC<SignupProps> = ({
           max="12"
           onChange={handleChange}
         ></input>
-
-        <br />
-
         <label htmlFor="email">email:</label>
         <input
           id="email"
@@ -66,9 +63,6 @@ const Signup: FC<SignupProps> = ({
           required
           onChange={handleChange}
         ></input>
-
-        <br />
-
         <label htmlFor="password"> password: </label>
         <input
           id="password"
@@ -78,9 +72,6 @@ const Signup: FC<SignupProps> = ({
           required
           onChange={handleChange}
         ></input>
-
-        <br />
-
         <label htmlFor="confirm_password"> confirm password: </label>
         <input
           id="confirm_password"
@@ -90,9 +81,6 @@ const Signup: FC<SignupProps> = ({
           required
           onChange={handleChange}
         ></input>
-
-        <br />
-
         <button
           type="submit"
           className="signup-button"

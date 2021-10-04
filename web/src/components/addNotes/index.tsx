@@ -38,12 +38,29 @@ const AddNotes: FC<AddNotesProps> = ({ openModal }) => {
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
     const errors: string[] = [];
-    if (!collection) errors.push("Please select a collection");
-    if (!language) errors.push("Please select a language");
-    if (!title) errors.push("Tile cannot be empty");
-    if (!description) errors.push("Description cannot be empty");
-    if (errors.length) setErrors(errors);
-    else {
+    const regExpression = /[a-zA-Z]/g;
+    if (!title.match(regExpression)) {
+      errors.push("Title must contain words");
+    }
+    if (!description.match(regExpression)) {
+      errors.push("Description must contain words");
+    }
+    if (!collection) {
+      errors.push("Please select a collection");
+    }
+    if (!language) {
+      errors.push("Please select a language");
+    }
+    if (!title) {
+      errors.push("Tile cannot be empty");
+    }
+    if (!description) {
+      errors.push("Description cannot be empty");
+    }
+
+    if (errors.length) {
+      setErrors(errors);
+    } else {
       setErrors([]);
       const collectionId: { id: number }[] = collections.filter(
         (col: { name: string }) => col.name === collection
@@ -51,8 +68,8 @@ const AddNotes: FC<AddNotesProps> = ({ openModal }) => {
       if (collectionId.length > 0) {
         dispatch(
           addNote({
-            title,
-            description,
+            title: title.trim(),
+            description: description.trim(),
             language,
             collectionId: collectionId[0].id,
           }) as any
@@ -82,7 +99,7 @@ const AddNotes: FC<AddNotesProps> = ({ openModal }) => {
           type="text"
           placeholder="Title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value.split("  ").join(" "))}
         ></input>
         <select
           onChange={handleCollectionChange}
@@ -126,3 +143,4 @@ const AddNotes: FC<AddNotesProps> = ({ openModal }) => {
 };
 
 export default AddNotes;
+ 

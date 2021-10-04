@@ -32,9 +32,11 @@ const SelectedNote: FC<Props> = ({ note }) => {
   const [collectionErrors, setCollectionErrors] = useState("");
   const [collection, setCollection] = useState<string>("");
   const [added, setAdded] = useState(false);
+  const [showAllCommenters, setShowAllCommenters] = useState(false);
   const dispatch = useAppDispatch();
   const userComments = note.comments.map((com) => com.user.username);
-  const uniqueUserComments: String[] = [];
+  const uniqueCommentsSet: Set<string> = new Set(userComments);
+  const uniqueUserComments: string[] = Array.from(uniqueCommentsSet);
 
   const handleSubmit: FormEventHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,12 +100,6 @@ const SelectedNote: FC<Props> = ({ note }) => {
       return <div>it looks empty in here...</div>;
     }
 
-    for (let user of userComments) {
-      if (uniqueUserComments.indexOf(user) === -1) {
-        uniqueUserComments.push(user);
-      }
-    }
-
     if (uniqueUserComments.length < 3) {
       return (
         <div>
@@ -120,23 +116,35 @@ const SelectedNote: FC<Props> = ({ note }) => {
           {`${note.comments.length} replies from ${uniqueUserComments[0]}, ${
             uniqueUserComments[1]
           }, and ${uniqueUserComments.length - 2} `}
-          <span className="more-replies">more...</span>
+          <span
+            className="more-replies"
+            onClick={() => setShowAllCommenters(true)}
+          >
+            more...
+          </span>
         </div>
       );
     }
   };
 
-  const seeAllComments = () => {};
-
   const handleProfileRedirect: MouseEventHandler = () => {
     history.push(`/profile/${note.user.username}`);
   };
-
+  console.log(uniqueUserComments);
   return (
     <div>
       {edit && (
         <Modal onClose={() => setEdit(false)}>
           <Edit note={note} setEdit={setEdit} />
+        </Modal>
+      )}
+      {showAllCommenters && (
+        <Modal onClose={() => setShowAllCommenters(false)}>
+          <div className="all-commenters">
+            {uniqueUserComments.map((user, i) => (
+              <div key={i}>{user}</div>
+            ))}
+          </div>
         </Modal>
       )}
       <div className="note-flex">
