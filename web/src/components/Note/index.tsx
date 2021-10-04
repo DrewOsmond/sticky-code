@@ -17,6 +17,7 @@ import AddCollection from "../addCollection";
 import "./index.css";
 import { useHistory } from "react-router";
 import { Notes, User } from "../../types";
+import Modal from "../Modal";
 
 interface Props {
   note: Notes;
@@ -32,6 +33,8 @@ const SelectedNote: FC<Props> = ({ note }) => {
   const [collection, setCollection] = useState<string>("");
   const [added, setAdded] = useState(false);
   const dispatch = useAppDispatch();
+  const userComments = note.comments.map((com) => com.user.username);
+  const uniqueUserComments: String[] = [];
 
   const handleSubmit: FormEventHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,97 +93,127 @@ const SelectedNote: FC<Props> = ({ note }) => {
     return <button onClick={handleAddFavorite}>favorite</button>;
   };
 
+  const generateRecentComments = () => {
+    if (note.comments.length === 0) {
+      return <div>it looks empty in here...</div>;
+    }
+
+    for (let user of userComments) {
+      if (uniqueUserComments.indexOf(user) === -1) {
+        uniqueUserComments.push(user);
+      }
+    }
+
+    if (uniqueUserComments.length < 3) {
+      return (
+        <div>
+          {uniqueUserComments.length > 1
+            ? `${note.comments.length} replies from ${uniqueUserComments[0]} and ${uniqueUserComments[1]}`
+            : `${note.comments.length} ${
+                note.comments.length > 1 ? "replies" : "reply"
+              } from ${uniqueUserComments[0]}`}
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          {`${note.comments.length} replies from ${uniqueUserComments[0]}, ${
+            uniqueUserComments[1]
+          }, and ${uniqueUserComments.length - 2} `}
+          <span className="more-replies">more...</span>
+        </div>
+      );
+    }
+  };
+
+  const seeAllComments = () => {};
+
   const handleProfileRedirect: MouseEventHandler = () => {
     history.push(`/profile/${note.user.username}`);
   };
 
-  const render = () => {
-    if (!edit) {
-      return (
-        <div>
-          <div className="note-flex">
-            <div className="selected_note">
-              {user.username === note.user.username && (
-                <button
-                  className="edit-button"
-                  onClick={() => setEdit((prev) => !prev)}
-                >
-                  Edit Note
-                </button>
-              )}
-              <div>
-                by:{" "}
-                <span className="postUser">
-                  <button onClick={handleProfileRedirect}>
-                    {`@${note.user.username}`}
-                  </button>
-                </span>
-              </div>
-              <div>
-                language: <span className="bold">{note.language}</span>
-              </div>
-              <h3>{note.title}</h3>
-              <div>{note.description}</div>
-            </div>
+  return (
+    <div>
+      {edit && (
+        <Modal onClose={() => setEdit(false)}>
+          <Edit note={note} setEdit={setEdit} />
+        </Modal>
+      )}
+      <div className="note-flex">
+        <div className="selected_note">
+          {user.username === note.user.username && (
+            <button
+              className="edit-button"
+              onClick={() => setEdit((prev) => !prev)}
+            >
+              edit note
+            </button>
+          )}
+          <div>
+            by:{" "}
+            <span className="postUser">
+              <button onClick={handleProfileRedirect}>
+                {`@${note.user.username}`}
+              </button>
+            </span>
           </div>
-          {user.username !== note.user.username && isFavorite()}
-          <br />
-
-          {collection === "add collection" && (
-            <AddCollection user={user} setCollection={setCollection} />
-          )}
-          {added && <div>successfully added</div>}
-          {user.id !== 0 && (
-            <select onChange={handleCollectionChange} value={collection}>
-              <option value="select collection" id={"0"}>
-                select collection
-              </option>
-              <option value="add collection" id={"0"}>
-                add collection
-              </option>
-              {user.collections.map((ele) => (
-                <option key={ele.id} value={ele.id} id={`${ele.id}`}>
-                  {ele.name}
-                </option>
-              ))}
-            </select>
-          )}
-          {collectionErrors.length > 0 && <li>{collectionErrors}</li>}
-          {user.id !== 0 && (
-            <button onClick={addNoteToCollection}>add to collection</button>
-          )}
-
-          {user.id !== 0 && (
-            <form onSubmit={handleSubmit}>
-              {edit &&
-                errors.length > 0 &&
-                errors.map((err, i) => <li key={i}>{err}</li>)}
-              <textarea
-                id="comment"
-                placeholder="add comment"
-                value={comment}
-                onChange={(e) => setComment(e.currentTarget.value)}
-              ></textarea>
-              <button type="submit">comment</button>
-            </form>
-          )}
-
-          {note.comments.length > 0 &&
-            note.comments.map((comment) => (
-              <Comment
-                comment={comment as any}
-                sessionUser={user}
-                key={comment.id}
-              />
-            ))}
+          <div>
+            language: <span className="bold">{note.language}</span>
+          </div>
+          <h3>{note.title}</h3>
+          <div>{note.description}</div>
         </div>
-      );
-    } else {
-      return <Edit note={note} setEdit={setEdit} />;
-    }
-  };
-
-  return render();
+      </div>
+      {user.username !== note.user.username && isFavorite()}
+      <br />
+      {collection === "add collection" && (
+        <AddCollection user={user} setCollection={setCollection} />
+      )}
+      {added && <div>successfully added</div>}
+      {user.id !== 0 && (
+        <select onChange={handleCollectionChange} value={collection}>
+          <option value="select collection" id={"0"}>
+            select collection
+          </option>
+          <option value="add collection" id={"0"}>
+            add collection
+          </option>
+          {user.collections.map((ele) => (
+            <option key={ele.id} value={ele.id} id={`${ele.id}`}>
+              {ele.name}
+            </option>
+          ))}
+        </select>
+      )}
+      {collectionErrors.length > 0 && <li>{collectionErrors}</li>}
+      {user.id !== 0 && (
+        <button onClick={addNoteToCollection}>add to collection</button>
+      )}
+      {user.id !== 0 && (
+        <form onSubmit={handleSubmit}>
+          {edit &&
+            errors.length > 0 &&
+            errors.map((err, i) => <li key={i}>{err}</li>)}
+          <textarea
+            id="comment"
+            placeholder="add comment"
+            value={comment}
+            onChange={(e) => setComment(e.currentTarget.value)}
+          ></textarea>
+          <button type="submit">comment</button>
+        </form>
+      )}
+      {generateRecentComments()}
+      {note.comments.length > 0 &&
+        note.comments.map((comment) => (
+          <Comment
+            comment={comment as any}
+            sessionUser={user}
+            key={comment.id}
+          />
+        ))}
+    </div>
+  );
 };
 
 export default SelectedNote;

@@ -1,5 +1,16 @@
 .add-note {
-  margin-top: 60px;
+  margin: 10px 10px;
   display: flex;
   justify-content: center;
+}
+
+.add-note-btn {
+  color: darkgrey;
+  display: block;
+  align-self: center;
+}
+
+.add-note-btn:hover {
+  color: black;
+  text-decoration: 1px solid underline;
 }

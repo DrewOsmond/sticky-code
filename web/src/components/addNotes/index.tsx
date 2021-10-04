@@ -4,10 +4,13 @@ import { addNote } from "../../store/reducers/notes";
 import { useHistory } from "react-router";
 import AddCollection from "../addCollection";
 import { User } from "../../types";
-import Modal from "../Modal";
 import "./index.css";
 
-const AddNotes: FC = () => {
+interface AddNotesProps {
+  openModal: Function;
+}
+
+const AddNotes: FC<AddNotesProps> = ({ openModal }) => {
   const user: User = useAppSelector((state) => state.session);
   const collections = user.collections;
   const dispatch = useAppDispatch();
@@ -54,6 +57,7 @@ const AddNotes: FC = () => {
             collectionId: collectionId[0].id,
           }) as any
         );
+        openModal(false);
       } else {
         setErrors(["please select a collection"]);
       }
@@ -107,11 +111,15 @@ const AddNotes: FC = () => {
         </select>
         <br />
         <textarea
+          rows={10}
+          cols={40}
           value={description}
           placeholder="Add your note"
           onChange={(e) => setDescription(e.target.value)}
         ></textarea>
-        <button type="submit">Add Note</button>
+        <button type="submit" className="add-note-btn">
+          Add Note
+        </button>
       </form>
     </div>
   );

@@ -2,7 +2,7 @@
   white-space: pre-wrap;
   border: darkgrey solid 1.5px;
   border-radius: 5px;
-  margin: 15px 0px;
+  padding: 10px 10px;
   width: 90%;
 }
 
@@ -11,7 +11,12 @@
   color: rgb(110, 189, 216);
 }
 
+.postUser:hover {
+  color: rgb(82, 153, 177);
+}
+
 .note-flex {
+  margin-top: 60px;
   display: flex;
   justify-content: center;
   padding: 10px 10px;

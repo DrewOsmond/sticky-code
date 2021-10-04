@@ -15,9 +15,10 @@
   border: lightgray solid 2px;
   border-radius: 5px;
   padding: 1% 1% 1% 1%;
-  margin: 15px 15px;
+  margin: 10px auto;
   overflow: hidden;
   word-wrap: inherit;
+  max-width: 800px;
 }
 
 .notes:hover {

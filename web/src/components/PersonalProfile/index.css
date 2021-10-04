@@ -1,0 +1,14 @@
+.user-profile {
+  margin-top: 60px;
+}
+
+.logout-btn {
+  color: rgb(87, 86, 86);
+  float: right;
+  margin-right: 30px;
+}
+
+.logout-btn:hover {
+  color: black;
+  border-bottom: 1px solid black;
+}

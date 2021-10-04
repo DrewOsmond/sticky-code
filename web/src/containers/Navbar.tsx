@@ -28,7 +28,7 @@ const Navbar: FC = () => {
       )}
       {showCreateNote && (
         <Modal onClose={() => setShowCreateNote(false)}>
-          <AddNotes />
+          <AddNotes openModal={setShowCreateNote} />
         </Modal>
       )}
       <UserSessions />

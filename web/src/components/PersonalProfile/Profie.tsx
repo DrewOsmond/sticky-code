@@ -4,6 +4,7 @@ import ContentPage from "../Content";
 import { logout } from "../../store/reducers/sessions";
 import { MouseEventHandler } from "react";
 import { User } from "../../types";
+import "./index.css";
 
 const Profie = () => {
   const user: User = useAppSelector((state) => state.session);
@@ -19,8 +20,12 @@ const Profie = () => {
   };
 
   return (
-    <section>
-      {user.id !== 0 && <button onClick={signout}>logout</button>}
+    <section className="user-profile">
+      {user.id !== 0 && (
+        <button className="logout-btn" onClick={signout}>
+          logout( )
+        </button>
+      )}
       <h2>{username}</h2>
       {user.collections.length > 0 ? (
         <p>Your collections:</p>
