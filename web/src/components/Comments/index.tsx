@@ -6,6 +6,7 @@ import {
 } from "../../store/reducers/selectedNote";
 import "./index.css";
 import { User, Comments } from "../../types";
+import { useHistory } from "react-router-dom";
 
 interface Props {
   comment: Comments;
@@ -17,6 +18,7 @@ const Comment: FC<Props> = ({ comment, sessionUser }) => {
   const [errors, setErrors] = useState<string[]>([]);
   const [edit, setEdit] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const handleDelete: FormEventHandler = (e: FormEvent) => {
     e.preventDefault();
@@ -39,10 +41,23 @@ const Comment: FC<Props> = ({ comment, sessionUser }) => {
     <div>
       {!edit && (
         <div className="note_comments">
-          <div>{comment.user.username}:</div> <div>{comment.description}</div>
-          {comment.user.username === sessionUser.username && (
-            <button onClick={() => setEdit((prev) => !prev)}>edit</button>
-          )}
+          <div className="comment-user-info">
+            {comment.user.username === sessionUser.username && (
+              <button
+                onClick={() => setEdit((prev) => !prev)}
+                className="comment-edit-btn"
+              >
+                edit
+              </button>
+            )}
+            <div
+              className="comment-user"
+              onClick={() => history.push(`/profile/${comment.user.username}`)}
+            >
+              @{comment.user.username}
+            </div>
+            <div className="comment-description">{comment.description}</div>
+          </div>
         </div>
       )}
       {edit && (

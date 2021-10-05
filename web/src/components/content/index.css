@@ -15,10 +15,12 @@
   border: lightgray solid 2px;
   border-radius: 5px;
   padding: 1% 1% 1% 1%;
-  margin: 10px auto;
+  margin: 10px 10px;
   overflow: hidden;
   word-wrap: inherit;
-  max-width: 800px;
+  min-width: 340px;
+  max-width: 650px;
+  width: 450px;
 }
 
 .notes:hover {
@@ -31,7 +33,7 @@
   display: flex;
   word-wrap: break-all;
   white-space: initial;
-  margin: 15px 15px;
+  margin: 8px 8px;
 }
 
 .note-language {
@@ -49,4 +51,7 @@
 
 .content {
   margin-top: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }

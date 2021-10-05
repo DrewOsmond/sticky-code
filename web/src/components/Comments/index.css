@@ -1,5 +1,30 @@
 .note_comments {
+  display: flex;
+  flex-direction: column;
   white-space: pre;
-  padding: 5px 15px;
+  padding: 3px 3px;
   border: black solid 1.5px;
+}
+
+.comment-user-info {
+  display: flex;
+}
+
+.comment-user {
+  display: inline-block;
+  font-weight: bold;
+  color: rgb(110, 189, 216);
+}
+
+.comment-user:hover {
+  color: rgb(82, 153, 177);
+  cursor: pointer;
+}
+
+.comment-edit-btn {
+  float: right;
+}
+
+.comment-description {
+  display: block;
 }
