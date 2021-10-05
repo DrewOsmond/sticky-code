@@ -37,7 +37,7 @@ const ContentPage: FC<Props> = ({ results }): ReactElement => {
       ));
   };
 
-  return <section className="content">{renderSearches()}</section>;
+  return <section className="">{renderSearches()}</section>;
 };
 
 export default ContentPage;

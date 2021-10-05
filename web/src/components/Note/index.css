@@ -4,6 +4,7 @@
   border-radius: 5px;
   padding: 10px 10px;
   width: 90%;
+  max-width: 800px;
 }
 
 .postUser {
@@ -33,15 +34,23 @@
 }
 
 .more-replies {
-  color: lightblue;
+  color: rgb(110, 189, 216);
 }
 
 .more-replies:hover {
   cursor: pointer;
-  color: lightskyblue;
+  color: rgb(82, 153, 177);
 }
 
 .all-commenters {
-  height: 100px;
+  height: 100spx;
   width: 100px;
+}
+
+.all-note-comments {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* justify-content: center; */
+  align-items: center;
 }

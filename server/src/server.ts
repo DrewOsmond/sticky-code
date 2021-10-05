@@ -10,7 +10,9 @@ import { Note } from "./db/entity/Note";
 import { Comment } from "./db/entity/Comment";
 import { Collection } from "./db/entity/Collection";
 import "reflect-metadata";
+import path from "path";
 import * as dotenv from "dotenv";
+const router = express.Router();
 dotenv.config();
 
 const startConnection = async () => {
@@ -35,6 +37,20 @@ const startConnection = async () => {
   app.use(helmet());
   app.use(morgan("tiny"));
   app.use("/api", routes);
+
+  if (process.env.NODE_ENV === "production") {
+    app.get("/", (req, res) => {
+      res.cookie("XSRF-TOKEN", req.csrfToken());
+      res.sendFile(path.resolve(__dirname, "../../web", "build", "index.html"));
+    });
+
+    router.use(express.static(path.resolve("../web/build")));
+
+    app.get(/^(?!\/?api).*/, (req, res) => {
+      res.cookie("XSRF-TOKEN", req.csrfToken());
+      res.sendFile(path.resolve(__dirname, "../../web", "build", "index.html"));
+    });
+  }
 };
 
 // import { seed } from "./seeder";

@@ -61,14 +61,19 @@ const Comment: FC<Props> = ({ comment, sessionUser }) => {
         </div>
       )}
       {edit && (
-        <form onSubmit={handleSave}>
+        <form onSubmit={handleSave} className="edit-comment-form">
           {errors.length > 0 && errors.map((err, i) => <li key={i}>{err}</li>)}
           <textarea
             value={editComment}
             onChange={(e) => setEditComment(e.currentTarget.value)}
+            className="edit-comment-textarea"
           ></textarea>
-          <button type="submit">save</button>
-          <button onClick={handleDelete}>delete</button>
+          <button onClick={handleDelete} className="delete-comment-btn">
+            delete
+          </button>
+          <button type="submit" className="save-comment-btn">
+            save
+          </button>
         </form>
       )}
     </div>

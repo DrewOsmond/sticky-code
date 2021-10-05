@@ -142,7 +142,14 @@ const SelectedNote: FC<Props> = ({ note }) => {
         <Modal onClose={() => setShowAllCommenters(false)}>
           <div className="all-commenters">
             {uniqueUserComments.map((user, i) => (
-              <div key={i}>{user}</div>
+              <div
+                key={i}
+                id={user}
+                className="comment-username"
+                onClick={(e) => history.push(`/profile/${e.currentTarget.id}`)}
+              >
+                {user}
+              </div>
             ))}
           </div>
         </Modal>
@@ -211,15 +218,17 @@ const SelectedNote: FC<Props> = ({ note }) => {
           <button type="submit">comment</button>
         </form>
       )}
-      {generateRecentComments()}
-      {note.comments.length > 0 &&
-        note.comments.map((comment) => (
-          <Comment
-            comment={comment as any}
-            sessionUser={user}
-            key={comment.id}
-          />
-        ))}
+      <div className="all-note-comments">
+        {generateRecentComments()}
+        {note.comments.length > 0 &&
+          note.comments.map((comment) => (
+            <Comment
+              comment={comment as any}
+              sessionUser={user}
+              key={comment.id}
+            />
+          ))}
+      </div>
     </div>
   );
 };
