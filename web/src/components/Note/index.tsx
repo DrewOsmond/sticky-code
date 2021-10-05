@@ -130,7 +130,7 @@ const SelectedNote: FC<Props> = ({ note }) => {
   const handleProfileRedirect: MouseEventHandler = () => {
     history.push(`/profile/${note.user.username}`);
   };
-  console.log(uniqueUserComments);
+
   return (
     <div>
       {edit && (

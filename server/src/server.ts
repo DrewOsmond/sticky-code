@@ -25,7 +25,7 @@ const startConnection = async () => {
     database: process.env.DB_DATABASE,
     entities: [User, Note, Comment, Collection],
     synchronize: false,
-    extra: { ssl: true },
+    // extra: { ssl: true },
   });
 
   const port: number = Number(process.env.PORT) || 5000;
