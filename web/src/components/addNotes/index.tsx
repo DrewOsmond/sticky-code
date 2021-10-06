@@ -2,7 +2,7 @@ import React, { FC, useState, FormEventHandler } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { addNote } from "../../store/reducers/notes";
 import { useHistory } from "react-router";
-import AddCollection from "../addCollection/index";
+import AddCollection from "../AddCollection/index";
 import { User } from "../../types";
 import "./index.css";
 
@@ -10,7 +10,7 @@ interface AddNotesProps {
   openModal: Function;
 }
 
-const AddNotes: FC<AddNotesProps> = ({ openModal }) => { 
+const AddNotes: FC<AddNotesProps> = ({ openModal }) => {
   const user: User = useAppSelector((state) => state.session);
   const collections = user.collections;
   const dispatch = useAppDispatch();
