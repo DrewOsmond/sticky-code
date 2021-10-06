@@ -12,6 +12,8 @@ import { Collection } from "./db/entity/Collection";
 import "reflect-metadata";
 import path from "path";
 import * as dotenv from "dotenv";
+// import { Request, Response } from "express";
+// const config = require(__dirname + "/../ormconfig.ts");
 const router = express.Router();
 dotenv.config();
 
@@ -40,14 +42,14 @@ const startConnection = async () => {
   app.use("/api", routes);
 
   if (process.env.NODE_ENV === "production") {
-    app.get("/", (req, res) => {
+    app.get("/", (req: any, res: any) => {
       res.cookie("XSRF-TOKEN", req.csrfToken());
       res.sendFile(path.resolve(__dirname, "../../web", "build", "index.html"));
     });
 
     router.use(express.static(path.resolve("../web/build")));
 
-    app.get(/^(?!\/?api).*/, (req, res) => {
+    app.get(/^(?!\/?api).*/, (req: any, res: any) => {
       res.cookie("XSRF-TOKEN", req.csrfToken());
       res.sendFile(path.resolve(__dirname, "../../web", "build", "index.html"));
     });
