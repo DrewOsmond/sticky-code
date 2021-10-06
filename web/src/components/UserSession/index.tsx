@@ -5,8 +5,8 @@ import {
   ChangeEventHandler,
   MouseEventHandler,
 } from "react";
-import Login from "../login";
-import Signup from "../signup";
+import Login from "../login/index";
+import Signup from "../signup/index";
 import { useAppSelector } from "../../store/hooks";
 import { useHistory } from "react-router";
 import "./index.css";

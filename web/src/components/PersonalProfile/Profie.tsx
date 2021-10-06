@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useHistory } from "react-router-dom";
-import ContentPage from "../Content";
+import ContentPage from "../Content/index";
 import { logout } from "../../store/reducers/sessions";
 import { MouseEventHandler } from "react";
 import { User } from "../../types";
