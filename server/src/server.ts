@@ -42,14 +42,14 @@ const startConnection = async () => {
   app.use("/api", routes);
 
   if (process.env.NODE_ENV === "production") {
-    app.get("/", (req: any, res: any) => {
+    app.get("/", (req, res) => {
       res.cookie("XSRF-TOKEN", req.csrfToken());
       res.sendFile(path.resolve(__dirname, "../../web", "build", "index.html"));
     });
 
     router.use(express.static(path.resolve("../web/build")));
 
-    app.get(/^(?!\/?api).*/, (req: any, res: any) => {
+    app.get(/^(?!\/?api).*/, (req, res) => {
       res.cookie("XSRF-TOKEN", req.csrfToken());
       res.sendFile(path.resolve(__dirname, "../../web", "build", "index.html"));
     });
