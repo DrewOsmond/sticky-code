@@ -10,7 +10,7 @@ interface AddNotesProps {
   openModal: Function;
 }
 
-const AddNotes: FC<AddNotesProps> = ({ openModal }) => {
+const AddNotes: FC<AddNotesProps> = ({ openModal }) => { 
   const user: User = useAppSelector((state) => state.session);
   const collections = user.collections;
   const dispatch = useAppDispatch();
