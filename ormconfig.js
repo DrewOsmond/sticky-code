@@ -1,4 +1,4 @@
-export default {
+connection = {
   type: "postgres",
   host: process.env.DB_HOST,
   port: 5432,
