@@ -5,7 +5,7 @@ import SearchBar from "../components/SearchBar/index";
 import { useHistory } from "react-router-dom";
 import { User } from "../types";
 import "./app.css";
-import AddNotes from "../components/AddNotes/index";
+import AddNotes from "../components/addNotes/index";
 import Modal from "../components/Modal/index";
 
 const Navbar: FC = () => {

@@ -2,7 +2,7 @@ import React, { FC, useState, FormEventHandler } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { addNote } from "../../store/reducers/notes";
 import { useHistory } from "react-router";
-import AddCollection from "../AddCollection/index";
+import AddCollection from "../addCollection/index";
 import { User } from "../../types";
 import "./index.css";
 

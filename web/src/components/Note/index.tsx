@@ -13,7 +13,7 @@ import {
 import { csrfProtectedFetch } from "../../store/csrfProtection";
 import Edit from "../EditNotes/index";
 import Comment from "../Comments/index";
-import AddCollection from "../AddCollection/index";
+import AddCollection from "../addCollection/index";
 import "./index.css";
 import { useHistory } from "react-router";
 import { Notes, User } from "../../types";
