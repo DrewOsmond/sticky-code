@@ -1,5 +1,5 @@
 import { useAppSelector, useAppDispatch } from "../store/hooks";
-import ContentPage from "../components/Content";
+import ContentPage from "../components/Content/index";
 import { useEffect } from "react";
 import { recentSearch } from "../store/reducers/searchResults";
 

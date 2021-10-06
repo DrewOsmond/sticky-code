@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { fetchNote } from "../store/reducers/selectedNote";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import SelectedNote from "../components/Note";
+import SelectedNote from "../components/Note/index";
 import { Notes } from "../types";
 
 const Note = () => {

@@ -6,12 +6,11 @@ import Navbar from "./Navbar";
 import Note from "./Note";
 import RecentResults from "./RecentResults";
 import SearchResults from "./SearchResults";
-import AddNotes from "../components/AddNotes";
 import Profile from "../components/PersonalProfile/Profie";
-import SelectedCollection from "../components/Collection";
-import Limbo from "../components/Limbo";
+import SelectedCollection from "../components/Collection/index";
+import Limbo from "../components/Limbo/index";
 import "./app.css";
-import UserProfile from "../components/Profile";
+import UserProfile from "../components/Profile/index";
 
 const App = () => {
   const dispatch = useAppDispatch();

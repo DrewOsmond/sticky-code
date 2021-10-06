@@ -1,12 +1,12 @@
 import { FC, useState } from "react";
 import { useAppSelector } from "../store/hooks";
-import UserSessions from "../components/UserSession";
-import SearchBar from "../components/SearchBar";
+import UserSessions from "../components/UserSession/index";
+import SearchBar from "../components/SearchBar/index";
 import { useHistory } from "react-router-dom";
 import { User } from "../types";
 import "./app.css";
 import AddNotes from "../components/AddNotes/index";
-import Modal from "../components/Modal";
+import Modal from "../components/Modal/index";
 
 const Navbar: FC = () => {
   const user: User = useAppSelector((state) => state.session);
