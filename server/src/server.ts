@@ -51,7 +51,7 @@ const startConnection = async () => {
 
     app.get(/^(?!\/?api).*/, (req, res) => {
       res.cookie("XSRF-TOKEN", req.csrfToken());
-      res.sendFile(path.join(__dirname, "index.html"));
+      res.sendFile(path.join(__dirname, "/index.html"));
     });
   }
 };
