@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run install-frontend && npm run install-backend && npm run migration && cd web && npm run build",
+    "build": "npm run install-frontend && npm run install-backend && cd server tsc && npm run migration && cd web && npm run build",
     "start": "cd server && npm run start",
     "install-frontend": "cd web && npm install",
     "install-backend": "cd server && npm install",
