@@ -12,8 +12,6 @@ import { Collection } from "./db/entity/Collection";
 import "reflect-metadata";
 import path from "path";
 import * as dotenv from "dotenv";
-// import { Request, Response } from "express";
-// const config = require(__dirname + "/../ormconfig.ts");
 const router = express.Router();
 dotenv.config();
 
@@ -56,9 +54,6 @@ const startConnection = async () => {
   }
 };
 
-// import { seed } from "./seeder";
-
 startConnection()
   .then(() => console.log("connection to DB started"))
-  // .then(() => seed())
   .catch(console.error);
