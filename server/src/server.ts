@@ -28,7 +28,7 @@ const startConnection = async () => {
     // extra: { ssl: true },
   });
 
-  const port: number = Number(process.env.PORT) || 5000;
+  const port = process.env.PORT;
   const app = express();
 
   app.listen(port, () => console.log(`listening on port: ${port}`));
