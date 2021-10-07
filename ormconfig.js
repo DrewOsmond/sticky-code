@@ -18,3 +18,4 @@ connection = {
     subscribersDir: "src/db/subscriber",
   },
 };
+
