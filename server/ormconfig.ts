@@ -1,4 +1,4 @@
-connection = {
+module.exports = {
   type: "postgres",
   driver: "postgres",
   host: process.env.DB_HOST,
@@ -18,4 +18,3 @@ connection = {
     subscribersDir: "src/db/subscriber",
   },
 };
-
