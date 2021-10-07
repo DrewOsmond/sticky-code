@@ -42,7 +42,9 @@ const startConnection = async () => {
   if (process.env.NODE_ENV === "production") {
     app.get("/", (req, res) => {
       res.cookie("XSRF-TOKEN", req.csrfToken());
-      res.sendFile(path.resolve(__dirname, "../web", "build", "index.html"));
+      res.sendFile(
+        path.resolve(__dirname, "../../web/public", "build", "index.html")
+      );
     });
 
     router.use(express.static(path.resolve("../web/build")));
