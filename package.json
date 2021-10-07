@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run install-frontend && npm run install-backend && npm run compile && npm run migration && cd web && npm run build",
     "start": "cd server && npm run start",
-    "compile": "cd server && tsc",
+    "compile": "cd server && npm i typescript && npm run tsc",
     "install-frontend": "cd web && npm install",
     "install-backend": "cd server && npm install",
     "migration": "cd server npx typeorm migration:run",
