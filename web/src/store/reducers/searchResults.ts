@@ -28,7 +28,8 @@ export const searchFor =
   (searchTerms: string[]) => async (dispatch: Dispatch) => {
     const [term, language] = searchTerms;
     const response = await csrfProtectedFetch(
-      `/api/search/${language}/${term}`
+      // `/api/search/${language}/${term}`
+      `/api/search/${term}`
     ).catch(console.error);
     if (response) {
       const data: Object[] = await response.json();

@@ -4,12 +4,11 @@ import { Note } from "../entity/Note";
 
 export class Searches {
   static searchNotes = async (res: Response, params: string[]) => {
-    const [language, searchterm] = params;
+    const [searchterm] = params;
     const NoteRepo = getRepository(Note);
     const query = await NoteRepo.find({
       where: [
         { title: Like(`%${searchterm}%`) },
-        { language },
         { description: Like(`%${searchterm}%`) },
       ],
     });

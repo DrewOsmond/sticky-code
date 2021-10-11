@@ -1,6 +1,10 @@
 .search-bar {
   border-radius: 5px;
   text-align: center;
+  color: rgb(87, 87, 87);
+  border: black solid 0px;
+  box-shadow: 0px 0px 5px gray;
+  height: 22.5px;
 }
 
 .search-button {
