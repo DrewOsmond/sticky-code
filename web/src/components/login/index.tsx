@@ -23,12 +23,12 @@ const Login: FC<LoginProps> = ({
     if (!username || !password) return setErrors(["information is invalid"]);
     setErrors(potentialErrors);
     dispatch(login({ username, password }) as any);
-    setTimeout(() => {
-      if (user.id !== 0) {
-        clearResults();
-        history.push("/");
-      }
-    }, 80);
+    // setTimeout(() => {
+    //   if (user.id !== 0) {
+    //     clearResults();
+    //     history.push("/");
+    //   }
+    // }, 80);
   };
 
   return (

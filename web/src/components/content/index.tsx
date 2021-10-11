@@ -26,9 +26,8 @@ const ContentPage: FC<Props> = ({ results }): ReactElement => {
         >
           <div>
             <div className="note-language">
-              {" "}
-              language:{" "}
-              <span className="note-language-em">{note.language}</span>{" "}
+              language:
+              <span className="note-language-em">{note.language}</span>
             </div>
             <div className="note-title">{note.title}</div>
           </div>
@@ -37,7 +36,7 @@ const ContentPage: FC<Props> = ({ results }): ReactElement => {
       ));
   };
 
-  return <section className="">{renderSearches()}</section>;
+  return <section className="content">{renderSearches()}</section>;
 };
 
 export default ContentPage;

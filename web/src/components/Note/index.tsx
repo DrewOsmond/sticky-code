@@ -42,7 +42,7 @@ const SelectedNote: FC<Props> = ({ note }) => {
     e.preventDefault();
     if (!comment) return setErrors(["comment cannot be empty"]);
     else {
-      dispatch(fetchAddComment(comment, note.id /*, user*/) as any);
+      dispatch(fetchAddComment(comment, note.id) as any);
       setErrors([]);
       setComment("");
     }
@@ -89,10 +89,18 @@ const SelectedNote: FC<Props> = ({ note }) => {
     if (!user.username && user.favorite_notes.length <= 0) return <div></div>;
     for (let favorite of user.favorite_notes) {
       if (favorite.id === note.id) {
-        return <button onClick={handleRemoveFavorite}>unfavorite</button>;
+        return (
+          <div onClick={handleRemoveFavorite}>
+            <i className="fas fa-heart"></i>
+          </div>
+        );
       }
     }
-    return <button onClick={handleAddFavorite}>favorite</button>;
+    return (
+      <div onClick={handleAddFavorite}>
+        <i className="far fa-heart"></i>
+      </div>
+    );
   };
 
   const generateRecentComments = () => {
@@ -164,19 +172,16 @@ const SelectedNote: FC<Props> = ({ note }) => {
               edit note
             </button>
           )}
-          <div>
-            by:{" "}
-            <span className="postUser">
-              <button onClick={handleProfileRedirect}>
-                {`@${note.user.username}`}
-              </button>
-            </span>
-          </div>
-          <div>
+          <a
+            className="postUser"
+            onClick={handleProfileRedirect}
+          >{`@${note.user.username}`}</a>
+
+          <div className="note-language">
             language: <span className="bold">{note.language}</span>
           </div>
-          <h3>{note.title}</h3>
-          <div>{note.description}</div>
+          <h3 className="note-title">{note.title}</h3>
+          <div className="note-description">{note.description}</div>
         </div>
       </div>
       {user.username !== note.user.username && isFavorite()}
@@ -212,6 +217,8 @@ const SelectedNote: FC<Props> = ({ note }) => {
           <textarea
             id="comment"
             placeholder="add comment"
+            rows={6}
+            cols={40}
             value={comment}
             onChange={(e) => setComment(e.currentTarget.value)}
           ></textarea>

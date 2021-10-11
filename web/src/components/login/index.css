@@ -1,3 +1,15 @@
 .login-page {
   background-color: lightskyblue;
 }
+
+.login {
+  color: rgb(82, 82, 82);
+}
+
+.login:hover {
+  color: black;
+}
+
+.signup-button {
+  background-color: lightgray;
+}

@@ -21,10 +21,11 @@
   min-width: 340px;
   max-width: 650px;
   width: 450px;
+  box-shadow: 0px 0px 3px 1px gray;
 }
 
 .notes:hover {
-  border: 2px solid black;
+  box-shadow: 0px 0px 3px 1px black;
   cursor: pointer;
 }
 
@@ -34,10 +35,11 @@
   word-wrap: break-all;
   white-space: initial;
   margin: 8px 8px;
+  font-size: 1.3em;
 }
 
 .note-language {
-  font-size: 12px;
+  font-size: 0.75em;
 }
 
 .note-language-em {
@@ -50,7 +52,7 @@
 }
 
 .content {
-  margin-top: 60px;
+  margin-top: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

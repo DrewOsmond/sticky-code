@@ -17,14 +17,16 @@ const Navbar: FC = () => {
   return (
     <nav className="nav__bar">
       <div onClick={() => history.push("/")} className="home-button">
-        {`( ) => Home`}
+        Sticky Code
       </div>
       <SearchBar />
       {loggedIn && (
         <button
           className="create-note-button"
           onClick={() => setShowCreateNote(true)}
-        >{`{ Create Note }`}</button>
+        >
+          Create Note
+        </button>
       )}
       {showCreateNote && (
         <Modal onClose={() => setShowCreateNote(false)}>

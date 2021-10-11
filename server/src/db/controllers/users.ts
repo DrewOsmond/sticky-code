@@ -146,6 +146,7 @@ export class Users {
     next: NextFunction
   ) => {
     const { token } = req.cookies;
+    if (!token) return;
     const secret: jwt.Secret = process.env.JWT_SECRET as jwt.Secret;
     jwt.verify(token, secret, undefined, async (err, jwtPayload: any) => {
       const { id } = jwtPayload;

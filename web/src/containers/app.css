@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: blanchedalmond;
+  font-size: 14px;
 }
 
 code {
@@ -12,42 +14,55 @@ code {
     monospace;
 }
 
-body {
-  background-color: white;
-}
-
 .nav__bar {
   display: flex;
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   flex-wrap: wrap;
   background-color: lightblue;
   align-items: center;
-  border-bottom: black solid 1.5px;
   justify-content: space-around;
   height: 45px;
+  box-shadow: 0px 0px 3px 1px gray;
 }
 
 .home-button {
-  color: black;
+  background-color: rgb(221, 221, 221);
+  padding: 5px 5px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px gray;
+  color: rgb(87, 87, 87);
 }
 
 .home-button:hover {
-  border-bottom: 2px solid black;
   cursor: pointer;
+  color: black;
+  box-shadow: 0px 0px 2px black;
 }
 
 .note-title {
   justify-content: center;
 }
 
-.create-note-button:hover,
 .login-button:hover,
-.search-button:hover,
 .signup-button:hover,
 .signup-button:hover {
   border-bottom: 2px solid black;
+}
+
+.create-note-button {
+  background-color: rgb(221, 221, 221);
+  padding: 5px 5px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px gray;
+  color: rgb(87, 87, 87);
+}
+
+.create-note-button:hover {
+  color: black;
+  box-shadow: 0px 0px 2px black;
+  cursor: pointer;
 }
 
 /* select {
@@ -68,3 +83,20 @@ select {
   cursor: pointer;
   text-shadow: 1px 1px 1px black;
 } */
+
+/*
+fix the issue where collection displays private collections and shows delete options when you go to /collectionsuser/number
+
+- lacks images
+   - potential fixes 
+      - user can add photos
+  
+  - add icons to profile
+
+  - make title bigger for each note
+  - make search look like a button
+    - 
+
+  - make it so it shows passwords are not matching
+  - make it so we aren't making a request for register if frontend validation doesn't work
+*/

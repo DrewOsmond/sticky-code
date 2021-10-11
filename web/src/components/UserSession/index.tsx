@@ -92,12 +92,12 @@ const UserSessions: FC = (): ReactElement => {
       )}
 
       {user.id !== 0 && (
-        <button
-          onClick={() => history.push("/profile")}
-          className="profile-button"
-        >
-          {`<${user.username} />`}
-        </button>
+        <div>
+          <i
+            className="far fa-user"
+            onClick={() => history.push("/profile")}
+          ></i>
+        </div>
       )}
     </>
   );
