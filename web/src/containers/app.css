@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: blanchedalmond;
+  background-color: whitesmoke;
   font-size: 14px;
 }
 
@@ -24,21 +24,21 @@ code {
   align-items: center;
   justify-content: space-around;
   height: 45px;
-  box-shadow: 0px 0px 3px 1px gray;
+  box-shadow: 0px 0px 3px 2px gray;
 }
 
 .home-button {
-  background-color: rgb(221, 221, 221);
+  background-color: rgb(243, 243, 77);
   padding: 5px 5px;
   border-radius: 5px;
   box-shadow: 0px 0px 2px gray;
-  color: rgb(87, 87, 87);
+  color: black;
 }
 
 .home-button:hover {
   cursor: pointer;
   color: black;
-  box-shadow: 0px 0px 2px black;
+  box-shadow: 0px 0px 3px black;
 }
 
 .note-title {
@@ -100,3 +100,17 @@ fix the issue where collection displays private collections and shows delete opt
   - make it so it shows passwords are not matching
   - make it so we aren't making a request for register if frontend validation doesn't work
 */
+
+/* button {
+  background-color: rgb(247, 247, 47);
+  padding: 5px 5px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px gray;
+  color: black;
+}
+
+button:hover {
+  cursor: pointer;
+  color: black;
+  box-shadow: 0px 0px 3px black;
+} */
