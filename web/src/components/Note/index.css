@@ -5,6 +5,8 @@
   padding: 10px 10px;
   width: 80%;
   max-width: 800px;
+  box-shadow: 0px 0px 2px black;
+  background-color: blanchedalmond;
 }
 
 .postUser {
@@ -91,4 +93,25 @@
   background-color: rgb(240, 238, 238);
   border-radius: 5px;
   box-shadow: 0px 0px 5px rgb(102, 101, 101);
+}
+
+.add-to-collection {
+  display: flex;
+  justify-content: center;
+}
+
+.add-to-collection select {
+  width: 120px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px black;
+}
+
+.add-to-collection select:hover {
+  width: 120px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 4px black;
+  cursor: pointer;
+}
+.add-to-collection buton {
+  width: 120px;
 }

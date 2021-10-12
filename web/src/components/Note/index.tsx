@@ -185,30 +185,31 @@ const SelectedNote: FC<Props> = ({ note }) => {
           <div className="note-description">{note.description}</div>
         </div>
       </div>
-      <br />
-      {collection === "add collection" && (
-        <AddCollection user={user} setCollection={setCollection} />
-      )}
-      {added && <div>successfully added</div>}
-      {user.id !== 0 && (
-        <select onChange={handleCollectionChange} value={collection}>
-          <option value="select collection" id={"0"}>
-            select collection
-          </option>
-          <option value="add collection" id={"0"}>
-            add collection
-          </option>
-          {user.collections.map((ele) => (
-            <option key={ele.id} value={ele.id} id={`${ele.id}`}>
-              {ele.name}
+      <div className="add-to-collection">
+        {collection === "add collection" && (
+          <AddCollection user={user} setCollection={setCollection} />
+        )}
+        {added && <div>successfully added</div>}
+        {user.id !== 0 && (
+          <select onChange={handleCollectionChange} value={collection}>
+            <option value="select collection" id={"0"}>
+              select collection
             </option>
-          ))}
-        </select>
-      )}
-      {collectionErrors.length > 0 && <li>{collectionErrors}</li>}
-      {user.id !== 0 && (
-        <button onClick={addNoteToCollection}>add to collection</button>
-      )}
+            <option value="add collection" id={"0"}>
+              add collection
+            </option>
+            {user.collections.map((ele) => (
+              <option key={ele.id} value={ele.id} id={`${ele.id}`}>
+                {ele.name}
+              </option>
+            ))}
+          </select>
+        )}
+        {collectionErrors.length > 0 && <li>{collectionErrors}</li>}
+        {user.id !== 0 && (
+          <button onClick={addNoteToCollection}>add to collection</button>
+        )}
+      </div>
       {user.id !== 0 && (
         <form onSubmit={handleSubmit}>
           {edit &&
