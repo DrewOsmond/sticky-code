@@ -22,17 +22,21 @@ code {
   flex-wrap: wrap;
   background-color: lightblue;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   height: 45px;
   box-shadow: 0px 0px 3px 2px gray;
 }
 
 .home-button {
+  margin-left: 10px;
   background-color: rgb(243, 243, 77);
   padding: 5px 5px;
   border-radius: 5px;
   box-shadow: 0px 0px 2px gray;
   color: black;
+  align-self: center;
+  justify-self: flex-start;
+  /* justify-self: flex-start; */
 }
 
 .home-button:hover {
@@ -45,18 +49,14 @@ code {
   justify-content: center;
 }
 
-.login-button:hover,
-.signup-button:hover,
-.signup-button:hover {
-  border-bottom: 2px solid black;
-}
-
 .create-note-button {
   background-color: rgb(221, 221, 221);
   padding: 5px 5px;
   border-radius: 5px;
   box-shadow: 0px 0px 2px gray;
   color: rgb(87, 87, 87);
+  /* align-self: center; */
+  justify-self: end;
 }
 
 .create-note-button:hover {
@@ -65,52 +65,8 @@ code {
   cursor: pointer;
 }
 
-/* select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  text-indent: 1px;
-  text-overflow: "";
-} */
-
 textarea,
 input,
 select {
   outline: none;
 }
-
-/* button:hover {
-  color: white;
-  cursor: pointer;
-  text-shadow: 1px 1px 1px black;
-} */
-
-/*
-fix the issue where collection displays private collections and shows delete options when you go to /collectionsuser/number
-
-- lacks images
-   - potential fixes 
-      - user can add photos
-  
-  - add icons to profile
-
-  - make title bigger for each note
-  - make search look like a button
-    - 
-
-  - make it so it shows passwords are not matching
-  - make it so we aren't making a request for register if frontend validation doesn't work
-*/
-
-/* button {
-  background-color: rgb(247, 247, 47);
-  padding: 5px 5px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 2px gray;
-  color: black;
-}
-
-button:hover {
-  cursor: pointer;
-  color: black;
-  box-shadow: 0px 0px 3px black;
-} */

@@ -211,19 +211,20 @@ const SelectedNote: FC<Props> = ({ note }) => {
         )}
       </div>
       {user.id !== 0 && (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="add-comments">
           {edit &&
             errors.length > 0 &&
             errors.map((err, i) => <li key={i}>{err}</li>)}
-          <textarea
-            id="comment"
-            placeholder="add comment"
-            rows={6}
-            cols={40}
-            value={comment}
-            onChange={(e) => setComment(e.currentTarget.value)}
-          ></textarea>
-          <button type="submit">comment</button>
+          <div id="comment">
+            <textarea
+              placeholder="add comment"
+              rows={6}
+              cols={40}
+              value={comment}
+              onChange={(e) => setComment(e.currentTarget.value)}
+            ></textarea>
+            <button type="submit">comment</button>
+          </div>
         </form>
       )}
       <div className="all-note-comments">
