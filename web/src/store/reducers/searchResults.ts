@@ -17,7 +17,7 @@ const search = (results: object[]) => {
 };
 
 export const recentSearch = () => async (dispatch: Dispatch) => {
-  const response = await csrfProtectedFetch("/api/search/recent");
+  const response = await csrfProtectedFetch("/api/search/posts/recent");
   if (response?.ok) {
     const data = await response.json();
     dispatch(search(data));

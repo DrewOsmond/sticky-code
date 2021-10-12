@@ -6,7 +6,8 @@ import { recentSearch } from "../store/reducers/searchResults";
 const RecentResults = () => {
   const dispatch = useAppDispatch();
   const recent = useAppSelector((state) => state.search);
-
+  console.log("huh?");
+  console.log(recent);
   useEffect(() => {
     dispatch(recentSearch() as any);
   }, []);

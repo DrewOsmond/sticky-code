@@ -29,13 +29,13 @@
 
 .edit-button {
   float: right;
-  color: darkgrey;
+  /* color: darkgrey; */
 }
 
-.edit-button:hover {
+/* .edit-button:hover {
   color: black;
   text-decoration: 1px solid underline;
-}
+} */
 
 .more-replies {
   color: rgb(110, 189, 216);
@@ -79,6 +79,7 @@
   border-radius: 5px;
   box-shadow: 0px 0px 2px gray;
   color: rgb(240, 68, 68);
+  float: right;
 }
 
 .fa-heart:hover {

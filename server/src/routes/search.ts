@@ -5,16 +5,16 @@ import { Searches } from "../db/controllers/search";
 const router = Router();
 
 router.get(
-  "/:language/:searchterm",
+  "/:searchterm",
   asyncHandler(async (req, res) => {
-    const language = req.params.language;
+    // const language = req.params.language;
     const searchterm = req.params.searchterm;
-    Searches.searchNotes(res, [language, searchterm]);
+    Searches.searchNotes(res, [searchterm]);
   })
 );
 
 router.get(
-  "/recent",
+  "/posts/recent",
   asyncHandler(async (_req, res) => {
     await Searches.getRecent(res);
   })

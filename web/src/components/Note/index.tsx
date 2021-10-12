@@ -172,6 +172,7 @@ const SelectedNote: FC<Props> = ({ note }) => {
               edit note
             </button>
           )}
+          {user.username !== note.user.username && isFavorite()}
           <a
             className="postUser"
             onClick={handleProfileRedirect}
@@ -184,7 +185,6 @@ const SelectedNote: FC<Props> = ({ note }) => {
           <div className="note-description">{note.description}</div>
         </div>
       </div>
-      {user.username !== note.user.username && isFavorite()}
       <br />
       {collection === "add collection" && (
         <AddCollection user={user} setCollection={setCollection} />

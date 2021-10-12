@@ -63,7 +63,7 @@ const Edit: FC<Props> = ({ note, setEdit }) => {
         </button>
         <button type="submit">Save</button>
       </form>
-      <button onClick={handleDelete}>Delete</button>
+      <i onClick={handleDelete} className="fas fa-trash-alt"></i>
     </>
   );
 };
