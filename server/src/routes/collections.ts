@@ -1,7 +1,7 @@
 import { Router } from "express";
 import asyncHandler from "express-async-handler";
 import { Users } from "../db/controllers/users";
-import { Collections } from "../db/controllers/collections";
+import { Collections } from "../db/controllers/Collections";
 
 const router = Router();
 

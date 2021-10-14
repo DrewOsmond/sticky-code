@@ -89,4 +89,4 @@ Collections.deleteNoteFromCollection = async (req, res) => {
         return res.sendStatus(500);
     }
 };
-//# sourceMappingURL=collections.js.map
+//# sourceMappingURL=Collections.js.map
