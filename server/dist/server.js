@@ -38,11 +38,10 @@ const path_1 = __importDefault(require("path"));
 const dotenv = __importStar(require("dotenv"));
 const router = express_1.default.Router();
 dotenv.config();
-const dbHost = process.env.NODE_ENV === "production" ? process.env.DB_HOST : "localhost";
 const startConnection = async () => {
     await typeorm_1.createConnection({
         type: "postgres",
-        host: dbHost,
+        host: process.env.DB_HOST,
         port: 5432,
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
