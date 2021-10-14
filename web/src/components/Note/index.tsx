@@ -211,21 +211,23 @@ const SelectedNote: FC<Props> = ({ note }) => {
         )}
       </div>
       {user.id !== 0 && (
-        <form onSubmit={handleSubmit} className="add-comments">
-          {edit &&
-            errors.length > 0 &&
-            errors.map((err, i) => <li key={i}>{err}</li>)}
-          <div id="comment">
-            <textarea
-              placeholder="add comment"
-              rows={6}
-              cols={40}
-              value={comment}
-              onChange={(e) => setComment(e.currentTarget.value)}
-            ></textarea>
-            <button type="submit">comment</button>
-          </div>
-        </form>
+        <div className="add-comments-flex">
+          <form onSubmit={handleSubmit} className="add-comments">
+            {edit &&
+              errors.length > 0 &&
+              errors.map((err, i) => <li key={i}>{err}</li>)}
+            <div id="comment">
+              <textarea
+                placeholder="add comment"
+                rows={6}
+                cols={40}
+                value={comment}
+                onChange={(e) => setComment(e.currentTarget.value)}
+              ></textarea>
+              <button type="submit">comment</button>
+            </div>
+          </form>
+        </div>
       )}
       <div className="all-note-comments">
         {generateRecentComments()}
