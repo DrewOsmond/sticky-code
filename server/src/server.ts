@@ -15,10 +15,13 @@ import * as dotenv from "dotenv";
 const router = express.Router();
 dotenv.config();
 
+const dbUrl =
+  process.env.NODE_ENV === "production" ? process.env.DB_URL : "localhost";
+
 const startConnection = async () => {
   await createConnection({
     type: "postgres",
-    host: process.env.DB_URL,
+    host: dbUrl,
     port: 5432,
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
