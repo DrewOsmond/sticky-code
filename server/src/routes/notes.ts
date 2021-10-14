@@ -1,6 +1,6 @@
 import { Router } from "express";
 import asyncHandler from "express-async-handler";
-import { Notes } from "../db/controllers/notes";
+import { Notes } from "../db/controllers/Notes";
 import { Users } from "../db/controllers/users";
 
 const router = Router();
