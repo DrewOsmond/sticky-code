@@ -107,6 +107,13 @@ Users.login = async (req, res) => {
         .leftJoinAndSelect("user.favorite_notes", "favorite_notes")
         .leftJoinAndSelect("user.collections", "collections")
         .leftJoinAndSelect("collections.added_notes", "added_notes")
+        .select([
+        "user.id",
+        "user.username",
+        "user.email",
+        "user.collections",
+        "collections.added_notes",
+    ])
         .where("user.username =:username", { username })
         .getOne();
     if (!user) {

@@ -21,6 +21,8 @@ export class Collections {
       .getOne();
 
     if (query) {
+      query.user.password =
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
       res.json(query);
     } else
       res.status(404).json({

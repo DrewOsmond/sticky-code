@@ -58,6 +58,8 @@ export class Users {
     });
     if (data) {
       Users.createToken(res, user);
+      user.password =
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
       res.status(201).json(data);
     }
   };
@@ -89,6 +91,8 @@ export class Users {
       // res.status(400).send("username or password is incorrect");
     } else if (user.checkValidPassword(password)) {
       Users.createToken(res, user);
+      user.password =
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
       res.status(200).json(user);
     } else {
       res.json({
@@ -136,6 +140,8 @@ export class Users {
       .getOne();
 
     if (data) {
+      data.password =
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
       res.json(data);
     } else res.json({ id: 0 });
   };
@@ -163,6 +169,8 @@ export class Users {
           .getOne()
           .catch(console.error);
         if (query) {
+          query.password =
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
           req.body.user = query;
           next();
         } else {

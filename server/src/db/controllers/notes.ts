@@ -65,6 +65,8 @@ export class Notes {
       .getOne();
 
     if (note) {
+      note.user.password =
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
       res.status(200).json(note);
     } else {
       res.json({
