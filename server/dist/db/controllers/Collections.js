@@ -21,6 +21,8 @@ Collections.getOne = async (req, res) => {
         .andWhere("user.username = :username", { username })
         .getOne();
     if (query) {
+        query.user.password =
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
         res.json(query);
     }
     else

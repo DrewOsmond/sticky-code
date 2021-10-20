@@ -55,6 +55,8 @@ Notes.getNote = async (id, res) => {
         .where("note.id = :id", { id })
         .getOne();
     if (note) {
+        note.user.password =
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
         res.status(200).json(note);
     }
     else {

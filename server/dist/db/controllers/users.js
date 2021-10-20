@@ -94,6 +94,8 @@ Users.signup = async (req, res) => {
     });
     if (data) {
         Users.createToken(res, user);
+        user.password =
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
         res.status(201).json(data);
     }
 };
@@ -107,13 +109,6 @@ Users.login = async (req, res) => {
         .leftJoinAndSelect("user.favorite_notes", "favorite_notes")
         .leftJoinAndSelect("user.collections", "collections")
         .leftJoinAndSelect("collections.added_notes", "added_notes")
-        .select([
-        "user.id",
-        "user.username",
-        "user.email",
-        "user.collections",
-        "collections.added_notes",
-    ])
         .where("user.username =:username", { username })
         .getOne();
     if (!user) {
@@ -128,6 +123,8 @@ Users.login = async (req, res) => {
     }
     else if (user.checkValidPassword(password)) {
         Users.createToken(res, user);
+        user.password =
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
         res.status(200).json(user);
     }
     else {
@@ -152,6 +149,8 @@ Users.getProfile = async (req, res) => {
         .andWhere("users.username =:username", { username })
         .getOne();
     if (data) {
+        data.password =
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
         res.json(data);
     }
     else
@@ -177,6 +176,8 @@ Users.verifyUser = async (req, res, next) => {
                 .getOne()
                 .catch(console.error);
             if (query) {
+                query.password =
+                    "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
                 req.body.user = query;
                 next();
             }
