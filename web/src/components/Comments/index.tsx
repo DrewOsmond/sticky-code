@@ -43,12 +43,16 @@ const Comment: FC<Props> = ({ comment, sessionUser }) => {
         <div className="note_comments">
           <div className="comment-user-info">
             {comment.user.username === sessionUser.username && (
-              <button
+              <i
+                className="fas fa-edit edit-button comment-edit-btn"
                 onClick={() => setEdit((prev) => !prev)}
-                className="comment-edit-btn"
-              >
-                edit
-              </button>
+              ></i>
+              // <button
+              //   onClick={() => setEdit((prev) => !prev)}
+              //   className="comment-edit-btn"
+              // >
+              //   edit
+              // </button>
             )}
             <div
               className="comment-user"

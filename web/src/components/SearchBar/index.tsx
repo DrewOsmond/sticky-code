@@ -38,7 +38,10 @@ const SearchBar: FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      onKeyPress={(e) => (e.key === "Enter" ? handleSubmit(e) : null)}
+    >
       {errors.length > 0 && errors.map((error, i) => <li key={i}>{error}</li>)}
       {/* <select onChange={handleChange}>
         <option value="language">language</option>

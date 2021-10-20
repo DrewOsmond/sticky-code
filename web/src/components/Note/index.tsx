@@ -103,7 +103,7 @@ const SelectedNote: FC<Props> = ({ note }) => {
     );
   };
 
-  const generateRecentComments = () => {
+  const generateRecentCommenters = () => {
     if (note.comments.length === 0) {
       return <div>it looks empty in here...</div>;
     }
@@ -165,18 +165,21 @@ const SelectedNote: FC<Props> = ({ note }) => {
       <div className="note-flex">
         <div className="selected_note">
           {user.username === note.user.username && (
-            <button
-              className="edit-button"
+            // <button
+            //   className="edit-button"
+            //   onClick={() => setEdit((prev) => !prev)}
+            // >
+            <i
+              className="fas fa-edit edit-button"
               onClick={() => setEdit((prev) => !prev)}
-            >
-              edit note
-            </button>
+            ></i>
+            //</button>
           )}
           {user.username !== note.user.username && isFavorite()}
-          <a
+          <button
             className="postUser"
             onClick={handleProfileRedirect}
-          >{`@${note.user.username}`}</a>
+          >{`@${note.user.username}`}</button>
 
           <div className="note-language">
             language: <span className="bold">{note.language}</span>
@@ -224,13 +227,14 @@ const SelectedNote: FC<Props> = ({ note }) => {
                 value={comment}
                 onChange={(e) => setComment(e.currentTarget.value)}
               ></textarea>
-              <button type="submit">comment</button>
+              {/* <button type="submit">comment</button> */}
+              <i className="far fa-comment"></i>
             </div>
           </form>
         </div>
       )}
       <div className="all-note-comments">
-        {generateRecentComments()}
+        {generateRecentCommenters()}
         {note.comments.length > 0 &&
           note.comments.map((comment) => (
             <Comment
