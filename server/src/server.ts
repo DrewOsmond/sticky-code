@@ -60,11 +60,14 @@ const startConnection = async () => {
     });
 
     router.use(
-      express.static(path.resolve("../../web", "build", "index.html"))
+      express.static(
+        path.resolve(__dirname, "../../web", "build", "index.html")
+      )
     );
 
     app.get(/^(?!\/?api).*/, (req, res) => {
       res.cookie("XSRF-TOKEN", req.csrfToken());
+
       res.sendFile(path.join(__dirname, "../../web", "build", "index.html"));
     });
   }

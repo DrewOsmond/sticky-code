@@ -61,7 +61,7 @@ const startConnection = async () => {
             res.cookie("XSRF-TOKEN", req.csrfToken());
             res.sendFile(path_1.default.join(__dirname, "index.html"));
         });
-        router.use(express_1.default.static(path_1.default.resolve("../../web", "build", "index.html")));
+        router.use(express_1.default.static(path_1.default.resolve(__dirname, "../../web", "build", "index.html")));
         app.get(/^(?!\/?api).*/, (req, res) => {
             res.cookie("XSRF-TOKEN", req.csrfToken());
             res.sendFile(path_1.default.join(__dirname, "../../web", "build", "index.html"));
