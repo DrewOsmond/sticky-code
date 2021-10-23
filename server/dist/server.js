@@ -29,26 +29,14 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const morgan_1 = __importDefault(require("morgan"));
 const routes_1 = __importDefault(require("./routes/routes"));
 const typeorm_1 = require("typeorm");
-const User_1 = require("./db/entity/User");
-const Note_1 = require("./db/entity/Note");
-const Comment_1 = require("./db/entity/Comment");
-const Collection_1 = require("./db/entity/Collection");
 require("reflect-metadata");
 const path_1 = __importDefault(require("path"));
 const dotenv = __importStar(require("dotenv"));
+const connectionOptions = require("./ormconfig");
 const router = express_1.default.Router();
 dotenv.config();
 const startConnection = async () => {
-    await typeorm_1.createConnection({
-        type: "postgres",
-        host: process.env.DB_HOST,
-        port: 5432,
-        username: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_DATABASE,
-        entities: [User_1.User, Note_1.Note, Comment_1.Comment, Collection_1.Collection],
-        synchronize: false,
-    });
+    await typeorm_1.createConnection(connectionOptions);
     const port = process.env.PORT || 80;
     const app = express_1.default();
     app.listen(port, () => console.log(`listening on port: ${port}`));

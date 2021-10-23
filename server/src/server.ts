@@ -5,28 +5,30 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import routes from "./routes/routes";
 import { createConnection } from "typeorm";
-import { User } from "./db/entity/User";
-import { Note } from "./db/entity/Note";
-import { Comment } from "./db/entity/Comment";
-import { Collection } from "./db/entity/Collection";
+// import { User } from "./db/entity/User";
+// import { Note } from "./db/entity/Note";
+// import { Comment } from "./db/entity/Comment";
+// import { Collection } from "./db/entity/Collection";
 import "reflect-metadata";
 import path from "path";
 import * as dotenv from "dotenv";
+const connectionOptions = require("./ormconfig");
 const router = express.Router();
 dotenv.config();
 
 const startConnection = async () => {
-  await createConnection({
-    type: "postgres",
-    host: process.env.DB_HOST,
-    port: 5432,
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    entities: [User, Note, Comment, Collection],
-    synchronize: false,
-    // extra: { ssl: true },
-  });
+  await createConnection(
+    connectionOptions
+    // type: "postgres",
+    // host: process.env.DB_HOST,
+    // port: 5432,
+    // username: process.env.DB_USERNAME,
+    // password: process.env.DB_PASSWORD,
+    // database: process.env.DB_DATABASE,
+    // entities: [User, Note, Comment, Collection],
+    // synchronize: false,
+    // // extra: { ssl: true },
+  );
 
   const port = process.env.PORT || 80;
   const app = express();
