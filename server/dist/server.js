@@ -47,6 +47,7 @@ const startConnection = async () => {
     app.use(morgan_1.default("tiny"));
     app.use("/api", routes_1.default);
     if (process.env.NODE_ENV === "production") {
+        console.log("production build");
         app.get("/", (req, res) => {
             res.cookie("XSRF-TOKEN", req.csrfToken());
             res.sendFile(path_1.default.join(__dirname, "index.html"));

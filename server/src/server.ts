@@ -42,6 +42,7 @@ const startConnection = async () => {
   app.use("/api", routes);
 
   if (process.env.NODE_ENV === "production") {
+    console.log("production build");
     app.get("/", (req, res) => {
       res.cookie("XSRF-TOKEN", req.csrfToken());
       res.sendFile(path.join(__dirname, "index.html"));
