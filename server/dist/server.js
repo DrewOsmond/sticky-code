@@ -36,13 +36,20 @@ const csurf_1 = __importDefault(require("csurf"));
 const connectionOptions = require("./ormconfig");
 const router = express_1.default.Router();
 dotenv.config();
+const inProduction = process.env.NODE_ENV === "production";
 const startConnection = async () => {
     await typeorm_1.createConnection(connectionOptions);
     const port = process.env.PORT || 80;
     const app = express_1.default();
     app.listen(port, () => console.log(`listening on port: ${port}`));
     app.use(express_1.default.json());
-    app.use(csurf_1.default());
+    app.use(csurf_1.default({
+        cookie: {
+            secure: inProduction,
+            sameSite: inProduction && "Lax",
+            httpOnly: true,
+        },
+    }));
     app.use(cors_1.default());
     app.use(cookie_parser_1.default());
     app.use(helmet_1.default());

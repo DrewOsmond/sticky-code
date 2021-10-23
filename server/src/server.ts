@@ -16,6 +16,7 @@ import csurf from "csurf";
 const connectionOptions = require("./ormconfig");
 const router = express.Router();
 dotenv.config();
+const inProduction = process.env.NODE_ENV === "production";
 
 const startConnection = async () => {
   await createConnection(
@@ -36,7 +37,15 @@ const startConnection = async () => {
 
   app.listen(port, () => console.log(`listening on port: ${port}`));
   app.use(express.json());
-  app.use(csurf());
+  app.use(
+    csurf({
+      cookie: {
+        secure: inProduction,
+        sameSite: inProduction && ("Lax" as any),
+        httpOnly: true,
+      },
+    })
+  );
   app.use(cors());
   app.use(cookieParser());
   app.use(helmet());
