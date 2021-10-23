@@ -43,6 +43,9 @@ const startConnection = async () => {
     const app = express_1.default();
     app.listen(port, () => console.log(`listening on port: ${port}`));
     app.use(express_1.default.json());
+    app.use(cors_1.default());
+    app.use(cookie_parser_1.default());
+    app.use(helmet_1.default());
     app.use(csurf_1.default({
         cookie: {
             secure: inProduction,
@@ -50,9 +53,6 @@ const startConnection = async () => {
             httpOnly: true,
         },
     }));
-    app.use(cors_1.default());
-    app.use(cookie_parser_1.default());
-    app.use(helmet_1.default());
     app.use(morgan_1.default("tiny"));
     app.use("/api", routes_1.default);
     if (process.env.NODE_ENV === "production") {

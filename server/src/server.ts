@@ -37,6 +37,9 @@ const startConnection = async () => {
 
   app.listen(port, () => console.log(`listening on port: ${port}`));
   app.use(express.json());
+  app.use(cors());
+  app.use(cookieParser());
+  app.use(helmet());
   app.use(
     csurf({
       cookie: {
@@ -46,9 +49,6 @@ const startConnection = async () => {
       },
     })
   );
-  app.use(cors());
-  app.use(cookieParser());
-  app.use(helmet());
   app.use(morgan("tiny"));
   app.use("/api", routes);
 
