@@ -28,7 +28,7 @@ const startConnection = async () => {
     // extra: { ssl: true },
   });
 
-  const port = process.env.PORT;
+  const port = process.env.PORT || 80;
   const app = express();
 
   app.listen(port, () => console.log(`listening on port: ${port}`));
@@ -45,11 +45,13 @@ const startConnection = async () => {
       res.sendFile(path.join(__dirname, "index.html"));
     });
 
-    router.use(express.static(path.resolve("../web/build")));
+    router.use(
+      express.static(path.resolve("../../web", "build", "index.html"))
+    );
 
     app.get(/^(?!\/?api).*/, (req, res) => {
       res.cookie("XSRF-TOKEN", req.csrfToken());
-      res.sendFile(path.join(__dirname, "/index.html"));
+      res.sendFile(path.join(__dirname, "../../web", "build", "index.html"));
     });
   }
 };

@@ -49,7 +49,7 @@ const startConnection = async () => {
         entities: [User_1.User, Note_1.Note, Comment_1.Comment, Collection_1.Collection],
         synchronize: false,
     });
-    const port = process.env.PORT;
+    const port = process.env.PORT || 80;
     const app = express_1.default();
     app.listen(port, () => console.log(`listening on port: ${port}`));
     app.use(express_1.default.json());
@@ -63,10 +63,10 @@ const startConnection = async () => {
             res.cookie("XSRF-TOKEN", req.csrfToken());
             res.sendFile(path_1.default.join(__dirname, "index.html"));
         });
-        router.use(express_1.default.static(path_1.default.resolve("../web/build")));
+        router.use(express_1.default.static(path_1.default.resolve("../../web", "build", "index.html")));
         app.get(/^(?!\/?api).*/, (req, res) => {
             res.cookie("XSRF-TOKEN", req.csrfToken());
-            res.sendFile(path_1.default.join(__dirname, "/index.html"));
+            res.sendFile(path_1.default.join(__dirname, "../../web", "build", "index.html"));
         });
     }
 };
