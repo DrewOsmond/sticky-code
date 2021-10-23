@@ -56,7 +56,7 @@ const startConnection = async () => {
     console.log("production build");
     app.get("/", (req, res) => {
       res.cookie("XSRF-TOKEN", req.csrfToken());
-      res.sendFile(path.join(__dirname, "index.html"));
+      res.sendFile(path.join(__dirname, "../../web", "build", "index.html"));
     });
 
     router.use(
