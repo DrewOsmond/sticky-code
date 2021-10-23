@@ -1,11 +1,26 @@
+import * as PostgressConnectionStringParser from "pg-connection-string";
+
+interface connectionOptions {
+  name: string;
+  host: string;
+  port: string;
+  username: string;
+  password: string;
+  database: string;
+}
+
+const databaseUrl: string = process.env.DATABASE_URL || "localhost";
+const connectionOptions: PostgressConnectionStringParser.ConnectionOptions =
+  PostgressConnectionStringParser.parse(databaseUrl);
+
 module.exports = {
   type: "postgres",
-  driver: "postgres",
-  host: process.env.DB_HOST || "test",
-  port: 5432,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  name: connectionOptions.user,
+  host: connectionOptions.host,
+  port: connectionOptions.port,
+  username: connectionOptions.user,
+  password: connectionOptions.password,
+  database: connectionOptions.database,
   synchronize: false,
   logging: false,
   emitDecoratorMetadata: true,
