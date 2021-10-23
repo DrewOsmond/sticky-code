@@ -32,6 +32,7 @@ const typeorm_1 = require("typeorm");
 require("reflect-metadata");
 const path_1 = __importDefault(require("path"));
 const dotenv = __importStar(require("dotenv"));
+const csurf_1 = __importDefault(require("csurf"));
 const connectionOptions = require("./ormconfig");
 const router = express_1.default.Router();
 dotenv.config();
@@ -41,6 +42,7 @@ const startConnection = async () => {
     const app = express_1.default();
     app.listen(port, () => console.log(`listening on port: ${port}`));
     app.use(express_1.default.json());
+    app.use(csurf_1.default());
     app.use(cors_1.default());
     app.use(cookie_parser_1.default());
     app.use(helmet_1.default());

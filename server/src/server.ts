@@ -12,6 +12,7 @@ import { createConnection } from "typeorm";
 import "reflect-metadata";
 import path from "path";
 import * as dotenv from "dotenv";
+import csurf from "csurf";
 const connectionOptions = require("./ormconfig");
 const router = express.Router();
 dotenv.config();
@@ -35,6 +36,7 @@ const startConnection = async () => {
 
   app.listen(port, () => console.log(`listening on port: ${port}`));
   app.use(express.json());
+  app.use(csurf());
   app.use(cors());
   app.use(cookieParser());
   app.use(helmet());
