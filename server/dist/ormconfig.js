@@ -33,7 +33,7 @@ module.exports = {
     synchronize: false,
     logging: false,
     emitDecoratorMetadata: true,
-    extra: { ssl: "required" },
+    extra: { ssl: true },
     entities: ["dist/db/entity/**/*.js"],
     migrations: ["dist/db/migration/**/*.js"],
     subscribers: ["dist/db/subscriber/**/*.js"],
