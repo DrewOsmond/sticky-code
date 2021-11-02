@@ -44,7 +44,7 @@ const startConnection = async () => {
     csurf({
       cookie: {
         secure: inProduction,
-        sameSite: inProduction && ("Lax" as any),
+        sameSite: inProduction ? "lax" : "none",
         httpOnly: true,
       },
     })
